@@ -18,9 +18,9 @@ fi
 
 set -x # turns on stacktrace mode which gives useful debug information
 
-if [ ! -x config/database.yml ] ; then
-  cp config/database.yml.example config/database.yml
-fi
+# if [ ! -x config/database.yml ] ; then
+#   #cp config/database.yml.example config/database.yml
+# fi
 
 USERNAME=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['username']"`
 PASSWORD=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['password']"`
@@ -64,9 +64,9 @@ mysql --host=$HOST --user=$USERNAME --password=$PASSWORD $DATABASE < db/initial_
 #rake openmrs:bootstrap:load:defaults RAILS_ENV=$ENV
 #rake openmrs:bootstrap:load:site SITE=$SITE RAILS_ENV=production#
 
-export RAILS_ENV=$ENV
+#export RAILS_ENV=$ENV
 
-bundle exec rake db:migrate db:seed
+#bundle exec rake db:migrate db:seed
 
 #mysql --host=$HOST --user=$USERNAME --password=$PASSWORD $DATABASE < db/bart2_views_schema_additions.sql
 #mysql --host=$HOST --user=$USERNAME --password=$PASSWORD $DATABASE < db/revised_regimens.sql
