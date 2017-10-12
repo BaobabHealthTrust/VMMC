@@ -1,0 +1,22 @@
+development:
+  adapter: mysql2
+  host: localhost
+  username: root
+  database: vmmc_dev
+  password: password
+  pool: 500
+
+production:
+  adapter: mysql2
+  username: root
+  database: vmmc_prod
+  password: password
+  host: localhost
+  pool: 500
+
+test:
+  adapter: mysql2
+  database: root
+  username: vmmc_test
+  password: password
+  host: localhost
