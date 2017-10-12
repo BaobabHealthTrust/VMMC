@@ -18,3 +18,4 @@ log/*
 .ruby-version
 public/touchscreentoolkit/*
 config/*.yml
+tmp/
