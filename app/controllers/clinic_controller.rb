@@ -1,0 +1,2 @@
+class ClinicController < ApplicationController
+end
