@@ -6,4 +6,7 @@ class PeopleController < ApplicationController
 
 	def search_results
 	end
+
+	def select
+	end
 end
