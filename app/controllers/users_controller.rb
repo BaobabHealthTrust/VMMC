@@ -7,5 +7,9 @@ def login
 
   def user_authetication
   	redirect_to("/") and return
-  end          
+  end
+
+  def logout
+  	redirect_to("/login") and return
+  end       
 end

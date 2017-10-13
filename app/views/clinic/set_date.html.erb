@@ -1,0 +1,38 @@
+<style>
+  .tt_controls_year #char { display: none; }
+  #qwerty { display: none; }
+  #date,#star,#abc,#slash,#Unknown,#percent,#comma,#minus,#plus,#decimal {
+  display:none;
+  }
+ 
+  .abcKeyboard { display:none; }
+
+  #tt_page_month #viewport { height:520px }
+
+  #tt_page_day #viewport { display:none; }
+
+</style>
+
+<form action = "" method = "post">
+
+  <%= text_field_tag(:set_year,nil,
+      {:field_type => 'number', 
+       :absoluteMin => "1940", 
+       :id => "set_year",
+       :absoluteMax => Time.now.year, 
+       :helpText => 'Year'}) %>
+
+  
+  <%= select_tag :set_month, @months, {
+      :helpText => 'Month',
+      :id => "set_month", 
+      :tt_onLoad => "__$('keyboard').style.display = 'none';"} %>
+
+    <%= select_tag(:set_day, options_for_select(@days), 
+        :field_type => 'number' , 
+        :helpText => 'Day' ,
+        :tt_OnUnLoad => "resetAttributes();",
+        :tt_OnLoad => "setAttributes();") %>
+
+  <%= submit_tag "Set visit date" %>
+</form>

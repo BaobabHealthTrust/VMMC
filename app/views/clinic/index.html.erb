@@ -18,6 +18,20 @@
 		top: -180px;
 	}
 </style>
+<script type="text/javascript">
+	function logout(){
+		window.location = "/logout";
+	}
+
+	function setDate(){
+		window.location = "/set_date";
+	}
+
+	function findOrRegisterPatient(){
+		window.location = "/people/search";
+	}
+
+</script>
 
 <div id="content">
 
@@ -137,13 +151,13 @@
 
   <div id="footer" style="background-color: rgb(51, 51, 51); bottom: -13px; position: relative;">
     <div class="buttons" style="margin-bottom: -200px; padding-bottom: 10px; padding-top: 10px;">
-      <button style="margin: 5px 0px 0px;" link="/logout" class="red left" id="btnCancel">
+      <button style="margin: 5px 0px 0px;" onclick="logout();" class="red left" id="btnCancel">
         <span>Logout</span>
       </button>
-      <button style="margin: 5px 0px 0px; float: right; min-width: 295px;" link="/people/search" class="green right" id="btnNext">
+      <button style="margin: 5px 0px 0px; float: right; min-width: 295px;" onclick="findOrRegisterPatient();" class="green right" id="btnNext">
         <span>Find or Register Patient</span>
       </button>
-      <button style="margin: 5px 0px 0px; float: right;" link="/logout" class="blue right" id="btnCancel">
+      <button style="margin: 5px 0px 0px; float: right;" onclick="setDate();" class="blue right" id="btnCancel">
         <span>Set Date</span>
       </button>
 
