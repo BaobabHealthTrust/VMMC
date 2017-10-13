@@ -19,3 +19,4 @@ log/*
 public/touchscreentoolkit/*
 config/*.yml
 tmp/
+.project

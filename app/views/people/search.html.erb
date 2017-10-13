@@ -16,7 +16,6 @@
     :ajaxURL => '/person_names/family_names?search_string=',
     :allowFreeText => true } %>
 
-  <%= select_tag :gender, options_for_select(@gender_options), {
-    :helpText => "Gender"} %>
+  <input type="hidden" name="gender" value="M"></input>
 
 </form>
