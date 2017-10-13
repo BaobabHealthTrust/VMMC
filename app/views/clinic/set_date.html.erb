@@ -1,3 +1,6 @@
+<script type="text/javascript">
+  var tt_cancel_destination = "/";
+</script>
 <style>
   .tt_controls_year #char { display: none; }
   #qwerty { display: none; }
@@ -13,7 +16,7 @@
 
 </style>
 
-<form action = "" method = "post">
+<form action = "/set_date" method = "post">
 
   <%= text_field_tag(:set_year,nil,
       {:field_type => 'number', 
@@ -23,16 +26,13 @@
        :helpText => 'Year'}) %>
 
   
-  <%= select_tag :set_month, @months, {
+  <%= select_tag(:set_month,  options_for_select(@months), {
       :helpText => 'Month',
       :id => "set_month", 
-      :tt_onLoad => "__$('keyboard').style.display = 'none';"} %>
+      :tt_onLoad => "__$('keyboard').style.display = 'none';"}) %>
 
     <%= select_tag(:set_day, options_for_select(@days), 
         :field_type => 'number' , 
-        :helpText => 'Day' ,
-        :tt_OnUnLoad => "resetAttributes();",
-        :tt_OnLoad => "setAttributes();") %>
+        :helpText => 'Day') %>
 
-  <%= submit_tag "Set visit date" %>
 </form>

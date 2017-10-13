@@ -5,14 +5,17 @@ class ClinicController < ApplicationController
 	end
 
 	def set_date
-		@months = "<option>" "" "</option>"
+		@months = [["", ""]]
   		1.upto(12){ |number| 
-       		@months += "<option value = '" + number.to_s + "'>" + Date::MONTHNAMES[number] + "</option>"
+       		@months << [Date::MONTHNAMES[number], number.to_s]
       	}
-      	@months << "<option>" "Unknown" "</option>"
-  
+
   		day = Array.new(31){|d|d + 1 } 
     	@days = [""].concat day
+
+    	if request.post?
+    		redirect_to("/") and return
+    	end
 
 		render layout: "form"
 	end

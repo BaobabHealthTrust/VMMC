@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     post '/user_authetication' => 'users#user_authetication'
     get '/logout' => 'users#logout'
     get '/set_date' => 'clinic#set_date'
+    post '/set_date' => 'clinic#set_date'
     get '/people/search' => 'people#search'
 
 
