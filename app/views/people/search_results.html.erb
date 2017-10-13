@@ -1,0 +1,38 @@
+<script type="text/javascript">
+  function addSearchButtons(){
+    cancelButtonHTML = '<button class="button navButton red" id="cancelButton" onmousedown="cancelEntry();"><span>Cancel</span></button>';
+    newSearchButtonHTML = '<button class="button navButton" id="newSearch" onmousedown="newSearch();"><span>New search</span></button>';
+    newPatientButtonHTML = '<button class="button navButton" id="newPatient" onmousedown="newPatient();"><span>New patient</span></button>';
+
+    buttonsDiv = document.getElementById("buttons");
+    buttonsDiv.innerHTML += cancelButtonHTML;
+    buttonsDiv.innerHTML += newPatientButtonHTML;
+    buttonsDiv.innerHTML += newSearchButtonHTML;
+  }
+
+  window.onload = function(){
+    addSearchButtons();
+    setFinishButtonAttriutes();
+  }
+
+  function cancelEntry(){
+    window.location = "/";
+  }
+
+  function newSearch(){
+    window.location = "/people/search";
+  }
+
+  function newPatient(){
+    window.location = "/new_patient";
+  }
+
+  function setFinishButtonAttriutes(){
+    finishButton = document.getElementById("finishButton");
+    finishButton.innerHTML = "<span>Select patient</span>";
+    finishButton.onclick = function(){
+      window.location = "/patients/show/0000";
+    }
+  }
+
+</script>

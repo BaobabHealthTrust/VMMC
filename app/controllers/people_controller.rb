@@ -6,8 +6,10 @@ class PeopleController < ApplicationController
 	end
 
 	def search_results
+    render layout: "menu"
 	end
 
 	def select
 	end
+  
 end
