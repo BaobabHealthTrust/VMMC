@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get '/set_date' => 'clinic#set_date'
     post '/set_date' => 'clinic#set_date'
     get '/people/search' => 'people#search'
+    post '/search_results' => 'people#search_results'
 
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
