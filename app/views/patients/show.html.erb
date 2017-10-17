@@ -1,3 +1,18 @@
+
+<script type="text/javascript">
+  function cancel(){
+    window.location = "/";
+  }
+
+  function finish(){
+    window.location = "/";
+  }
+
+  function editDemographics(){
+    
+  }
+</script>
+
 <style type="text/css">
   .headTab {
     border: 1px solid #004586;
@@ -173,15 +188,15 @@
 
   <div id="footer" style="background-color: rgb(51, 51, 51); bottom: -13px; position: relative;">
     <div class="buttons" style="margin-bottom: -200px; padding-bottom: 10px; padding-top: 10px;">
-      <button style="margin: 5px 0px 0px;" class="red left" id="">
+      <button onclick="cancel();" style="margin: 5px 0px 0px;" class="red left">
         <span>Cancel</span>
       </button>
-      <button style="margin: 5px 0px 0px; float: right;" onclick="findOrRegisterPatient();" class="green right" id="btnNext">
+      <button onclick="finish();" style="margin: 5px 0px 0px; float: right;" onclick="finish();" class="green right" id="btnNext">
         <span>Finish</span>
       </button>
-      <button style="margin: 5px 0px 0px; float: right;" onclick="setDate();" class="blue right" id="btnCancel">
+      <button  onclick="editDemographics();" style="margin: 5px 0px 0px; float: right;" class="blue right">
         <span>Edit Demographics</span>
-      </but
+      </button>
     </div>
   </div>
 </div>
