@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     get '/select' => 'people#select'
     post '/select' => 'people#select'
     get '/new_patient' => 'patients#new_patient'
+    get '/patients/show/:patient_id' => 'patients#show'
     get '/my_account' => 'clinic#my_account'
     get '/change_password' => 'clinic#change_password'
     get '/my_profile' => 'clinic#my_profile'
