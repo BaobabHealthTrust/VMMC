@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     get '/select' => 'people#select'
     post '/select' => 'people#select'
     get '/new_patient' => 'patients#new_patient'
+    get '/patients/show/:patient_id' => 'patients#show'
+
 
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
