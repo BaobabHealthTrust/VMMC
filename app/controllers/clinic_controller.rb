@@ -40,4 +40,8 @@ class ClinicController < ApplicationController
 	def my_profile
 		render layout: false
 	end
+
+	def overview
+		render layout:false
+	end
 end
