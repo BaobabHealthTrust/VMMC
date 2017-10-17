@@ -119,7 +119,7 @@
                     <li style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204);" path="/views/dm/overview.html">
 									Overview
                     </li>
-                    <li style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204);" path="/views/my_account.html">
+                    <li style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204);" onclick="setIframeSource('/my_account')">
 									My Account
                     </li>
                     <li style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204);" path="/views/reports.html">
@@ -165,3 +165,10 @@
   </div>
 
 </div>
+
+<script type="text/javascript">
+  function setIframeSource(path) {
+    iframe_container = document.getElementById('visits');
+    iframe_container.src = path;
+  }
+</script>

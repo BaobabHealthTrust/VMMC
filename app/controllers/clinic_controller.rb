@@ -19,4 +19,25 @@ class ClinicController < ApplicationController
 
 		render layout: "form"
 	end
+
+	def my_account
+		@my_accounts =  [
+        ['/change_password','Change Password'],
+        ['/edit_demographics','Edit Demographics'],
+        ['/my_profile','My profile']
+      ]
+		render layout: false
+	end
+
+	def change_password
+		render layout: false
+	end
+
+	def edit_demographics
+		render layout: false
+	end
+
+	def my_profile
+		render layout: false
+	end
 end
