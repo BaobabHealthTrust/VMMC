@@ -62,6 +62,23 @@ class ClinicController < ApplicationController
 	end
 
 	def administration
+		@administrations =  [
+        ['/user','Users'],
+        ['/manage_location','Manage Locations'],
+        ['/manage_villages', 'Manage Villages']
+      ]
+		render layout:false
+	end
+
+	def user
+		render layout:false
+	end
+
+	def manage_location
+		render layout:false
+	end
+
+	def manage_villages
 		render layout:false
 	end
 end
