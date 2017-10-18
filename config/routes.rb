@@ -31,6 +31,9 @@ Rails.application.routes.draw do
     get 'user' => 'clinic#user'
     get 'manage_location' => 'clinic#manage_location'
     get 'manage_villages' => 'clinic#manage_villages'
+    get '/header' => 'patients#header'
+    get '/encounters/new' => 'encounters#new'
+    get '/vitals' => 'encounters#vitals'
 
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
