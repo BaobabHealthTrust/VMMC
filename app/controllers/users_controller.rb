@@ -1,8 +1,7 @@
 class UsersController < ApplicationController
 
-def login
-	render layout: "form"
-  
+  def login
+    render layout: "form"
   end
 
   def user_authetication

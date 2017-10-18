@@ -1,0 +1,30 @@
+<% session[:from_report] = true rescue false %>
+<% session[:report_url] = request.request_uri.to_s rescue nil%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title></title>
+    <script type="text/javascript" language="javascript" src="/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"><
+        <script language="javascript">
+        tstUsername = "";
+      tstCurrentDate = "<%= Time.now.strftime("%Y-%m-%d") %>";
+      var tt_cancel_destination = null;
+
+    </script>
+
+
+  </head>
+  <body id="mateme">
+    <div id="container">
+      <div id="content" style = "position : relative; width : 98%; margin-left : -49%;">
+
+        <%= yield %>
+
+      </div>
+    </div>
+  </body>
+
+
+</html>
