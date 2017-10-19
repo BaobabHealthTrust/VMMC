@@ -8,5 +8,9 @@ class PatientsController < ApplicationController
 
     #render layout: false
   end
+
+  def header
+
+  end
   
 end
