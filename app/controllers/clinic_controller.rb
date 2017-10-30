@@ -1,7 +1,8 @@
 class ClinicController < ApplicationController
 
 	def index
-		
+		@session_date = Date.today
+    @user = User.find(session[:user]["user_id"])
 	end
 
 	def set_date

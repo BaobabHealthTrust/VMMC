@@ -5,18 +5,17 @@
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
     <script language="javascript" defer="true">
-      <!--
       tstUsername = "<%= "" %>";
       tstUserKeyboardPref = "<%= "qwerty" %>";
 
-  tstCurrentDate = "<%= (session[:datetime] ? session[:datetime].to_date.strftime("%Y-%m-%d") :
+      tstCurrentDate = "<%= (session[:datetime] ? session[:datetime].to_date.strftime("%Y-%m-%d") :
     Date.today.strftime("%Y-%m-%d")) %>";
 
 
-  //-->
     </script>
 
-    <script language="javascript" type="text/javascript" src="/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+    <script type="text/javascript" src="/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+    <script type="text/javascript" src="/assets/jquery-1.3.2.min.js"></script>
 
   </head>
   <body id="mateme">
@@ -35,3 +34,14 @@
     </div>
   </body>
 </html>
+
+<script type="text/javascript">
+
+  function modifyCancelButton(){
+    cancelButton = document.getElementById('cancelButton');
+    cancelButton.onmousedown = function(){
+      window.top.location.href = "/patients/show/87"
+    }
+  }
+  
+</script>

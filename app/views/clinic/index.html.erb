@@ -58,7 +58,7 @@
               <td id="facility">Kamuzu Central Hospital</td>
               <td style="text-align: right; font-weight: bold;" class="blueText">Date</td>
               <td style="text-align: center; width: 3px;">:</td>
-              <td id="today">12 October, 2017</td>
+              <td id="today"><%= @session_date.strftime("%d %B, %Y") %></td>
             </tr>
             <tr></tr>
             <tr>
@@ -69,7 +69,7 @@
               <td id="location">Room 1</td>
               <td style="text-align: right; font-weight: bold;" class="blueText" id="other_id_label">User</td>
               <td style="text-align: center; width: 3px;">:</td>
-              <td id="user">admin</td>
+              <td id="user"><%= @user.username %></td>
             </tr>
           </table>
         </div></td>

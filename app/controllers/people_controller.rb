@@ -5,6 +5,9 @@ class PeopleController < ApplicationController
 	end
 
 	def search_results
+    @people = Person.limit(5)
+    @patients = @people
+    @relation = []
     render layout: "menu"
 	end
 

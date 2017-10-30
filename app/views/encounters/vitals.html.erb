@@ -1,3 +1,4 @@
+
 <style>
   #content, .inputPage{
     height: 545px !important;
@@ -8,18 +9,155 @@
     margin-left: 2px;
     width: 99.7%;
     top: 383px;
-}
-.buttonsDiv{
-  position: fixed;
-  top: auto;
-  bottom: -20px;
-  margin-bottom: 2%;
-  z-index: 1000;
-}
+  }
+  .buttonsDiv{
+    position: fixed;
+    top: auto;
+    bottom: -20px;
+    margin-bottom: 2%;
+    z-index: 1000;
+  }
 </style>
-<form action= '/user_authetication' method= 'POST'>
-  <%= password_field(:user, :password,
-    :helpText => "Enter Password",
-    :textCase => "lower") %>
+
+
+<style type="text/css">
+  #summary {
+    padding: 0px;
+    font-size:1.2em;
+    margin-left: 60px;
+    height: 70px;
+    max-height: 70px;
+    overflow: hide;
+
+  }
+
+  #charts {
+    position: absolute;
+    width: 95% ! important;
+    height: 60% ! important;
+  }
+
+  #char {
+    display: none;
+  }
+  .title {
+    margin-right:10px;
+  }
+
+  .abnormal-weight {
+    color: red;
+  }
+
+  .lowWeightForHeight{color:black;background:red;}
+  .medWeightForHeight {color:black;background:yellow;}
+  .lowBMI {
+    font-weight: bolder;
+    font-size: 14pt;
+    padding: 3px;
+    /*background:red;*/
+  }
+  .lowBMIcounselling {color:black;background:orange;}
+  .lowWeightForAge {color:black;background:red;}
+  .medWeightForAge {color:black;background:yellow;}
+  .goodWeightForAge {color:black;}
+  .lowHeightForAge {color:black;background:red;}
+  .medHeightForAge {color:black;background:yellow;}
+  .goodHeightForAge {color:black;}
+
+  #tt_page_nutritional_status .inputFrameClass { height: 87%;}
+
+  #tt_page_nutritional_status .inputPage{
+    width: 98.7%;
+  }
+
+  #qwerty{ display:none; }
+
+  .unknownButton .numericKeyboard #char, #slash, #star, #plus, #date, #minus, #comma, #percent {
+    display: none;
+  }
+
+</style>
+
+<form action="#">
+  <%= hidden_field_tag "encounter[encounter_type_name]", "VITALS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.patient_id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", "" %>
+
+
+  <%= (touch_text_field_tag "TEMPERATURE (C)", @patient, nil,
+    {
+      id: "temperature",
+      :field_type => "number",
+      :allowFreeText => 'true',
+      :min => 20,
+      :max => 45,
+      :units => 'Celcuis',
+      :validationRule => "([0-9]+\\.[0-9])|Unknown$",
+      :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
+      :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
+      :tt_onLoad => "modifyCancelButton();",
+      :helpText => "Temperature (C)" }).html_safe%>
+
+  <%= (touch_numeric_tag "WEIGHT (KG)", @patient, nil,
+    {	:id => "weight",
+      :field_type => "number",
+      :tt_onLoad => "$('clearButton').style.display = 'inline';",
+      :min => number_with_precision(@min_weight, :precision => 1),
+      :max => number_with_precision(@max_weight, :precision => 1),
+      :absoluteMin => 0,
+      :absoluteMax => 250,
+      :units => 'kg',
+      :validationRule => "([0-9]+\\.[0-9])|Unknown$",
+      :validationMessage => "You must enter a decimal between 0 and 9 (for example: 54<b>.6</b>)",
+      :tt_pageStyleClass => "unknownButton",
+      :helpText => "Weight (Kg)" }).html_safe %>
+
+  <%= (touch_numeric_tag "WEIGHT (KG)", @patient, nil,
+    {	:id => "weight",
+      :field_type => "number",
+      :tt_onLoad => "$('clearButton').style.display = 'inline';",
+      :min => number_with_precision(@min_weight, :precision => 1),
+      :max => number_with_precision(@max_weight, :precision => 1),
+      :absoluteMin => 0,
+      :absoluteMax => 250,
+      :units => 'kg',
+      :validationRule => "([0-9]+\\.[0-9])|Unknown$",
+      :validationMessage => "You must enter a decimal between 0 and 9 (for example: 54<b>.6</b>)",
+      :tt_pageStyleClass => "Keyboard Numeric NumbersOnlyWithDecimal",
+      :helpText => "Weight (Kg)" }).html_safe %>
+
+
+  <%= (touch_numeric_tag "HEIGHT (CM)", @patient, nil,
+    {	:id => "height",
+      :field_type => "number",
+      :tt_onLoad => "$('clearButton').style.display = 'inline';",
+      :min => number_with_precision(@min_height, :precision => 1),
+      :max => number_with_precision(@max_height, :precision => 1),
+      :absoluteMin => 10,
+      :absoluteMax => 228,
+      :units => 'cm',
+      :validationRule => "^([0-9]+)|Unknown$",
+      :validationMessage => "You must enter numbers only (for example 157)",
+      :tt_pageStyleClass => "Numeric NumbersOnly",
+      :helpText => "Height (cm)" }).html_safe %>
 
 </form>
+
+<script type="text/javascript">
+  function cancelEntry() {
+    var inputElements = document.getElementsByTagName("input");
+    for (i in inputElements) {
+      inputElements[i].value = "";
+    }
+    window.top.location.href = "/patients/show/22";
+  }
+
+  function modifyCancelButton(){
+    cancelButton = document.getElementById('cancelButton');
+    cancelButton.onmousedown = function(){
+      window.top.location.href = "/patients/show/87"
+    }
+  }
+</script>
+
