@@ -38,8 +38,6 @@ Rails.application.routes.draw do
   get '/hiv_art_status' => 'encounters#hiv_art_status'
   get '/genital_examination' => 'encounters#genital_examination'
   get '/circumcision' => 'encounters#circumcision'
-
-
   get '/person_names/given_names' => 'person_names#given_names'
   get '/person_names/family_names' => 'person_names#family_names'
   # Example of named route that can be invoked with purchase_url(id: product.id)
