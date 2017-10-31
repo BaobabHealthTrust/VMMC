@@ -13,6 +13,8 @@ mockups
 rerun.txt
 nbproject
 Gemfile.lock
+*.lock
+*.pid
 log/*
 .idea/*
 .ruby-version

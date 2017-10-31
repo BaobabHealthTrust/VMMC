@@ -1,5 +1,5 @@
 class PersonNamesController < ApplicationController
-def family_names
+  def family_names
     search("family_name", params[:search_string])
   end
 

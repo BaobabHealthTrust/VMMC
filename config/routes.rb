@@ -14,7 +14,13 @@ Rails.application.routes.draw do
   get '/set_date' => 'clinic#set_date'
   post '/set_date' => 'clinic#set_date'
   get '/people/search' => 'people#search'
+  get '/people/region' => 'people#region'
+  get '/people/district' => 'people#district'
+  get '/people/traditional_authority' => 'people#traditional_authority'
+  get '/people/village' => 'people#village'
+  get '/people/landmark' => 'people#landmark'
   get '/search_results' => 'people#search_results'
+  get '/people/new'
   get '/select' => 'people#select'
   post '/select' => 'people#select'
   get '/new_patient' => 'patients#new_patient'
@@ -40,6 +46,7 @@ Rails.application.routes.draw do
   get '/circumcision' => 'encounters#circumcision'
   get '/person_names/given_names' => 'person_names#given_names'
   get '/person_names/family_names' => 'person_names#family_names'
+  get '/person_names/middle_name' => 'person_names#middle_name'
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
