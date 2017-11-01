@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get '/people/village' => 'people#village'
   get '/people/landmark' => 'people#landmark'
   get '/search_results' => 'people#search_results'
+  get '/search_by_identifier' => 'people#search_by_identifier'
   get '/people/new'
   get '/select' => 'people#select'
   post '/select' => 'people#select'

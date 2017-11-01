@@ -16,6 +16,26 @@ class PeopleController < ApplicationController
     render layout: "menu"
 	end
 
+  def search_by_identifier
+    local_results = PatientService.search_by_identifier(params[:identifier])
+
+    if local_results.blank?
+      flash[:notice] = "No matching person found with number #{params[:identifier]}"
+      redirect_to("/") and return
+    end
+
+    if local_results.length == 1
+      found_person = local_results.first
+      redirect_to("/patients/show/#{found_person.person_id}") and return
+    end
+    
+    if local_results.length > 1
+      redirect_to :action => 'duplicates' ,:search_params => params
+      return
+    end
+
+  end
+
 	def select
     person_id = params[:person][:id]
     if person_id == '0'

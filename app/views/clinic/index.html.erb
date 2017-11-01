@@ -231,4 +231,8 @@
     iframe_container = document.getElementById('visits');
     iframe_container.src = path;
   }
+
+<% if flash[:notice] %>
+    window.setTimeout(function(){showMessage("<%= flash[:notice] %>")}, 300)
+<% end %>
 </script>
