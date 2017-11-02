@@ -10,8 +10,31 @@ class PeopleController < ApplicationController
 	end
 
 	def search_results
-    @people = Person.limit(5)
-    @patients = @people
+    @people = PatientService.person_search(params)
+    @patients = []
+    (@people || []).each do | person |
+      patient = PatientService.get_patient(person) rescue nil
+      next if patient.blank?
+      results = PersonSearch.new("")
+      results.national_id = patient.national_id
+      results.birth_date = patient.birth_date
+      results.current_residence = patient.current_residence
+      results.guardian = patient.guardian
+      results.person_id = patient.person_id
+      results.home_district = patient.home_district
+      results.current_district = patient.current_district
+      results.traditional_authority = patient.traditional_authority
+      results.mothers_surname = patient.mothers_surname
+      results.dead = patient.dead
+      results.arv_number = patient.arv_number
+      results.eid_number = patient.eid_number
+      results.pre_art_number = patient.pre_art_number
+      results.name = patient.name
+      results.sex = patient.sex
+      results.age = patient.age
+      @patients << results
+    end
+
     @relation = []
     render layout: "menu"
 	end

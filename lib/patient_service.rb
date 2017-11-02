@@ -825,9 +825,9 @@ module PatientService
 
   def self.get_patient_identifier(patient, identifier_type)
     patient_identifier_type_id = PatientIdentifierType.find_by_name(identifier_type).patient_identifier_type_id rescue nil
-    patient_identifier = PatientIdentifier.find(:first, :select => "identifier",
-      :conditions  =>["patient_id = ? and identifier_type = ?", patient.id, patient_identifier_type_id],
-      :order => "date_created DESC" ).identifier rescue nil
+    patient_identifier = PatientIdentifier.where(["patient_id = ? and identifier_type = ?", patient.id, patient_identifier_type_id]
+    ).order("date_created DESC").select("identifier").first.identifier rescue nil
+
     return patient_identifier
   end
 
@@ -1021,58 +1021,15 @@ module PatientService
   end
 
   def self.person_search(params)
-    people = []
-    people = search_by_identifier(params[:identifier]) if params[:identifier]
-
-    return people unless people.blank? || people.size > 1
-
     gender = params[:gender]
-    given_name = params[:given_name].squish unless params[:given_name].blank?
-    family_name = params[:family_name].squish unless params[:family_name].blank?
+    given_name = params[:given_name]
+    family_name = params[:family_name]
 
-    people = Person.find(:all, :limit => 15, :include => [{:names => [:person_name_code]}, :patient], :conditions => [
-        "gender = ? AND \
-     person_name.given_name = ? AND \
-     person_name.family_name = ?",
-        gender,
-        given_name,
-        family_name
-      ],:limit => 10,:order => "birthdate DESC") if people.blank?
+    people = Person.joins("INNER JOIN patient ON person.person_id = patient.patient_id
+      INNER JOIN person_name ON person_name.person_id = person.person_id"
+    ).where(["gender = ? AND given_name = ? AND family_name = ?",
+        gender, given_name, family_name]).order("birthdate DESC").limit(15)
 
-    if people.length < 15
-=begin
-       matching_people = people.collect{| person |
-       person.person_id
-        #                  }
-
-=end
-
-      people_like = Person.find(:all, :limit => 15, :include => [{:names => [:person_name_code]}, :patient], :conditions => [
-          "gender = ? AND \
-     ((person_name_code.given_name_code LIKE ? AND \
-     person_name_code.family_name_code LIKE ?))",
-          gender,
-          (given_name || '').soundex,
-          (family_name || '').soundex
-        ], :order => "person_name.given_name ASC, person_name_code.family_name_code ASC,birthdate DESC")
-      people = (people + people_like).uniq rescue people
-    end
-=begin
-    raise "done"
-
-people = Person.find(:all, :include => [{:names => [:person_name_code]}, :patient], :conditions => [
-        "gender = ? AND \
-     (person_name.given_name LIKE ? OR person_name_code.given_name_code LIKE ?) AND \
-     (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?)",
-        params[:gender],
-        params[:given_name],
-        (params[:given_name] || '').soundex,
-        params[:family_name],
-        (params[:family_name] || '').soundex
-      ]) if people.blank?
-
-    raise "afta pulling"
-=end
     return people.uniq[0..9] rescue people
   end
 
