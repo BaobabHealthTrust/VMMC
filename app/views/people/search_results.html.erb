@@ -19,28 +19,19 @@ pos = 1
 
     people.push({});
 
-    people[<%= pos %>]["Name"] = "Ernest Matola";
+    people[<%= pos %>]["Name"] = "<%= person.name %>";
 
-    people[<%= pos %>]["Gender"] = "M";
+    people[<%= pos %>]["Gender"] = "<%= person.sex %>";
 
-    try {
-      people[<%= pos %>]["Birthdate"] = "<%= person.birth_date rescue "" %>";
-    }catch(e){
-      people[<%= pos %>]["Birthdate"] = null;
-    }
+    people[<%= pos %>]["Birthdate"] = "<%= person.birth_date %>";
 
-    try {
-      people[<%= pos %>]["Age"] = "<%= person.age rescue "" %>";
-    }catch(e){
-      people[<%= pos %>]["Age"] = null;
-    }
+    people[<%= pos %>]["Age"] = "<%= person.age %>";
 
-    try {
-      people[<%= pos %>]["Home District"] = "<%=h person.home_district.squish rescue nil-%>";
-    }catch(e){
-      people[<%= pos %>]["Home District"] = null;
-    }
+    people[<%= pos %>]["Home District"] = "<%= person.home_district%>";
 
+    people[<%= pos %>]["Current Residence"] = "<%= person.current_residence%>";
+
+    people[<%= pos %>]["National ID"] = "<%= person.national_id %>";
 
   <%
 
@@ -333,7 +324,7 @@ end %>
           <% else %>
           <option value="<%= patient.person_id %>" onmousedown="changeNextButtonText('Select Guardian')">
           <% end %>
-          Ernest Matola (M) 05-Feb-1988, Makumba
+          <%= patient.name %> (<%= patient.sex %>) <%= patient.birth_date %>, <%= patient.current_residence %>
         </option>
       <% end -%>
     </select>
