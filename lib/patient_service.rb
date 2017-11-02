@@ -1,5 +1,5 @@
 module PatientService
-	#require 'bean'
+	require 'bean'
 	#require 'json'
 	#require 'rest_client'
   ############# new DDE API start###################################
@@ -837,7 +837,6 @@ module PatientService
     patient = PatientBean.new('')
     patient.person_id = person.id
     patient.patient_id = person.patient.id
-    patient.arv_number = get_patient_identifier(person.patient, 'ARV Number')
     patient.address = person.addresses.first.city_village rescue nil
     patient.national_id = get_patient_identifier(person.patient, 'National id')
 	  patient.national_id_with_dashes = get_national_id_with_dashes(person.patient) rescue nil
@@ -852,7 +851,6 @@ module PatientService
       patient.age = age(person, current_date)
     end
     patient.age_in_months = age_in_months(person, current_date)
-    patient.dead = person.dead
     patient.birth_date = birthdate_formatted(person)
     patient.birthdate_estimated = person.birthdate_estimated
     patient.current_district = person.addresses.first.state_province rescue nil
@@ -861,17 +859,17 @@ module PatientService
     patient.current_residence = person.addresses.first.city_village rescue nil
     patient.landmark = person.addresses.first.address1 rescue nil
     patient.home_village = person.addresses.first.neighborhood_cell rescue nil
-    patient.mothers_surname = person.names.first.family_name2 rescue nil
-    patient.eid_number = get_patient_identifier(person.patient, 'EID Number') rescue nil
-    patient.pre_art_number = get_patient_identifier(person.patient, 'Pre ART Number (Old format)') rescue nil
-    patient.archived_filing_number = get_patient_identifier(person.patient, 'Archived filing number')rescue nil
     patient.filing_number = get_patient_identifier(person.patient, 'Filing Number')
     patient.occupation = get_attribute(person, 'Occupation')
     patient.cell_phone_number = get_attribute(person, 'Cell phone number')
     patient.office_phone_number = get_attribute(person, 'Office phone number')
     patient.home_phone_number = get_attribute(person, 'Home phone number')
-    patient.guardian = art_guardian(person.patient) rescue nil
     patient
+  end
+
+  def self.get_attribute(person, attribute)
+    PersonAttribute.where(["voided = 0 AND person_attribute_type_id = ? AND person_id = ?",
+        PersonAttributeType.find_by_name(attribute).id, person.id]).first.value rescue nil
   end
 
   def self.age(person, today = Date.today)

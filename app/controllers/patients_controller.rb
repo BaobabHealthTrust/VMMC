@@ -5,8 +5,8 @@ class PatientsController < ApplicationController
 	end
 
   def show
-
-    #render layout: false
+    person = Person.find (params[:patient_id])
+    @patient_bean = PatientService.get_patient(person)
   end
 
   def header
