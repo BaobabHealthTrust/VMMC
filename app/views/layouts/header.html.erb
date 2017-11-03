@@ -143,7 +143,8 @@
 
 </div>
 
-<iframe src="/vitals?patient_id=23" style="width: 100%; height: 80%; border: 0px; margin-top: 50px;"></iframe>
+<iframe src="/<%= params[:encounter_type] %>?patient_id=<%= @patient.patient_id %>" style="width: 100%; height: 80%; border: 0px; margin-top: 50px;"></iframe>
+
 <script type="text/javascript">
   function cancelEntry() {
     var inputElements = document.getElementsByTagName("input");

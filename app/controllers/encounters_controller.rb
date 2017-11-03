@@ -1,13 +1,17 @@
 class EncountersController < ApplicationController
   def new
-    @patient = Patient.last
+    @patient = Patient.find(params[:patient_id])
     @min_weight = 15
     @max_weight = 100
-    render action: params[:encounter_type], layout: "header"
+    render action: params[:encounter_type], patient_id: params[:patient_id], layout: "header"
   end
 
+  def create
+    raise params.inspect
+  end
+  
   def vitals
-    @patient = Patient.last
+    @patient = Patient.find(params["patient_id"])
     render layout: "form"
   end
 

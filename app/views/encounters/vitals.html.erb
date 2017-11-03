@@ -78,7 +78,7 @@
 
 </style>
 
-<form action="#">
+<form action="/encounters/create" method="POST" target="_top">
   <%= hidden_field_tag "encounter[encounter_type_name]", "VITALS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.patient_id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
@@ -111,20 +111,6 @@
       :validationRule => "([0-9]+\\.[0-9])|Unknown$",
       :validationMessage => "You must enter a decimal between 0 and 9 (for example: 54<b>.6</b>)",
       :tt_pageStyleClass => "unknownButton",
-      :helpText => "Weight (Kg)" }).html_safe %>
-
-  <%= (touch_numeric_tag "WEIGHT (KG)", @patient, nil,
-    {	:id => "weight",
-      :field_type => "number",
-      :tt_onLoad => "$('clearButton').style.display = 'inline';",
-      :min => number_with_precision(@min_weight, :precision => 1),
-      :max => number_with_precision(@max_weight, :precision => 1),
-      :absoluteMin => 0,
-      :absoluteMax => 250,
-      :units => 'kg',
-      :validationRule => "([0-9]+\\.[0-9])|Unknown$",
-      :validationMessage => "You must enter a decimal between 0 and 9 (for example: 54<b>.6</b>)",
-      :tt_pageStyleClass => "Keyboard Numeric NumbersOnlyWithDecimal",
       :helpText => "Weight (Kg)" }).html_safe %>
 
 
