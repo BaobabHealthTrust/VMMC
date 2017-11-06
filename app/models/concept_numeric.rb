@@ -3,6 +3,8 @@ class ConceptNumeric < ActiveRecord::Base
   self.primary_key = "concept_id"
   has_one :concept, :foreign_key => :concept_id, :dependent => :destroy
 
+  include Openmrs
+  
   def options
     result = {}
     result[:absoluteMin] = low_absolute unless low_absolute.blank?

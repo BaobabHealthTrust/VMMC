@@ -1,4 +1,5 @@
 module Openmrs
+=begin
   module ClassMethods
     def assign_scopes
       col_names = self.columns.map(&:name)
@@ -35,41 +36,18 @@ module Openmrs
     end
   end
 
+
   def self.included(base)
     base.extend(ClassMethods)
     base.assign_scopes
   end
-
-  def before_save
-    super
-    self.changed_by = User.current.id if self.attributes.has_key?("changed_by") and User.current != nil
-
-    self.changed_by = User.first if self.attributes.has_key?("changed_by") and User.current.nil?
-
-    self.date_changed = Time.now if self.attributes.has_key?("date_changed")
-  end
-
-  def before_create
-    super
-
-    if !Person.migrated_datetime.to_s.empty?
-      self.location_id = Person.migrated_location if self.attributes.has_key?("location_id")
-      self.creator = Person.migrated_creator if self.attributes.has_key?("creator")
-      self.date_created = Person.migrated_datetime if self.attributes.has_key?("date_created")
-    else
-      self.location_id = Location.current_health_center.id if self.attributes.has_key?("location_id") and (self.location_id.blank? || self.location_id == 0) and Location.current_health_center != nil
-      self.creator = User.current.id if self.attributes.has_key?("creator") and (self.creator.blank? || self.creator == 0)and User.current != nil
-      self.date_created = Time.now if self.attributes.has_key?("date_created")
-    end
-
-    self.uuid = ActiveRecord::Base.connection.select_one("SELECT UUID() as uuid")['uuid'] if self.attributes.has_key?("uuid")
-  end
+=end
 
   # Override this
   def after_void(reason = nil)
   end
 
-  def void(reason = "Voided through #{ART_VERSION}",date_voided = Time.now, voided_by = (User.current.user_id unless User.current.nil?))
+  def void(reason = "Voided through VMMC",date_voided = Time.now, voided_by = (User.current.user_id unless User.current.nil?))
     unless voided?
       self.date_voided = date_voided
       self.voided = 1

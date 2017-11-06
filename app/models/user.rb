@@ -1,7 +1,9 @@
 class User < ActiveRecord::Base
   self.table_name = "users"
   self.primary_key = "user_id"
-  cattr_accessor :current_user
+  cattr_accessor :current
+
+  belongs_to :person, -> { where voided: 0 },  :foreign_key => :person_id
 
   def try_to_login
     User.authenticate(self.username,self.password)

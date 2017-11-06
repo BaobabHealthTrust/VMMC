@@ -2,6 +2,11 @@ class Observation < ActiveRecord::Base
   self.table_name = "obs"
   self.primary_key = "obs_id"
 
+
+  include Openmrs
+  before_create :before_create
+  before_save :before_save
+  
   belongs_to :encounter, -> { where voided: 0 }
   belongs_to :order, -> { where voided: 0 }
   belongs_to :concept, -> { where retired: 0 }
@@ -10,6 +15,7 @@ class Observation < ActiveRecord::Base
   belongs_to :answer_concept_name, -> { where voided: 0 }, class_name: "ConceptName", foreign_key: "value_coded_name_id"
   has_many :concept_names, through: "concept"
 
+  #attr_accessible :value_text, :value_modifier, :concept_id, :person_id, :obs_datetime, :encounter_id, :location_id, :creator, :date_created, :uuid
 
   #named_scope :recent, lambda {|number| {:joins => [:encounter], :order => 'obs_datetime DESC,date_created DESC', :limit => number}}
   #named_scope :before, lambda {|date| {:conditions => ["obs_datetime < ? ", date], :order => 'obs_datetime DESC, date_created DESC', :limit => 1}}
@@ -27,6 +33,21 @@ class Observation < ActiveRecord::Base
   # concept_id = ConceptName.first(:conditions => {:name => concept}).concept_id rescue 0 if concept_id == 0
   #{:conditions => {:concept_id => concept_id}}
   #}
+
+
+  def before_save
+    #self.changed_by = User.current.user_id unless User.current.blank?
+    #self.date_changed = Time.now
+    
+  end
+
+  def before_create
+    self.location_id = Location.current_health_center.id
+    self.creator = User.current.user_id unless User.current.blank?
+    self.date_created = Time.now
+    self.uuid = ActiveRecord::Base.connection.select_one("SELECT UUID() as uuid")['uuid']
+  end
+
   def patient_id=(patient_id)
     self.person_id=patient_id
   end

@@ -2,6 +2,8 @@ class Concept < ActiveRecord::Base
   self.table_name = "concept"
   self.primary_key = "concept_id"
 
+  include Openmrs
+  
   belongs_to :concept_class, -> { where retired: 0 }
   belongs_to :concept_datatype, -> { where retired: 0 }
   has_one :concept_numeric, :foreign_key => :concept_id, :dependent => :destroy

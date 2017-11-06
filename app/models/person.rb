@@ -2,6 +2,8 @@ class Person < ActiveRecord::Base
   self.table_name = "person"
   self.primary_key = "person_id"
 
+  include Openmrs
+  
   has_one :patient, -> { where voided: 0 }, :foreign_key => :patient_id, :dependent => :destroy
   has_many :names, -> { where(voided: 0).order 'person_name.preferred DESC'}, :class_name => 'PersonName', :foreign_key => :person_id, :dependent => :destroy
   has_many :addresses,  -> { where(voided: 0).order 'person_address.preferred DESC' },  :class_name => 'PersonAddress', :foreign_key => :person_id, :dependent => :destroy

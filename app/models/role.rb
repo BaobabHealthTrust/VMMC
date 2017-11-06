@@ -2,6 +2,8 @@ class Role < ActiveRecord::Base
   self.table_name = "role"
   self.primary_key = "role"
 
+  include Openmrs
+  
   has_many :role_roles, :foreign_key => :parent_role # no default scope
   has_many :role_privileges, :foreign_key => :role, :dependent => :delete_all # no default scope
   has_many :privileges, :through => :role_privileges, :foreign_key => :role # no default scope

@@ -123,7 +123,9 @@ class EncountersController < ApplicationController
 
 					observation = update_observation_value(observation)
 
-					Observation.create(observation)
+					observation = observation.permit!
+          obs = Observation.new(observation)
+          obs.save
 				end
 			elsif extracted_value_numerics.class == Array
 				extracted_value_numerics.each do |value_numeric|
@@ -134,7 +136,9 @@ class EncountersController < ApplicationController
 						observation.delete(:value_numeric)
 					end
 
-					Observation.create(observation)
+					observation = observation.permit! #Rails 4 hack
+          obs = Observation.new(observation)
+          obs.save
 				end
 			else
 				observation.delete(:value_coded_or_text_multiple)
@@ -144,8 +148,9 @@ class EncountersController < ApplicationController
 					observation[:value_text] = observation[:value_numeric]
 					observation.delete(:value_numeric)
 				end
-
-				Observation.create(observation)
+        observation = observation.permit!
+				obs = Observation.new(observation)
+        obs.save
 			end
 		end
 	end

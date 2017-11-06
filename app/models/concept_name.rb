@@ -2,6 +2,8 @@ class ConceptName < ActiveRecord::Base
   self.table_name = "concept_name"
   self.primary_key = "concept_name_id"
 
+  include Openmrs
+  
   has_many :concept_name_tag_maps # no default scope
   has_many :tags, :through => :concept_name_tag_maps, :class_name => 'ConceptNameTag'
   belongs_to :concept

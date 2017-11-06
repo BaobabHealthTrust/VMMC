@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   def authenticate_user
     user = User.find(session[:user]["user_id"]) rescue nil
     unless user.blank?
-      User.current_user = user
+      User.current = user
       return true
     end
     access_denied

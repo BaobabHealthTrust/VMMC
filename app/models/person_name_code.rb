@@ -2,7 +2,9 @@ class PersonNameCode < ActiveRecord::Base
   self.table_name = "person_name_code"
   self.primary_key = "person_name_code_id"
 
-  belongs_to :person_name#, :conditions => {:voided => 0}
+  include Openmrs
+  
+  belongs_to :person_name, -> { where voided: 0 }
 
   def self.rebuild_person_name_codes
     PersonNameCode.delete_all

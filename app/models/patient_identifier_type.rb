@@ -2,6 +2,8 @@ class PatientIdentifierType < ActiveRecord::Base
   self.table_name = "patient_identifier_type"
   self.primary_key = "patient_identifier_type_id"
 
+  include Openmrs
+  
   def next_identifier(options = {})
     return nil unless options[:patient]
     case self.name
