@@ -14,5 +14,10 @@ class Patient < ActiveRecord::Base
   def name
     "#{self.person.names[0].given_name rescue ''} #{self.person.names[0].family_name rescue ''}"
   end
-  
+
+  def self.recent_encounters(patient_id)
+   recent_encounters =  Encounter.where(["patient_id =?", patient_id]).order("DATE(encounter_datetime) DESC").group("DATE(encounter_datetime)")
+   return recent_encounters
+  end
+
 end

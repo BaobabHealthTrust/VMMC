@@ -17,7 +17,30 @@
   function goToEncouterType(encounter_type){
     window.location = "/encounters/new?encounter_type=" + encounter_type + "&patient_id=" + patientID;
   }
-  
+
+
+  function getPatientVisits() {
+    /*<li id="visit0" style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204); text-align: center;" >1/Nov/2017</li>*/
+    jQuery.ajax({
+      type: "POST",
+      url: "/patients/get_patient_visits",
+      data: "patient_id=" + patientID,
+      success: function(result){
+        result = JSON.parse(result);
+        ulVisits = document.getElementById("ulVisits");
+        for (var encounterID in result){
+          encounter_date = result[encounterID]["encounter_date"];
+          li = '<li style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204); text-align: center;" >' + encounter_date + '</li>';
+          ulVisits.innerHTML += li;
+        }
+      }
+
+    });
+
+  }
+  window.onload = function(){
+    getPatientVisits()
+  }
 </script>
 
 <style type="text/css">
@@ -146,7 +169,14 @@
                   </ul>
                 </div>
               </td>
-              <td rowspan="3"><div id="visits" style="width: 100%; overflow: auto; height: 301px; border: 1px solid rgb(255, 255, 255);"></div></td><td rowspan="3">
+              <td rowspan="3">
+                <div id="visits" style="width: 100%; overflow: auto; height: 301px; border: 1px solid rgb(255, 255, 255);">
+                  <ul id="ulVisits" style="list-style: outside none none; width: 100%; padding: 0px; margin: 0px;">
+
+                  </ul>
+                </div>
+              </td>
+              <td rowspan="3">
                 <div id="details" style="width: 100%; overflow: auto; height: 301px; border: 1px solid rgb(255, 255, 255); text-align: center;">
                   <iframe style="width: 100%; height: 100%; border: medium none; overflow: auto;" src=""></iframe>
                 </div></td><td rowspan="3">
