@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   get '/person_names/middle_name' => 'person_names#middle_name'
 
   post '/encounters/create'
+  post '/patients/get_patient_visits'
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
