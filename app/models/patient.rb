@@ -20,4 +20,9 @@ class Patient < ActiveRecord::Base
    return recent_encounters
   end
 
+  def self.get_encounters_on_date(patient_id, encounter_date)
+    patient_encounters_on_date = Encounter.where(["patient_id =? AND DATE(encounter_datetime) =?", patient_id, encounter_date.to_date]).order("DATE(encounter_datetime) DESC")
+    return patient_encounters_on_date
+  end
+
 end

@@ -20,7 +20,6 @@
 
 
   function getPatientVisits() {
-    /*<li id="visit0" style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204); text-align: center;" >1/Nov/2017</li>*/
     jQuery.ajax({
       type: "POST",
       url: "/patients/get_patient_visits",
@@ -30,7 +29,7 @@
         ulVisits = document.getElementById("ulVisits");
         for (var encounterID in result){
           encounter_date = result[encounterID]["encounter_date"];
-          li = '<li style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204); text-align: center;" >' + encounter_date + '</li>';
+          li = '<li onclick="showEncounterDetails(&quot;' + encounter_date + '&quot;)" style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204); text-align: center;" >' + encounter_date + '</li>';
           ulVisits.innerHTML += li;
         }
       }
@@ -38,6 +37,13 @@
     });
 
   }
+
+  function showEncounterDetails(encounter_date){
+    encounterIframe = document.getElementById("encounter-data");
+    encounterIframe.src = "";
+    encounterIframe.src = "/encounters/details?encounter_date=" + encounter_date + "&patient_id=" + patientID;
+  }
+
   window.onload = function(){
     getPatientVisits()
   }
@@ -59,6 +65,17 @@
   .headTab {
     width: 100%;
   }
+
+  .active-link{
+    background-color: #345db5;
+    border-bottom: 1px solid #ccc;
+    color: #fff;
+    cursor: pointer;
+    margin-bottom: 5px;
+    padding: 15px 10px;
+    text-align: center;
+  }
+  
 </style>
 <div id="content">
   <table style="font: 14px;-moz-user-select: none; border-collapse: collapse;" width="100%" border="0">
@@ -178,7 +195,7 @@
               </td>
               <td rowspan="3">
                 <div id="details" style="width: 100%; overflow: auto; height: 301px; border: 1px solid rgb(255, 255, 255); text-align: center;">
-                  <iframe style="width: 100%; height: 100%; border: medium none; overflow: auto;" src=""></iframe>
+                  <iframe id="encounter-data" style="width: 100%; height: 100%; border: medium none; overflow: auto;" src=""></iframe>
                 </div></td><td rowspan="3">
 
                 <div id="tasks" style="width: 100%; overflow: auto; height: 301px; border: 1px solid rgb(255, 255, 255);">

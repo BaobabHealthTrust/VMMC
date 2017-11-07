@@ -41,7 +41,11 @@ class EncountersController < ApplicationController
     render layout: "form" 
   end
 
-
+  def details
+    @patient_encounters_on_date = Patient.get_encounters_on_date(params[:patient_id], params[:encounter_date])
+    render layout: false
+  end
+  
   def create_vitals_encounter(params, session)
     encounter_type = EncounterType.find_by_name('VITALS')
     patient_id = params[:encounter]["patient_id"].to_i
