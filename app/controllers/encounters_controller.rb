@@ -41,6 +41,12 @@ class EncountersController < ApplicationController
     render layout: "form" 
   end
 
+  def void
+    encounter = Encounter.find(params[:encounter_id])
+    encounter.void
+    render text: 'success' and return
+  end
+  
   def details
     @patient_encounters_on_date = Patient.get_encounters_on_date(params[:patient_id], params[:encounter_date])
     render layout: false

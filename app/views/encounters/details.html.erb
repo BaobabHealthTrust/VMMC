@@ -66,13 +66,13 @@
 
 <script type="text/javascript">
   function zoomTable(encounterID){
+    parent.selectedEncounterID = encounterID
     jQuery.ajax({
       type: "POST",
       url: "/encounters/observations",
       data: "encounter_id=" + encounterID,
       success: function(result){
         result = JSON.parse(result);
-        console.log(result)
 
         html = "";
         encounter_type = "";
