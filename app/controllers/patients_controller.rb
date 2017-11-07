@@ -23,5 +23,9 @@ class PatientsController < ApplicationController
     end
     render :text => data.to_json
   end
-  
+
+  def get_patient_vitals
+    recent_vitals = Patient.recent_vitals(params[:patient_id])
+  end
+
 end

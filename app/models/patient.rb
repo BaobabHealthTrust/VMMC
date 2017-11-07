@@ -25,4 +25,15 @@ class Patient < ActiveRecord::Base
     return patient_encounters_on_date
   end
 
+  def self.recent_vitals(patient_id)
+    vitals_encounter_type_id = EncounterType.find_by_name("VITALS").encounter_type_id
+    vitals_encounter = Encounter.where(["patient_id =? AND encounter_type =?", patient_id, vitals_encounter_type_id]).last
+    vitals = {}
+    vitals_encounter.observations.each do |obs|
+      
+      vitals["sbp"]
+    end
+    return vitals
+  end
+
 end

@@ -44,9 +44,25 @@
     encounterIframe.src = "/encounters/details?encounter_date=" + encounter_date + "&patient_id=" + patientID;
   }
 
-  window.onload = function(){
-    getPatientVisits()
+  function loadVitals(){
+    jQuery.ajax({
+      type: "POST",
+      url: "/patients/get_patient_vitals",
+      data: "patient_id=" + patientID,
+      success: function(result){
+        result = JSON.parse(result);
+
+      }
+
+    });
   }
+
+  window.onload = function(){
+    getPatientVisits();
+    loadVitals();
+
+  }
+
 </script>
 
 <style type="text/css">
@@ -75,7 +91,7 @@
     padding: 15px 10px;
     text-align: center;
   }
-  
+
 </style>
 <div id="content">
   <table style="font: 14px;-moz-user-select: none; border-collapse: collapse;" width="100%" border="0">

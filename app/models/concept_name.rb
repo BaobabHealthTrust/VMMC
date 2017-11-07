@@ -11,4 +11,8 @@ class ConceptName < ActiveRecord::Base
   #named_scope :typed, lambda{|tags| tags.blank? ? {} : {:conditions => ['concept_name_type IN (?)', Array(tags)]}}
 
   default_scope { where(voided: 0) }
+
+  scope :tagged, ->(tags) {tags.blank? ? {} :  joins(:tags).where('concept_name_tag.tag IN (?)', Array(tags)) }
+  scope :typed, ->(tags) {tags.blank? ? {} :  where('concept_name_type IN (?)', Array(tags)) }
+
 end
