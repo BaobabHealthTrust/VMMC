@@ -29,13 +29,18 @@
         ulVisits = document.getElementById("ulVisits");
         for (var encounterID in result){
           encounter_date = result[encounterID]["encounter_date"];
-          li = '<li onclick="showEncounterDetails(&quot;' + encounter_date + '&quot;)" style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204); text-align: center;" >' + encounter_date + '</li>';
+          li = '<li onclick="showEncounterDetails(&quot;' + encounter_date + '&quot;); setClassName(this)" style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204); text-align: center;" >' + encounter_date + '</li>';
           ulVisits.innerHTML += li;
         }
       }
 
     });
 
+  }
+
+  function setClassName(obj){
+    jQuery("li").removeClass("active-link");
+    obj.className = "active-link";
   }
 
   function showEncounterDetails(encounter_date){
