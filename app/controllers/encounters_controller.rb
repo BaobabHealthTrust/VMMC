@@ -45,7 +45,23 @@ class EncountersController < ApplicationController
     @patient_encounters_on_date = Patient.get_encounters_on_date(params[:patient_id], params[:encounter_date])
     render layout: false
   end
-  
+
+  def observations
+    encounter = Encounter.find(params[:encounter_id])
+    encounter_type = encounter.type.name
+    observations = encounter.observations
+    data = {}
+    observations.each do |obs|
+      obs_id = obs.obs_id
+      data[obs_id] = {}
+      data[obs_id]["concept"] = obs.concept.fullname
+      data[obs_id]["answer"] = obs.answer_string.squish
+      data[obs_id]["encounter_type"] = encounter_type
+    end
+    
+    render text: data.to_json and return
+  end
+
   def create_vitals_encounter(params, session)
     encounter_type = EncounterType.find_by_name('VITALS')
     patient_id = params[:encounter]["patient_id"].to_i

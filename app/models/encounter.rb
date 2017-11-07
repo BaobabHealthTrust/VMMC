@@ -11,6 +11,8 @@ class Encounter < ActiveRecord::Base
   belongs_to :provider, -> { where voided: 0 }, class_name: "Person", foreign_key: "provider_id"
   belongs_to :patient, -> { where voided: 0 }
 
+  default_scope { where(voided: 0) }
+
   def before_save
     self.provider = User.current.person if self.provider.blank?
     self.encounter_datetime = Time.now if self.encounter_datetime.blank?
