@@ -25,7 +25,8 @@ class PatientsController < ApplicationController
   end
 
   def get_patient_vitals
-    recent_vitals = Patient.recent_vitals(params[:patient_id])
+    recent_patient_vitals = Patient.recent_vitals(params[:patient_id])
+    render text: recent_patient_vitals.to_json and return
   end
 
 end

@@ -29,10 +29,18 @@ class Patient < ActiveRecord::Base
     vitals_encounter_type_id = EncounterType.find_by_name("VITALS").encounter_type_id
     vitals_encounter = Encounter.where(["patient_id =? AND encounter_type =?", patient_id, vitals_encounter_type_id]).last
     vitals = {}
+    
     vitals_encounter.observations.each do |obs|
-      
-      vitals["sbp"]
+      concept_fullname = obs.concept.fullname
+      answer_string = obs.answer_string.squish
+      vitals["sbp"] = answer_string if concept_fullname.match(/SYSTOLIC BLOOD PRESSURE/i)
+      vitals["dbp"] = answer_string if concept_fullname.match(/DIASTOLIC BLOOD PRESSURE/i)
+      vitals["temp"] = answer_string if concept_fullname.match(/TEMPERATURE/i)
+      vitals["bmi"] = answer_string if concept_fullname.match(/BMI/i)
+      vitals["weight"] = answer_string if concept_fullname.match(/WEIGHT/i)
+      vitals["height"] = answer_string if concept_fullname.match(/HEIGHT/i)
     end
+
     return vitals
   end
 

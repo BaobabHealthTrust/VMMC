@@ -51,7 +51,23 @@
       data: "patient_id=" + patientID,
       success: function(result){
         result = JSON.parse(result);
+        weight = result["weight"];
+        height = result["height"];
+        sbp = result["sbp"];
+        if (!sbp) sbp = "?";
+        dbp = result["dbp"];
+        if (!dbp) dbp = "?";
+        bmi = result["bmi"];
+        if (!bmi) bmi = "?";
+        temp = result["temp"];
+        if (!temp) temp = "?";
 
+        console.log("Weight = " + weight + " Height = " + height)
+        document.getElementById("bp").innerHTML = sbp + "/" + dbp;
+        document.getElementById("weight").innerHTML = weight;
+        document.getElementById("bmi").innerHTML = bmi;
+        document.getElementById("height").innerHTML = height;
+        document.getElementById("temperature").innerHTML = temp;
       }
 
     });
@@ -165,7 +181,7 @@
               <td style="text-align: right; font-weight: bold;" class="blueText">Weight (kg)</td><td style="text-align: center; width: 3px;">:</td><td id="weight">?</td>
             </tr>
             <tr>
-              <td style="text-align: right; font-weight: bold; vertical-align: top;" class="blueText">Allergies</td><td style="text-align: center; width: 3px;">:</td><td id="allergies"></td>
+              <td style="text-align: right; font-weight: bold; vertical-align: top;" class="blueText">Height</td><td style="text-align: center; width: 3px;">:</td><td id="height"></td>
             </tr>
           </table>
         </div></td><td style="width: 25%; padding: 5px 15px 5px 5px;">
