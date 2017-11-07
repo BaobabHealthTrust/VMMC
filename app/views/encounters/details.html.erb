@@ -21,6 +21,15 @@
     opacity: 0.5;*/
   }
 
+  .btn{
+    border: medium none;
+    color: white;
+    cursor: pointer;
+    background-color: #f44336;
+    font-size: 16px;
+    padding: 10px 28px;
+    text-align: center;
+}
 </style>
 <% @patient_encounters_on_date.in_groups_of(2).each do |group| %>
   <% group.compact.each do |encounter| %>
@@ -125,6 +134,9 @@
           </table>
         </div>
       </td>
+    </tr>
+    <tr>
+      <td colspan="2"><center><button class="btn">Void Encounter</button><br /></center></td>
     </tr>
   </table>
 </div>
