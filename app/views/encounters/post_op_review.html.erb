@@ -65,22 +65,24 @@
       :absoluteMin => 0,
       :max => 250 }).html_safe %>
 
-  <%= touch_text_field_tag "DIASTOLIC BLOOD PRESSURE", @patient, nil,
+  <%= (touch_text_field_tag "DIASTOLIC BLOOD PRESSURE", @patient, nil,
     {
     :id => "diastolic_blood_pressure",
     :helptext => "Diastolic Blood Pressure",
     :field_type => "number",
     :tt_pageStyleClass => "NumbersWithUnknown",
     :absoluteMin => 35,
-    :absoluteMax  => 140 } %>
+    :absoluteMax  => 140 }).html_safe %>
 
   <%= (touch_select_tag "PAIN", @patient, options_for_select(@pain_options),
     {
+      :id => "type_of_pain",
       :helpText  => "Type of pain"
     }).html_safe %>
 
   <%= (touch_select_tag "BANDAGE", @patient, options_for_select(@bandage_options),
     {
+      :id => "bandage",
       :helpText  => "Bandage (Bleeding)"
     }).html_safe %>
 
@@ -88,26 +90,27 @@
 
   <%= (touch_select_tag "MEDS GIVEN?", @patient, options_for_select(["", "Yes", "No"]),
     {
-      :id => "procedure-type",
-      :helpText  => "Procedure Type"
+      :id => "meds-given?",
+      :helpText  => "Medication given?"
     }).html_safe %>
 
   <%= (touch_text_field_tag "MEDICATION", @patient, nil,
     {
-      :id => "incision_time",
+      :id => "medication",
+      :condition => "__$('meds-given?').value.match(/YES/i)",
       :helpText => "Specify medication"
     }).html_safe %>
 
 
   <%= (touch_select_tag "READY FOR DISCHARGE", @patient, options_for_select(["", "Yes", "No"]),
     {
-      :id => "adverse_events?",
+      :id => "ready-for-discharge",
       :helpText  => "Ready for discharge"
     }).html_safe %>
 
   <%= (touch_text_field_tag "APPOINTMENT DATE", @patient, nil,
     {
-      :id => "diastolic_blood_pressure",
+      :id => "appointment-date",
       :helptext => "Appointment date",
       :field_type => "date"
     }).html_safe %>

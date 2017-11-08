@@ -7,6 +7,8 @@ class EncountersController < ApplicationController
     @circumcision_options = circumcision_options
     @anaesthesia_types = anaesthesia_options
     @circumcision_procedure_types = circumcision_procedure_types
+    @pain_options = pain_options
+    @bandage_options = bandage_options
     render action: params[:encounter_type], patient_id: params[:patient_id], layout: "header"
   end
 
@@ -69,9 +71,29 @@ class EncountersController < ApplicationController
 
   def post_op_review
     @patient = Patient.find(params["patient_id"])
+    @pain_options = pain_options
+    @bandage_options = bandage_options
     render layout: "form" 
   end
-  
+
+  def pain_options
+    options = [
+      ["None", "None"],
+      ["Mild", "Mild"],
+      ["Moderate", "Moderate"],
+      ["Severe", "Severe"]
+    ]
+    return options
+  end
+
+  def bandage_options
+    options = [
+      ["Dry", "Dry"],
+      ["Spot", "Spot"],
+      ["Soak", "Soak"]
+    ]
+  end
+
   def anaesthesia_options
     options = [
       ["Local Anaesthesia (LA)", "Local Anaesthesia"],

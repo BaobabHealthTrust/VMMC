@@ -84,6 +84,52 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", "" %>
 
+  <%= (touch_text_field_tag "RESPIRATORY RATE", @patient,  nil,
+    {
+      :id => "respiratory_rate",
+      :field_type => 'number',
+      :helptext => 'Respiratory Rate (Breaths per Minute)',
+      :min => 8,
+      :max => 65,
+      :tt_onLoad => "$('decimal').style.display='none'",
+      :tt_onUnLoad => "$('decimal').style.display=''",
+      :absoluteMin => 0,
+      :absoluteMax => 250,
+      :validationRule => "([0-9]+(\\.[0-9])?)|Unknown$",
+      :validationMessage => "You must enter a decimal between 0 and 9 (for example: 37<b>.6</b>)",
+      :tt_pageStyleClass => "Numeric NumbersWithUnknownAndDecimal"}).html_safe %>
+
+  <%= (touch_text_field_tag "PULSE", @patient, nil,
+    {
+      :id => "pulse",
+      :helptext => 'Pulse Rate (Beats per Minute)',
+      :field_type => 'number',
+      :min => 50,
+      :max => 120,
+      :units => 'bpm',
+      :validationRule => "([0-9]+)|Unknown$",
+      :validationMessage => "You must enter a number between 0 and 9 (for example: 54)",
+      :tt_pageStyleClass => "Numeric NumbersWithUnknownAndDecimal" }).html_safe %>
+
+  <%= (touch_text_field_tag "SYSTOLIC BLOOD PRESSURE", @patient, nil,
+    {
+      :id => "systolic_blood_pressure",
+      :helptext => "Systolic Blood Pressure (?/Y)",
+      :field_type => "number",
+      :absoluteMin => 50,
+      :absoluteMax => 240,
+      :tt_pageStyleClass => "NumbersWithUnknown",
+      :absoluteMin => 0,
+      :max => 250 }).html_safe %>
+
+  <%= (touch_text_field_tag "DIASTOLIC BLOOD PRESSURE", @patient, nil,
+    {
+      :id => "diastolic_blood_pressure",
+      :helptext => "Diastolic Blood Pressure",
+      :field_type => "number",
+      :tt_pageStyleClass => "NumbersWithUnknown",
+      :absoluteMin => 35,
+      :absoluteMax  => 140 }).html_safe %>
 
   <%= (touch_text_field_tag "TEMPERATURE (C)", @patient, nil,
     {
@@ -113,19 +159,19 @@
       :helpText => "Weight (Kg)" }).html_safe %>
 
 
-  <%= (touch_numeric_tag "HEIGHT (CM)", @patient, nil,
-    {	:id => "height",
-      :field_type => "number",
-      :tt_onLoad => "$('clearButton').style.display = 'inline';",
-      :min => number_with_precision(@min_height, :precision => 1),
-      :max => number_with_precision(@max_height, :precision => 1),
-      :absoluteMin => 10,
-      :absoluteMax => 228,
-      :units => 'cm',
-      :validationRule => "^([0-9]+)|Unknown$",
-      :validationMessage => "You must enter numbers only (for example 157)",
-      :tt_pageStyleClass => "Numeric NumbersOnly",
-      :helpText => "Height (cm)" }).html_safe %>
+<%#= (touch_numeric_tag "HEIGHT (CM)", @patient, nil,
+{	:id => "height",
+:field_type => "number",
+:tt_onLoad => "$('clearButton').style.display = 'inline';",
+:min => number_with_precision(@min_height, :precision => 1),
+:max => number_with_precision(@max_height, :precision => 1),
+:absoluteMin => 10,
+:absoluteMax => 228,
+:units => 'cm',
+:validationRule => "^([0-9]+)|Unknown$",
+:validationMessage => "You must enter numbers only (for example 157)",
+:tt_pageStyleClass => "Numeric NumbersOnly",
+:helpText => "Height (cm)" }).html_safe %>
 
 </form>
 
