@@ -96,7 +96,6 @@
       :validationRule => "([0-9]+\\.[0-9])|Unknown$",
       :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-      :tt_onLoad => "modifyCancelButton();",
       :helpText => "Temperature (C)" }).html_safe%>
 
   <%= (touch_numeric_tag "WEIGHT (KG)", @patient, nil,
@@ -131,19 +130,6 @@
 </form>
 
 <script type="text/javascript">
-  function cancelEntry() {
-    var inputElements = document.getElementsByTagName("input");
-    for (i in inputElements) {
-      inputElements[i].value = "";
-    }
-    window.top.location.href = "/patients/show/22";
-  }
 
-  function modifyCancelButton(){
-    cancelButton = document.getElementById('cancelButton');
-    cancelButton.onmousedown = function(){
-      window.top.location.href = "/patients/show/87"
-    }
-  }
 </script>
 

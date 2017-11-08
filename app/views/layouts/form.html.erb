@@ -37,11 +37,21 @@
 
 <script type="text/javascript">
 
-  function modifyCancelButton(){
-    cancelButton = document.getElementById('cancelButton');
-    cancelButton.onmousedown = function(){
-      window.top.location.href = "/patients/show/87"
-    }
-  }
-  
+  var patientID = '<%= params[:patient_id] %>'
+  jQuery(document).ready(function(){
+
+    var checkExist = setInterval(function() {
+      if (jQuery('#cancelButton').length) {
+        jQuery('#cancelButton').click(function () {
+          yesButton = jQuery("#messageBar button")[0];
+          yesButton.onmousedown = function(){
+            hideMessage();
+            window.top.location.href = "/patients/show/" + patientID;
+          }
+        });
+        clearInterval(checkExist);
+      }
+    }, 100); // check every 100ms
+  });
+
 </script>

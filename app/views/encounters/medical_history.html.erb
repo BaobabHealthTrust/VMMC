@@ -19,7 +19,7 @@
 </style>
 
 <form action="/encounters/create" method="POST" target="_top">
-  <%= hidden_field_tag "encounter[encounter_type_name]", "VITALS" %>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "MEDICAL HISTORY" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.patient_id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", "" %>
