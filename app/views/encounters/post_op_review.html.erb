@@ -1,0 +1,115 @@
+
+<script src="/time-picker/js/jquery.js"></script>
+<script src="/time-picker/js/timepicki.js"></script>
+
+<style type="text/css">
+  #content, .inputPage{
+    height: 545px !important;
+  }
+
+  #content{
+    position: relative;
+    margin-left: 2px;
+    width: 99.7%;
+    top: 383px;
+  }
+  .buttonsDiv{
+    position: fixed;
+    top: auto;
+    bottom: -20px;
+    margin-bottom: 2%;
+    z-index: 1000;
+  }
+
+  #minute{
+    display: none;
+  }
+
+  #hour{
+    height: 200px !important;
+  }
+</style>
+
+<form action="/encounters/create" method="POST" target="_top">
+  <%= hidden_field_tag "encounter[encounter_type_name]", "POST-OP REVIEW" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.patient_id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", "" %>
+
+  <%= (touch_text_field_tag "REVIEW TIME", @patient, nil,
+    {
+      :id => "review_time",
+      :helpText => "Time"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "PULSE", @patient, nil,
+    {
+      :id => "pulse",
+      :helptext => 'Pulse Rate (Beats per Minute)',
+      :field_type => 'number',
+      :min => 50,
+      :max => 120,
+      :units => 'bpm',
+      :validationRule => "([0-9]+)|Unknown$",
+      :validationMessage => "You must enter a number between 0 and 9 (for example: 54)",
+      :tt_pageStyleClass => "Numeric NumbersWithUnknownAndDecimal" }).html_safe %>
+
+  <%= (touch_text_field_tag "SYSTOLIC BLOOD PRESSURE", @patient, nil,
+    {
+      :id => "systolic_blood_pressure",
+      :helptext => "Systolic Blood Pressure (?/Y)",
+      :field_type => "number",
+      :absoluteMin => 50,
+      :absoluteMax => 240,
+      :tt_pageStyleClass => "NumbersWithUnknown",
+      :absoluteMin => 0,
+      :max => 250 }).html_safe %>
+
+  <%= touch_text_field_tag "DIASTOLIC BLOOD PRESSURE", @patient, nil,
+    {
+    :id => "diastolic_blood_pressure",
+    :helptext => "Diastolic Blood Pressure",
+    :field_type => "number",
+    :tt_pageStyleClass => "NumbersWithUnknown",
+    :absoluteMin => 35,
+    :absoluteMax  => 140 } %>
+
+  <%= (touch_select_tag "PAIN", @patient, options_for_select(@pain_options),
+    {
+      :helpText  => "Type of pain"
+    }).html_safe %>
+
+  <%= (touch_select_tag "BANDAGE", @patient, options_for_select(@bandage_options),
+    {
+      :helpText  => "Bandage (Bleeding)"
+    }).html_safe %>
+
+
+
+  <%= (touch_select_tag "MEDS GIVEN?", @patient, options_for_select(["", "Yes", "No"]),
+    {
+      :id => "procedure-type",
+      :helpText  => "Procedure Type"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "MEDICATION", @patient, nil,
+    {
+      :id => "incision_time",
+      :helpText => "Specify medication"
+    }).html_safe %>
+
+
+  <%= (touch_select_tag "READY FOR DISCHARGE", @patient, options_for_select(["", "Yes", "No"]),
+    {
+      :id => "adverse_events?",
+      :helpText  => "Ready for discharge"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "APPOINTMENT DATE", @patient, nil,
+    {
+      :id => "diastolic_blood_pressure",
+      :helptext => "Appointment date",
+      :field_type => "date"
+    }).html_safe %>
+  
+</form>

@@ -67,6 +67,11 @@ class EncountersController < ApplicationController
     render layout: "form" 
   end
 
+  def post_op_review
+    @patient = Patient.find(params["patient_id"])
+    render layout: "form" 
+  end
+  
   def anaesthesia_options
     options = [
       ["Local Anaesthesia (LA)", "Local Anaesthesia"],
