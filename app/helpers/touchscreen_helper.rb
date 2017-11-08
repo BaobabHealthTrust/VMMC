@@ -127,7 +127,10 @@ module TouchscreenHelper
     kind = options[:multiple] ? "value_coded_or_text_multiple" : "value_coded_or_text"
     content = ""
     content << touch_meta_tag(concept, patient, time, kind, options)
-    content << select_tag("observations[][#{kind}]", selection_options, options)
+    select_tag_string = select_tag("observations[][#{kind}]", selection_options, options)
+    select_tag_string = String.new select_tag_string.to_s
+    select_tag_string = CGI.unescapeHTML(select_tag_string)
+    content << select_tag_string
     content
   end
 

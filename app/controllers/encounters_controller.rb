@@ -3,6 +3,7 @@ class EncountersController < ApplicationController
     @patient = Patient.find(params[:patient_id])
     @min_weight = 15
     @max_weight = 100
+    @medical_history_options = medical_history_options
     render action: params[:encounter_type], patient_id: params[:patient_id], layout: "header"
   end
 
@@ -22,8 +23,22 @@ class EncountersController < ApplicationController
   end
 
   def medical_history
-    @patient = Patient.last
+    @patient = Patient.find(params["patient_id"])
+    @medical_history_options = medical_history_options
     render layout: "form"
+  end
+
+  def medical_history_options
+    options = [
+      "Diabetes",
+      "Bleeding disorder",
+      "Any meds",
+      "Allergies",
+      "Genital ulcer",
+      "Genital itching",
+      "Painful urination"
+    ]
+    return options
   end
 
   def hiv_art_status

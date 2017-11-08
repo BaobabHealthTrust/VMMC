@@ -1,0 +1,33 @@
+<style type="text/css">
+  #content, .inputPage{
+    height: 545px !important;
+  }
+
+  #content{
+    position: relative;
+    margin-left: 2px;
+    width: 99.7%;
+    top: 383px;
+  }
+  .buttonsDiv{
+    position: fixed;
+    top: auto;
+    bottom: -20px;
+    margin-bottom: 2%;
+    z-index: 1000;
+  }
+</style>
+
+<form action="/encounters/create" method="POST" target="_top">
+  <%= hidden_field_tag "encounter[encounter_type_name]", "VITALS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.patient_id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", "" %>
+
+  <%= (touch_select_tag "MEDICAL HISTORY", @patient, options_for_select(@medical_history_options),
+    {
+      :multiple => "true",
+      :helpText  => "Medical history"
+    }).html_safe %>
+
+</form>
