@@ -4,6 +4,9 @@ class EncountersController < ApplicationController
     @min_weight = 15
     @max_weight = 100
     @medical_history_options = medical_history_options
+    @circumcision_options = circumcision_options
+    @anaesthesia_types = anaesthesia_options
+    @circumcision_procedure_types = circumcision_procedure_types
     render action: params[:encounter_type], patient_id: params[:patient_id], layout: "header"
   end
 
@@ -28,6 +31,11 @@ class EncountersController < ApplicationController
     render layout: "form"
   end
 
+  def circumcision_options
+    options = [["",""], ["Full", "Full"], ["Part", "Part"], ["Non", "Non"]]
+    return options
+  end
+
   def medical_history_options
     options = [
       "Diabetes",
@@ -42,19 +50,40 @@ class EncountersController < ApplicationController
   end
 
   def hiv_art_status
-    @patient = Patient.last
+    @patient = Patient.find(params["patient_id"])
     render layout: "form"
   end
 
   def genital_examination
-    @patient = Patient.last
+    @patient = Patient.find(params["patient_id"])
+    @circumcision_options = circumcision_options
     render layout: "form"
   end
 
   def circumcision
-    @patient = Patient.last
+    @patient = Patient.find(params["patient_id"])
+    @anaesthesia_types = anaesthesia_options
+    @circumcision_procedure_types = circumcision_procedure_types
     render layout: "form" 
   end
+
+  def anaesthesia_options
+    options = [
+      ["Local Anaesthesia (LA)", "Local Anaesthesia"],
+      ["General Anaesthesia (GA)", "General Anaesthesia"]
+    ]
+    return options
+  end
+
+  def circumcision_procedure_types
+    options = [
+      ["Forceps Guided (FG)", "Forceps Guided"],
+      ["Dorial Slit (DS)", "Dorial Slit"],
+      ["Device", "Device"]
+    ]
+    return options
+  end
+
 
   def void
     encounter = Encounter.find(params[:encounter_id])
