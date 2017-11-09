@@ -26,7 +26,7 @@
 
   <%= (touch_select_tag "MEDICAL HISTORY", @patient, options_for_select(@medical_history_options),
     {
-      :multiple => "true",
+      :multiple => true,
       :helpText  => "Medical history"
     }).html_safe %>
 
