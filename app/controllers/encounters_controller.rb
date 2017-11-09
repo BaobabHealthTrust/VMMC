@@ -18,11 +18,40 @@ class EncountersController < ApplicationController
   def create
     session = Date.today
     patient_id = params[:encounter][:patient_id]
+=begin
     if params[:encounter]["encounter_type_name"].squish.upcase == 'VITALS'
       create_vitals_encounter(params, session)
       url = "/patients/show/#{patient_id}"
       redirect_to url and return
     end
+=end
+
+    encounter_type = EncounterType.find_by_name(params[:encounter]["encounter_type_name"])
+    patient_id = params[:encounter]["patient_id"].to_i
+
+    begin
+      encounter_datetime = session[:datetime].to_date.strftime('%Y-%m-%d 00:00:01')
+      params[:encounter]['encounter_datetime'] = encounter_datetime
+    rescue
+      encounter_datetime = params[:encounter]['encounter_datetime'].to_time.strftime('%Y-%m-%d %H:%M:%S') rescue nil
+      if encounter_datetime.blank?
+        encounter_datetime = Time.now().strftime('%Y-%m-%d %H:%M:%S')
+        params[:encounter]['encounter_datetime'] = encounter_datetime
+      end
+    end
+
+    ActiveRecord::Base.transaction do
+      encounter = Encounter.create(
+        :patient_id => patient_id,
+        :encounter_datetime => encounter_datetime,
+        :encounter_type => encounter_type.id)
+
+      create_obs(encounter, params)
+    end
+
+    url = "/patients/show/#{patient_id}"
+    redirect_to url and return
+      
   end
 
   def registration
@@ -257,15 +286,17 @@ class EncountersController < ApplicationController
 				values = observation.delete(:value_coded_or_text_multiple)
 				values.each do |value|
 					observation[:value_coded_or_text] = value
-					if observation[:concept_name].humanize == "Tests ordered"
-						#observation[:accession_number] = Observation.new_accession_number
-					end
+          #raise observation[:concept_name].inspect
+					#if observation[:concept_name].humanize == "Tests ordered"
+          #observation[:accession_number] = Observation.new_accession_number
+					#end
+          observation = update_observation_value(observation)
 
-					observation = update_observation_value(observation)
-
-					observation = observation.permit!
+          observation = observation.permit!
           obs = Observation.new(observation)
+          
           obs.save
+
 				end
 			elsif extracted_value_numerics.class == Array
 				extracted_value_numerics.each do |value_numeric|

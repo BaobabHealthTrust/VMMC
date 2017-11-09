@@ -26,7 +26,7 @@
 
   <%= (touch_select_tag "KNOWLEDGE SOURCE", @patient, options_for_select(@services_sources),
     {
-      :multiple => "true",
+      :multiple => true,
       :helpText  => "How did you learn of this (VMMC) service?"
     }).html_safe %>
 
