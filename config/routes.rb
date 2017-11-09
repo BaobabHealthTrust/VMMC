@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   get '/genital_examination' => 'encounters#genital_examination'
   get '/circumcision' => 'encounters#circumcision'
   get '/post_op_review' => 'encounters#post_op_review'
+  get '/registration' => 'encounters#registration'
   get '/person_names/given_names' => 'person_names#given_names'
   get '/person_names/family_names' => 'person_names#family_names'
   get '/person_names/middle_name' => 'person_names#middle_name'

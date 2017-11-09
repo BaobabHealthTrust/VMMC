@@ -9,6 +9,7 @@ class EncountersController < ApplicationController
     @circumcision_procedure_types = circumcision_procedure_types
     @pain_options = pain_options
     @bandage_options = bandage_options
+    @services_sources = service_sources_options
     render action: params[:encounter_type], patient_id: params[:patient_id], layout: "header"
   end
 
@@ -21,7 +22,27 @@ class EncountersController < ApplicationController
       redirect_to url and return
     end
   end
+
+  def registration
+    @patient = Patient.find(params[:patient_id])
+    @services_sources = service_sources_options
+    render layout: "form"
+  end
   
+  def service_sources_options
+    options = [
+      ["Friend", "Friend"],
+      ["Family", "Family"],
+      ["Partner/Spouse", "Partner/Spouse"],
+      ["Health Worker", "Health Worker"],
+      ["Poster/Newspaper/Leaflet", "Poster/Newspaper/Leaflet"],
+      ["Community Mobiliser", "Community Mobiliser"],
+      ["Television/Radio", "Television/Radio"],
+      ["Other", "Other"]
+    ]
+    return options
+  end
+
   def vitals
     @patient = Patient.find(params["patient_id"])
     render layout: "form"
