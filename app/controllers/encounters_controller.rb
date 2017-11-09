@@ -62,6 +62,7 @@ class EncountersController < ApplicationController
   
   def service_sources_options
     options = [
+      ["", ""],
       ["Friend", "Friend"],
       ["Family", "Family"],
       ["Partner/Spouse", "Partner or Spouse"],
@@ -92,11 +93,12 @@ class EncountersController < ApplicationController
 
   def medical_history_options
     options = [
+      "",
       "Diabetes",
       "Bleeding disorder",
       "Any meds",
       "Allergies",
-      "Genital ulcer",
+      "Genital ulcers",
       "Genital itching",
       "Painful urination"
     ]
@@ -112,6 +114,7 @@ class EncountersController < ApplicationController
 
   def hiv_results_option
     options = [
+      ["", ""],
       ["Positive", "Positive"],
       ["Negative", "Negative"],
       ["Indeterminate", "Indeterminate"]
@@ -121,6 +124,7 @@ class EncountersController < ApplicationController
 
   def hiv_test_not_done_reasons_options
     options = [
+      ["", ""],
       ["Refused", "Refused"],
       ["Previous Positive", "Previous Positive"],
       ["No Reagents available", "No Reagents available"]
@@ -150,6 +154,7 @@ class EncountersController < ApplicationController
 
   def pain_options
     options = [
+      ["", ""],
       ["None", "None"],
       ["Mild", "Mild"],
       ["Moderate", "Moderate"],
@@ -160,14 +165,17 @@ class EncountersController < ApplicationController
 
   def bandage_options
     options = [
+      ["", ""],
       ["Dry", "Dry"],
       ["Spot", "Spot"],
       ["Soak", "Soak"]
     ]
+    return options
   end
 
   def anaesthesia_options
     options = [
+      ["", ""],
       ["Local Anaesthesia (LA)", "Local Anaesthesia"],
       ["General Anaesthesia (GA)", "General Anaesthesia"]
     ]
@@ -176,6 +184,7 @@ class EncountersController < ApplicationController
 
   def circumcision_procedure_types
     options = [
+      ["", ""],
       ["Forceps Guided (FG)", "Forceps Guided"],
       ["Dorial Slit (DS)", "Dorial Slit"],
       ["Device", "Device"]
@@ -242,8 +251,8 @@ class EncountersController < ApplicationController
 				observation["value_#{value_name}"] unless observation["value_#{value_name}"].blank? rescue nil
 			}.compact
 
+      values = values.flatten.reject { |v| v.empty? }
 			next if values.length == 0
-
 			observation[:value_text] = observation[:value_text].join(", ") if observation[:value_text].present? && observation[:value_text].is_a?(Array)
 			observation.delete(:value_text) unless observation[:value_coded_or_text].blank?
 			observation[:encounter_id] = encounter.id
@@ -306,7 +315,7 @@ class EncountersController < ApplicationController
 						observation[:value_text] = observation[:value_numeric]
 						observation.delete(:value_numeric)
 					end
-
+   
 					observation = observation.permit! #Rails 4 hack
           obs = Observation.new(observation)
           obs.save
@@ -319,6 +328,7 @@ class EncountersController < ApplicationController
 					observation[:value_text] = observation[:value_numeric]
 					observation.delete(:value_numeric)
 				end
+
         observation = observation.permit!
 				obs = Observation.new(observation)
         obs.save
