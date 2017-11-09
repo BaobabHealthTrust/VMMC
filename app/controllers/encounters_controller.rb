@@ -10,6 +10,8 @@ class EncountersController < ApplicationController
     @pain_options = pain_options
     @bandage_options = bandage_options
     @services_sources = service_sources_options
+    @hiv_test_not_done_reasons = hiv_test_not_done_reasons_options
+    @hiv_results_options = hiv_results_option
     render action: params[:encounter_type], patient_id: params[:patient_id], layout: "header"
   end
 
@@ -74,7 +76,27 @@ class EncountersController < ApplicationController
 
   def hiv_art_status
     @patient = Patient.find(params["patient_id"])
+    @hiv_test_not_done_reasons = hiv_test_not_done_reasons_options
+    @hiv_results_options = hiv_results_option
     render layout: "form"
+  end
+
+  def hiv_results_option
+    options = [
+      ["Positive", "Positive"],
+      ["Negative", "Negative"],
+      ["Inconclusive", "Inconclusive"]
+    ]
+    return options
+  end
+
+  def hiv_test_not_done_reasons_options
+    options = [
+      ["Refused", "Refused"],
+      ["Previous Positive", "Previous Positive"],
+      ["No Reagents available", "No Reagents available"]
+    ]
+    return options
   end
 
   def genital_examination

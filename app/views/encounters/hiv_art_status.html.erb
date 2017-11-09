@@ -1,0 +1,59 @@
+<style type="text/css">
+  #content, .inputPage{
+    height: 545px !important;
+  }
+
+  #content{
+    position: relative;
+    margin-left: 2px;
+    width: 99.7%;
+    top: 383px;
+  }
+  .buttonsDiv{
+    position: fixed;
+    top: auto;
+    bottom: -20px;
+    margin-bottom: 2%;
+    z-index: 1000;
+  }
+</style>
+
+<form action="/encounters/create" method="POST" target="_top">
+  <%= hidden_field_tag "encounter[encounter_type_name]", "HIV TESTING" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.patient_id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", "" %>
+
+  <%= (touch_select_tag "KNOWN HIV+", @patient, options_for_select(["", "Yes", "No"]),
+    {
+      :id => "known_hiv_positive",
+      :helpText  => "Known HIV+ (Documented test results)"
+    }).html_safe %>
+
+  <%= (touch_select_tag "CURRENTLY TAKING ARVs", @patient, options_for_select(["", "Yes", "No"]),
+    {
+      :id => "currently_taking_arvs",
+      :helpText  => "Currently taking ARVs?"
+    }).html_safe %>
+
+  <%= (touch_select_tag "HIV TEST DONE TODAY?", @patient, options_for_select(["", "Yes", "No"]),
+    {
+      :id => "hiv_test_done_today?",
+      :helpText  => "HIV Test done today?"
+    }).html_safe %>
+
+  <%= (touch_select_tag "HIV TEST RESULT", @patient, options_for_select(@hiv_results_options),
+    {
+      :id => "hiv_test_result",
+      :condition => "__$('hiv_test_done_today?').value.match(/YES/i)",
+      :helpText  => "HIV Test result"
+    }).html_safe %>
+
+  <%= (touch_select_tag "REASON HIV TEST NOT DONE", @patient, options_for_select(@hiv_test_not_done_reasons),
+    {
+      :id => "hiv_test_not_done_reason",
+      :condition => "__$('hiv_test_done_today?').value.match(/NO/i)",
+      :helpText  => "Reason HIV Test not done"
+    }).html_safe %>
+
+</form>
