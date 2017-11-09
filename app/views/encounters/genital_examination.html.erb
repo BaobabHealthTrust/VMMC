@@ -34,17 +34,17 @@
       :helpText  => "Phimosis"
     }).html_safe %>
 
-  <%= (touch_select_tag "ULCER", @patient, options_for_select(@circumcision_options),
+  <%= (touch_select_tag "ULCERS", @patient, options_for_select(@circumcision_options),
     {
       :helpText  => "Ulcer"
     }).html_safe %>
 
-  <%= (touch_select_tag "URETHRA DISCHARGE", @patient, options_for_select(@circumcision_options),
+  <%= (touch_select_tag "URETHRAL DISCHARGE", @patient, options_for_select(@circumcision_options),
     {
-      :helpText  => "Urethra discharge"
+      :helpText  => "Urethral discharge"
     }).html_safe %>
 
-  <%= (touch_select_tag "SCROTUM SWELLING/TENDERNESS", @patient, options_for_select(@circumcision_options),
+  <%= (touch_select_tag "SCROTUM SWELLING", @patient, options_for_select(@circumcision_options),
     {
       :helpText  => "Scrotum swelling/tenderness"
     }).html_safe %>

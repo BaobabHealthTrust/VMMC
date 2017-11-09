@@ -35,8 +35,8 @@ class EncountersController < ApplicationController
     options = [
       ["Friend", "Friend"],
       ["Family", "Family"],
-      ["Partner/Spouse", "Partner/Spouse"],
-      ["Health Worker", "Health Worker"],
+      ["Partner/Spouse", "Partner or Spouse"],
+      ["Health care worker", "Health care worker"],
       ["Poster/Newspaper/Leaflet", "Poster/Newspaper/Leaflet"],
       ["Community Mobiliser", "Community Mobiliser"],
       ["Television/Radio", "Television/Radio"],
@@ -57,7 +57,7 @@ class EncountersController < ApplicationController
   end
 
   def circumcision_options
-    options = [["",""], ["Full", "Full"], ["Part", "Part"], ["Non", "Non"]]
+    options = [["",""], ["Full", "Full"], ["Part", "Part"], ["None", "None"]]
     return options
   end
 
@@ -85,7 +85,7 @@ class EncountersController < ApplicationController
     options = [
       ["Positive", "Positive"],
       ["Negative", "Negative"],
-      ["Inconclusive", "Inconclusive"]
+      ["Indeterminate", "Indeterminate"]
     ]
     return options
   end

@@ -42,7 +42,7 @@
       :helpText  => "HIV Test done today?"
     }).html_safe %>
 
-  <%= (touch_select_tag "HIV TEST RESULT", @patient, options_for_select(@hiv_results_options),
+  <%= (touch_select_tag "RESULT OF HIV TEST", @patient, options_for_select(@hiv_results_options),
     {
       :id => "hiv_test_result",
       :condition => "__$('hiv_test_done_today?').value.match(/YES/i)",

@@ -102,7 +102,7 @@
     }).html_safe %>
 
 
-  <%= (touch_select_tag "READY FOR DISCHARGE", @patient, options_for_select(["", "Yes", "No"]),
+  <%= (touch_select_tag "READY FOR DISCHARGE?", @patient, options_for_select(["", "Yes", "No"]),
     {
       :id => "ready-for-discharge",
       :helpText  => "Ready for discharge"
