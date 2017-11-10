@@ -2,10 +2,19 @@ class PatientIdentifier < ActiveRecord::Base
   self.table_name = "patient_identifier"
   self.primary_key = "patient_identifier_id"
 
+  before_create :before_create
+  
   include Openmrs
   
   belongs_to :type, :class_name => "PatientIdentifierType", :foreign_key => :identifier_type
   belongs_to :patient, :class_name => "Patient", :foreign_key => :patient_id
+
+  def before_create
+    self.creator = User.current.user_id unless User.current.blank?
+    self.date_created = Time.now
+    self.location_id = Location.current_health_center.location_id.to_s
+    self.uuid = ActiveRecord::Base.connection.select_one("SELECT UUID() as uuid")['uuid']
+  end
 
   def self.calculate_checkdigit(number)
     # This is Luhn's algorithm for checksums

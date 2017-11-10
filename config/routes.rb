@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get '/search_results' => 'people#search_results'
   get '/search_by_identifier' => 'people#search_by_identifier'
   get '/people/new'
+  post '/people/create'
   get '/select' => 'people#select'
   post '/select' => 'people#select'
   get '/new_patient' => 'patients#new_patient'

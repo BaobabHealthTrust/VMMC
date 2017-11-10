@@ -2,6 +2,9 @@ class Patient < ActiveRecord::Base
   self.table_name = "patient"
   self.primary_key = "patient_id"
 
+  before_create :before_create
+  before_save :before_save
+
   include Openmrs
   
   has_one :person, :foreign_key => :person_id#, :conditions => {:voided => 0}
@@ -10,6 +13,16 @@ class Patient < ActiveRecord::Base
   has_many :programs, :through => :patient_programs
   has_many :relationships, :foreign_key => :person_a, :dependent => :destroy#, :conditions => {:voided => 0}
   has_many :encounters#, :conditions => {:voided => 0}
+
+  def before_save
+    self.changed_by = User.current.user_id unless User.current.blank?
+    self.date_changed = Time.now
+  end
+
+  def before_create
+    self.creator = User.current.user_id unless User.current.blank?
+    self.date_created = Time.now
+  end
 
   def name
     "#{self.person.names[0].given_name rescue ''} #{self.person.names[0].family_name rescue ''}"

@@ -140,4 +140,14 @@ class PeopleController < ApplicationController
     render :text => landmarks.join('') + "<li value='Other'>Other</li>" and return
   end
 
+  def create
+    person = ""
+    ActiveRecord::Base.transaction do
+      person = PatientService.create_from_form(params[:person])
+      PatientService.get_national_id(person.patient, force = true)
+    end
+    
+    next_url = next_task(person).url
+    redirect_to(next_url) and return
+  end
 end

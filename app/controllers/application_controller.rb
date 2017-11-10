@@ -20,4 +20,11 @@ class ApplicationController < ActionController::Base
     redirect_to ("/login") and return
   end
 
+  def next_task(person)
+    task = OpenStruct.new
+    task.url = "/patients/show/#{person.person_id}"
+    task.name = "None"
+    return task
+  end
+
 end

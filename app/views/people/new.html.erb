@@ -124,7 +124,7 @@
 
 </script>
 
-<form action="" method="POST">
+<form action="/people/create" method="POST">
 
   <%= text_field_tag "person[names][given_name]", params[:given_name],
     {:id => 'given_name',
@@ -303,6 +303,7 @@
 }
 %>
 
+<%= hidden_field_tag "person[gender]", "M" %>
 <%= hidden_field_tag "person[patient]", "" %>
 
 <%= hidden_field_tag "relation", params[:relation] %>

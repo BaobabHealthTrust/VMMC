@@ -723,7 +723,7 @@ module PatientService
 
   def self.patient_national_id_label(patient)
 	  patient_bean = get_patient(patient.person)
-    return unless patient_bean.national_id
+
     sex =  patient_bean.sex.match(/F/i) ? "(F)" : "(M)"
 
     address = patient_bean.current_district rescue ""
@@ -901,11 +901,13 @@ module PatientService
       person_params["gender"] = 'M'
 		end
 
-		person = Person.create(person_params)
+		person = Person.new(person_params.permit!)
+    
+    person.save
 
 		unless birthday_params.empty?
 		  if birthday_params["birth_year"] == "Unknown"
-        self.set_birthdate_by_age(person, birthday_params["age_estimate"], person.session_datetime || Date.today)
+        self.set_birthdate_by_age(person, birthday_params["age_estimate"], Date.today)
 		  else
         self.set_birthdate(person, birthday_params["birth_year"], birthday_params["birth_month"], birthday_params["birth_day"])
 		  end
@@ -917,43 +919,35 @@ module PatientService
 
 		person.save
 
-		person.names.create(names_params)
-		person.addresses.create(address_params) unless address_params.empty? rescue nil
+		person.names.create(names_params.permit!)
+		person.addresses.create(address_params.permit!) unless address_params.empty?# rescue nil
 
 		person.person_attributes.create(
 		  :person_attribute_type_id => PersonAttributeType.find_by_name("Occupation").person_attribute_type_id,
-		  :value => params["occupation"]) unless params["occupation"].blank? rescue nil
+		  :value => params["occupation"]) unless params["occupation"].blank? #rescue nil
 
 		person.person_attributes.create(
 		  :person_attribute_type_id => PersonAttributeType.find_by_name("Cell Phone Number").person_attribute_type_id,
-		  :value => params["cell_phone_number"]) unless params["cell_phone_number"].blank? rescue nil
+		  :value => params["cell_phone_number"]) unless params["cell_phone_number"].blank?# rescue nil
 
 		person.person_attributes.create(
 		  :person_attribute_type_id => PersonAttributeType.find_by_name("Office Phone Number").person_attribute_type_id,
-		  :value => params["office_phone_number"]) unless params["office_phone_number"].blank? rescue nil
+		  :value => params["office_phone_number"]) unless params["office_phone_number"].blank?# rescue nil
 
 		person.person_attributes.create(
 		  :person_attribute_type_id => PersonAttributeType.find_by_name("Home Phone Number").person_attribute_type_id,
-		  :value => params["home_phone_number"]) unless params["home_phone_number"].blank? rescue nil
+		  :value => params["home_phone_number"]) unless params["home_phone_number"].blank? #rescue nil
 
     # TODO handle the birthplace attribute
 
 		if (!patient_params.nil?)
-		  patient = person.create_patient
+      patient = Patient.new(patient_id: person.person_id)
+      patient.save
       params["identifiers"].each{|identifier_type_name, identifier|
         next if identifier.blank?
         identifier_type = PatientIdentifierType.find_by_name(identifier_type_name) || PatientIdentifierType.find_by_name("Unknown id")
         patient.patient_identifiers.create("identifier" => identifier, "identifier_type" => identifier_type.patient_identifier_type_id)
 		  } if params["identifiers"]
-=begin
-		  patient_params["identifiers"].each{|identifier_type_name, identifier|
-        next if identifier.blank?
-        identifier_type = PatientIdentifierType.find_by_name(identifier_type_name) || PatientIdentifierType.find_by_name("Unknown id")
-        patient.patient_identifiers.create("identifier" => identifier, "identifier_type" => identifier_type.patient_identifier_type_id)
-		  } if patient_params["identifiers"]
-=end
-		  # This might actually be a national id, but currently we wouldn't know
-		  #patient.patient_identifiers.create("identifier" => patient_params["identifier"], "identifier_type" => PatientIdentifierType.find_by_name("Unknown id")) unless params["identifier"].blank?
 		end
 
 		return person
