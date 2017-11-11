@@ -78,8 +78,10 @@
     });
   }
 
-  function loadOtherIframe(){
-
+  function loadActivities(){
+    encounterIframe = document.getElementById("encounter-data");
+    encounterIframe.src = "";
+    encounterIframe.src = "/patients/activities?patient_id=" + patientID
   }
   
   window.onload = function(){
@@ -316,8 +318,8 @@
       <button onclick="finish();" style="margin: 5px 0px 0px; float: right;" onclick="finish();" class="green right" id="btnNext">
         <span>Finish</span>
       </button>
-      <button  onclick="loadOtherIframe();" style="margin: 5px 0px 0px; float: right;" class="blue right">
-        <span>Printouts/Other</span>
+      <button  onclick="loadActivities();" style="margin: 5px 0px 0px; float: right;" class="blue right">
+        <span>Activities</span>
       </button>
     </div>
   </div>

@@ -13,6 +13,17 @@ class PatientsController < ApplicationController
 
   end
 
+  def activities
+    patient_id = params[:patient_id]
+    @links = []
+    @links << ["Demographics (Edit)","/"]
+    @links << ["Demographics (Print)","/"]
+    @links << ["Visit Summary (Print)","/"]
+    @links << ["National ID (Print)","/patients/national_id_label?patient_id=#{patient_id}"]
+    
+    render layout: false
+  end
+
   def get_patient_visits
     recent_encounters = Patient.recent_encounters(params[:patient_id])
     data = {}
