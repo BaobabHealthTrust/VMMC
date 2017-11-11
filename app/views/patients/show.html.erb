@@ -57,8 +57,6 @@
       data: "patient_id=" + patientID,
       success: function(result){
         result = JSON.parse(result);
-        weight = result["weight"];
-        height = result["height"];
         sbp = result["sbp"];
         if (!sbp) sbp = "?";
         dbp = result["dbp"];
@@ -67,6 +65,10 @@
         if (!bmi) bmi = "?";
         temp = result["temp"];
         if (!temp) temp = "?";
+        weight = result["weight"];
+        if (!weight) weight = "?";
+        height = result["height"];
+        if (!height) height = "?";
 
         document.getElementById("bp").innerHTML = sbp + "/" + dbp;
         document.getElementById("weight").innerHTML = weight;

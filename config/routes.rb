@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   get '/new_patient' => 'patients#new_patient'
   get '/patients/show/:patient_id' => 'patients#show'
   get '/patients/activities'
+  get '/patients/patient_demographics_label'
   get '/patients/national_id_label'
   get '/my_account' => 'clinic#my_account'
   get '/change_password' => 'clinic#change_password'
