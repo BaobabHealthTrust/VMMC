@@ -29,4 +29,10 @@ class PatientsController < ApplicationController
     render text: recent_patient_vitals.to_json and return
   end
 
+  def national_id_label
+    patient = Patient.find(params[:patient_id])
+    print_string = PatientService.patient_national_id_label(patient) rescue "Error"
+    send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
+  end
+
 end

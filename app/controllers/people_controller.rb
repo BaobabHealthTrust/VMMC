@@ -148,6 +148,7 @@ class PeopleController < ApplicationController
     end
     
     next_url = next_task(person).url
-    redirect_to(next_url) and return
+    print_and_redirect("/patients/national_id_label?patient_id=#{person.person_id}", next_url) and return
+    #redirect_to(next_url) and return
   end
 end
