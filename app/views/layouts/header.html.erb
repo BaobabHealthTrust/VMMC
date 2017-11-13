@@ -66,8 +66,50 @@
     });
   }
 
+  function loadDemographics(){
+    jQuery.ajax({
+      type: "POST",
+      url: "/patients/get_demographics",
+      data: "patient_id=" + patientID,
+      success: function(result){
+        result = JSON.parse(result);
+
+        patientName = result["name"];
+        age = result["age"];
+        npid = result["npid"];
+        gender = result["gender"];
+        current_residence = result["current_residence"];
+        traditional_authority = result["traditional_authority"];
+        cell_phone_number = result["cell_phone_number"];
+
+        
+        /*sbp = result["sbp"];
+        if (!sbp) sbp = "?";
+        dbp = result["dbp"];
+        if (!dbp) dbp = "?";
+        bmi = result["bmi"];
+        if (!bmi) bmi = "?";
+        temp = result["temp"];
+        if (!temp) temp = "?";
+        weight = result["weight"];
+        if (!weight) weight = "?";
+        height = result["height"];
+        if (!height) height = "?";*/
+
+        document.getElementById("npid").innerHTML = npid;
+        document.getElementById("gender").innerHTML = gender;
+        document.getElementById("age").innerHTML = age;
+        document.getElementById("current_residence").innerHTML = current_residence + ", ";
+        document.getElementById("traditional_authority").innerHTML = traditional_authority; //phone_number
+        document.getElementById("phone_number").innerHTML = cell_phone_number;
+      }
+
+    });
+  }
+
   window.onload = function(){
     loadVitals();
+    loadDemographics();
   }
 </script>
 
@@ -89,7 +131,7 @@
                 <tr>
                   <td style="text-align: right; font-weight: bold;" class="blueText" id="primary_id_label">National id</td>
                   <td style="text-align: center; width: 3px;">:</td>
-                  <td id="primary_id"><%= national_id_with_dashes(params[:patient_id]) %></td>
+                  <td id="npid"></td>
                 </tr>
               </table>
             </td>
@@ -103,27 +145,27 @@
             <tr>
               <td style="text-align: right; font-weight: bold; width: 100px;" class="blueText">Gender</td>
               <td style="text-align: center; width: 3px;">:</td>
-              <td id="gender"><%= sex(params[:patient_id]) %></td>
+              <td id="gender"></td>
             </tr>
             <tr>
               <td style="text-align: right; font-weight: bold;" class="blueText">Age</td>
               <td style="text-align: center; width: 3px;">:</td>
-              <td id="age"><%= age(params[:patient_id]) %></td>
+              <td id="age"></td>
             </tr>
             <tr>
               <td style="text-align: right; font-weight: bold; vertical-align: top;" class="blueText">Address</td>
               <td style="text-align: center; width: 3px; vertical-align: top;">:</td>
-              <td id="addressl1"><%= current_residence(params[:patient_id]) %>,</td>
+              <td id="current_residence">,</td>
             </tr>
             <tr>
               <td style="text-align: right; font-weight: bold;" class="blueText">&nbsp;</td>
               <td style="text-align: center; width: 3px;">&nbsp;</td>
-              <td id="addressl2"><%= traditional_authority(params[:patient_id]) %></td>
+              <td id="traditional_authority"></td>
             </tr>
             <tr>
               <td style="text-align: right; font-weight: bold;" class="blueText">Phone</td>
               <td style="text-align: center; width: 3px;">:</td>
-              <td id="phone_number"><%= cell_phone_number(params[:patient_id]) %></td>
+              <td id="phone_number"></td>
             </tr>
           </table>
         </div>

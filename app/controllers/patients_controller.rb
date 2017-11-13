@@ -63,4 +63,8 @@ class PatientsController < ApplicationController
     label.print(1)
   end
 
+  def get_demographics
+    demographics = Patient.get_demographics(params[:patient_id])
+    render text: demographics.to_json and return
+  end
 end
