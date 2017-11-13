@@ -1,5 +1,6 @@
-
+<script type="text/javascript" src="/assets/jquery-1.3.2.min.js"></script>
 <script type="text/javascript">
+  var patientID = '<%= params[:patient_id] %> ';
   function cancel(){
     window.location = "/";
   }
@@ -34,6 +35,42 @@
   }
 </style>
 
+<script type="text/javascript">
+  function loadVitals(){
+    jQuery.ajax({
+      type: "POST",
+      url: "/patients/get_patient_vitals",
+      data: "patient_id=" + patientID,
+      success: function(result){
+        result = JSON.parse(result);
+        sbp = result["sbp"];
+        if (!sbp) sbp = "?";
+        dbp = result["dbp"];
+        if (!dbp) dbp = "?";
+        bmi = result["bmi"];
+        if (!bmi) bmi = "?";
+        temp = result["temp"];
+        if (!temp) temp = "?";
+        weight = result["weight"];
+        if (!weight) weight = "?";
+        height = result["height"];
+        if (!height) height = "?";
+
+        document.getElementById("bp").innerHTML = sbp + "/" + dbp;
+        document.getElementById("weight").innerHTML = weight;
+        document.getElementById("bmi").innerHTML = bmi;
+        document.getElementById("height").innerHTML = height;
+        document.getElementById("temperature").innerHTML = temp;
+      }
+
+    });
+  }
+
+  window.onload = function(){
+    loadVitals();
+  }
+</script>
+
 <div id="content">
   <table style="font: 14px;-moz-user-select: none; border-collapse: collapse;" width="100%" border="0">
     <tr>
@@ -41,7 +78,7 @@
         <div class="headTab" id="tableDiv1">
           <table width="100%" cellpadding="1">
             <tr>
-              <th style="font-size: 24px; text-align: left; width: 100%; overflow: hidden; font-weight: normal; padding: 5px;" id="patient_name" class="blueText">Bed Test</th>
+              <th style="font-size: 24px; text-align: left; width: 100%; overflow: hidden; font-weight: normal; padding: 5px;" id="patient_name" class="blueText"><%= patient_name(params[:patient_id]) %> </th>
             </tr>
             <tr>
               <th style="text-align: left; font-size: 14px; padding-left: 5px; border-bottom: 1px solid rgb(0, 69, 134);" class="blueText">Identifiers</th>
@@ -52,12 +89,7 @@
                 <tr>
                   <td style="text-align: right; font-weight: bold;" class="blueText" id="primary_id_label">National id</td>
                   <td style="text-align: center; width: 3px;">:</td>
-                  <td id="primary_id">K-CH7-109-002</td>
-                </tr>
-                <tr>
-                  <td style="text-align: right; font-weight: bold;" class="blueText" id="other_id_label">DTM Number</td>
-                  <td style="text-align: center; width: 3px;">:</td>
-                  <td id="other_id">&nbsp;</td>
+                  <td id="primary_id"><%= national_id_with_dashes(params[:patient_id]) %></td>
                 </tr>
               </table>
             </td>
@@ -71,27 +103,27 @@
             <tr>
               <td style="text-align: right; font-weight: bold; width: 100px;" class="blueText">Gender</td>
               <td style="text-align: center; width: 3px;">:</td>
-              <td id="gender">Male</td>
+              <td id="gender"><%= sex(params[:patient_id]) %></td>
             </tr>
             <tr>
               <td style="text-align: right; font-weight: bold;" class="blueText">Age</td>
               <td style="text-align: center; width: 3px;">:</td>
-              <td id="age">~ 42</td>
+              <td id="age"><%= age(params[:patient_id]) %></td>
             </tr>
             <tr>
               <td style="text-align: right; font-weight: bold; vertical-align: top;" class="blueText">Address</td>
               <td style="text-align: center; width: 3px; vertical-align: top;">:</td>
-              <td id="addressl1">Mandala A</td>
+              <td id="addressl1"><%= current_residence(params[:patient_id]) %>,</td>
             </tr>
             <tr>
               <td style="text-align: right; font-weight: bold;" class="blueText">&nbsp;</td>
               <td style="text-align: center; width: 3px;">&nbsp;</td>
-              <td id="addressl2">Blantrye East Ward</td>
+              <td id="addressl2"><%= traditional_authority(params[:patient_id]) %></td>
             </tr>
             <tr>
               <td style="text-align: right; font-weight: bold;" class="blueText">Phone</td>
               <td style="text-align: center; width: 3px;">:</td>
-              <td id="phone_number">Unknown</td>
+              <td id="phone_number"><%= cell_phone_number(params[:patient_id]) %></td>
             </tr>
           </table>
         </div>
@@ -118,7 +150,7 @@
               <td style="text-align: center; width: 3px;">:</td><td id="weight">?</td>
             </tr>
             <tr>
-              <td style="text-align: right; font-weight: bold; vertical-align: top;" class="blueText">Allergies</td><td style="text-align: center; width: 3px;">:</td><td id="allergies"></td>
+              <td style="text-align: right; font-weight: bold; vertical-align: top;" class="blueText">Height</td><td style="text-align: center; width: 3px;">:</td><td id="height"></td>
             </tr>
           </table>
         </div>
