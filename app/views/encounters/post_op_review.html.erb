@@ -184,6 +184,7 @@ end
     jQuery('#touchscreenInput'+tstCurrentPage).ptTimeSelect();
     jQuery('#page'+tstCurrentPage).hide()
     loadCustomInput();
+    loadPreviousValues();
   }
 
   function unloadDatePicker(){
@@ -194,6 +195,18 @@ end
     minutes = jQuery('.minutesInput').val();
     review_time = hour + ":" + minutes;
     jQuery('#review_time').val(review_time);
+  }
+
+  function loadPreviousValues(){
+    reviewTime = jQuery('#review_time').val().split(":")
+    hour = reviewTime[0];
+    minutes = reviewTime[1];
+
+    if (hour.length > 0){
+      jQuery('.hourInput').val(hour);
+      jQuery('.minutesInput').val(minutes);
+    }
+    
   }
 
   function loadCustomInput(){
