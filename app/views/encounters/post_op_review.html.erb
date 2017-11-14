@@ -84,9 +84,8 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", "" %>
 
-  <%= (touch_text_field_tag "REVIEW TIME", @patient, "nil",
+  <%= (text_field_tag "REVIEW TIME", "nil",
     {
-      :id => "review_time",
       :disabled => true,
       :optional => true,
       :class => "time-picker",
@@ -168,6 +167,8 @@
       :field_type => "date"
     }).html_safe %>
 
+  <%= (touch_hidden_tag "REVIEW TIME", @patient, "", :id => "review_time").html_safe %>
+
 </form>
 
 
@@ -181,7 +182,6 @@ end
   function loadDatePicker(){
     jQuery("#keyboard").hide();
     jQuery('#touchscreenInput'+tstCurrentPage).ptTimeSelect();
-    //page0
     jQuery('#page'+tstCurrentPage).hide()
     loadCustomInput();
   }
@@ -190,6 +190,10 @@ end
     jQuery('#page'+tstCurrentPage).show();
     jQuery(".custom-inputs").hide();
     jQuery(".ui-widget-content").hide();
+    hour = jQuery('.hourInput').val();
+    minutes = jQuery('.minutesInput').val();
+    review_time = hour + ":" + minutes;
+    jQuery('#review_time').val(review_time);
   }
 
   function loadCustomInput(){
