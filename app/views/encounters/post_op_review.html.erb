@@ -1,6 +1,7 @@
 
-<script src="/time-picker/js/jquery.js"></script>
-<script src="/time-picker/js/timepicki.js"></script>
+<link rel="stylesheet" type="text/css" href="/time-picker/jquery-ui.css"/>
+<link rel="stylesheet" type="text/css" href="/time-picker/jquery.ptTimeSelect.css" />
+<script type="text/javascript" src="/time-picker/jquery.ptTimeSelect.js"></script>
 
 <style type="text/css">
   #content, .inputPage{
@@ -28,6 +29,53 @@
   #hour{
     height: 200px !important;
   }
+
+  #ptTimeSelectCntr{
+    width: 38em;
+  }
+
+  #ptTimeSelectCntr{
+    display: block !important;
+    width: 60%;
+    left: 20%;
+  }
+
+  #ptTimeSelectCntr .ptTimeSelectHrCntr a, #ptTimeSelectCntr .ptTimeSelectMinCntr a {
+    display: block;
+    float: left;
+    margin: 1px;
+    padding: 0.6em;
+    text-align: center;
+    text-decoration: none;
+    width: 1.9em;
+  }
+
+  .ptTimeSelectHr ui-state-default{
+
+  }
+
+  .custom-inputs{
+    z-index: 999;
+    position: absolute;
+    width: 20%;
+    top: 20px;
+    left: 35%;
+  }
+
+  .blank-td{
+    width: 10%;
+  }
+
+  .hour-header, .minutes-header{
+    text-align: center;
+    font-weight: bold;
+    left: 20px;
+    padding-left: 25px;
+  }
+
+  .hourInput, .minutesInput{
+    text-align: center;
+  }
 </style>
 
 <form action="/encounters/create" method="POST" target="_top">
@@ -36,9 +84,14 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", "" %>
 
-  <%= (touch_text_field_tag "REVIEW TIME", @patient, nil,
+  <%= (touch_text_field_tag "REVIEW TIME", @patient, "nil",
     {
       :id => "review_time",
+      :disabled => true,
+      :optional => true,
+      :class => "time-picker",
+      :tt_onLoad => "loadDatePicker();",
+      :tt_onUnLoad => "unloadDatePicker();",
       :helpText => "Time"
     }).html_safe %>
 
@@ -67,12 +120,12 @@
 
   <%= (touch_text_field_tag "DIASTOLIC BLOOD PRESSURE", @patient, nil,
     {
-    :id => "diastolic_blood_pressure",
-    :helptext => "Diastolic Blood Pressure",
-    :field_type => "number",
-    :tt_pageStyleClass => "NumbersWithUnknown",
-    :absoluteMin => 35,
-    :absoluteMax  => 140 }).html_safe %>
+      :id => "diastolic_blood_pressure",
+      :helptext => "Diastolic Blood Pressure",
+      :field_type => "number",
+      :tt_pageStyleClass => "NumbersWithUnknown",
+      :absoluteMin => 35,
+      :absoluteMax  => 140 }).html_safe %>
 
   <%= (touch_select_tag "PAIN", @patient, options_for_select(@pain_options),
     {
@@ -114,5 +167,43 @@
       :helptext => "Appointment date",
       :field_type => "date"
     }).html_safe %>
-  
+
 </form>
+
+
+<script type="text/javascript">
+<%
+this_hour = Time.now.hour
+if this_hour < 10
+  this_hour = "0" + this_hour.to_s
+end
+%>
+  function loadDatePicker(){
+    jQuery("#keyboard").hide();
+    jQuery('#touchscreenInput'+tstCurrentPage).ptTimeSelect();
+    //page0
+    jQuery('#page'+tstCurrentPage).hide()
+    loadCustomInput();
+  }
+
+  function unloadDatePicker(){
+    jQuery('#page'+tstCurrentPage).show();
+    jQuery(".custom-inputs").hide();
+    jQuery(".ui-widget-content").hide();
+  }
+
+  function loadCustomInput(){
+    jQuery(".custom-inputs").remove();
+    html = "<table class='custom-inputs'>";
+    html += "<tr><td colspan='3'><center><span class='helpTextClass'>Review time</span></center></td></tr>"
+    html += "<tr><td><span class='hour-header'>Hour</span></td><td>&nbsp;</td><td><span class='minutes-header'>Minutes</span></td></tr>"
+    html += "<tr>";
+    html += "<td><div class='inputFrameClass' style='padding: 0px;'><input type= 'text' class='touchscreenTextInput hourInput' value='<%= this_hour %>'></input></div></td>"
+    html+= "<td class='blank-td'>&nbsp;</td>"
+    html += "<td><div class='inputFrameClass' style='padding: 0px;'><input type= 'text' class='touchscreenTextInput minutesInput' value='00'></input></div></td></tr>"
+    html += "</table>";
+    jQuery( "body" ).append(html);
+    jQuery(".ui-widget-content").show();
+  }
+
+</script>

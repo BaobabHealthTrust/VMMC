@@ -96,11 +96,12 @@
         height = result["height"];
         if (!height) height = "?";*/
 
+        document.getElementById("patient_name").innerHTML = patientName;
         document.getElementById("npid").innerHTML = npid;
         document.getElementById("gender").innerHTML = gender;
         document.getElementById("age").innerHTML = age;
         document.getElementById("current_residence").innerHTML = current_residence + ", ";
-        document.getElementById("traditional_authority").innerHTML = traditional_authority; //phone_number
+        document.getElementById("traditional_authority").innerHTML = traditional_authority; 
         document.getElementById("phone_number").innerHTML = cell_phone_number;
       }
 
@@ -120,7 +121,7 @@
         <div class="headTab" id="tableDiv1">
           <table width="100%" cellpadding="1">
             <tr>
-              <th style="font-size: 24px; text-align: left; width: 100%; overflow: hidden; font-weight: normal; padding: 5px;" id="patient_name" class="blueText"><%= patient_name(params[:patient_id]) %> </th>
+              <th style="font-size: 24px; text-align: left; width: 100%; overflow: hidden; font-weight: normal; padding: 5px;" id="patient_name" class="blueText"> </th>
             </tr>
             <tr>
               <th style="text-align: left; font-size: 14px; padding-left: 5px; border-bottom: 1px solid rgb(0, 69, 134);" class="blueText">Identifiers</th>
