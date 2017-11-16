@@ -29,8 +29,8 @@ class Patient < ActiveRecord::Base
   end
 
   def self.recent_encounters(patient_id)
-   recent_encounters =  Encounter.where(["patient_id =?", patient_id]).order("DATE(encounter_datetime) DESC").group("DATE(encounter_datetime)")
-   return recent_encounters
+    recent_encounters =  Encounter.where(["patient_id =?", patient_id]).order("DATE(encounter_datetime) DESC").group("DATE(encounter_datetime)")
+    return recent_encounters
   end
 
   def self.get_encounters_on_date(patient_id, encounter_date)
@@ -58,4 +58,18 @@ class Patient < ActiveRecord::Base
     return vitals
   end
 
+  def self.get_demographics(patient_id)
+    person = Person.find(patient_id)
+    data = {}
+    patient_bean = PatientService.get_patient(person)
+    data["name"] = patient_bean.name
+    data["npid"] = patient_bean.national_id_with_dashes
+    data["gender"] = patient_bean.sex
+    data["age"] = patient_bean.age
+    data["current_residence"] = patient_bean.current_residence
+    data["traditional_authority"] = patient_bean.traditional_authority
+    data["cell_phone_number"] = patient_bean.cell_phone_number
+    return data
+  end
+  
 end
