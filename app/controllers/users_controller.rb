@@ -48,14 +48,19 @@ class UsersController < ApplicationController
 	end
 
   def administration
-		@administrations =  [
-        ['/user','Users'],
+		@tabs =  [
+        ['/users','User Accounts/Settings'],
         ['/manage_location','Manage Locations'],
         ['/manage_villages', 'Manage Villages']
       ]
 		render layout:false
   end
-  	def user
+  def user
+     @tabs =  [
+        ['/user','Create User'],
+        ['/manage_location','View users'],
+        ['/manage_villages', 'Block']
+      ]
 		render layout:false
 	end
 
