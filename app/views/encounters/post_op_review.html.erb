@@ -109,7 +109,7 @@
   <%= (touch_text_field_tag "SYSTOLIC BLOOD PRESSURE", @patient, nil,
     {
       :id => "systolic_blood_pressure",
-      :helptext => "Systolic Blood Pressure (?/Y)",
+      :helptext => "Systolic Blood Pressure",
       :field_type => "number",
       :absoluteMin => 50,
       :absoluteMax => 240,
@@ -194,7 +194,8 @@ end
     hour = jQuery('.hourInput').val();
     minutes = jQuery('.minutesInput').val();
     review_time = hour + ":" + minutes;
-    jQuery('#review_time').val(review_time);
+    //jQuery('#review_time').val(review_time);
+    jQuery('#review_time')[0].value = review_time;
   }
 
   function loadPreviousValues(){

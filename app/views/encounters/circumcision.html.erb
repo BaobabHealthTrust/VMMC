@@ -1,6 +1,6 @@
-
-<script src="/time-picker/js/jquery.js"></script>
-<script src="/time-picker/js/timepicki.js"></script>
+<link rel="stylesheet" type="text/css" href="/time-picker/jquery-ui.css"/>
+<link rel="stylesheet" type="text/css" href="/time-picker/jquery.ptTimeSelect.css" />
+<script type="text/javascript" src="/time-picker/jquery.ptTimeSelect.js"></script>
 
 <style type="text/css">
   #content, .inputPage{
@@ -28,6 +28,53 @@
   #hour{
     height: 200px !important;
   }
+
+  #ptTimeSelectCntr{
+    width: 38em;
+  }
+
+  #ptTimeSelectCntr{
+    /*display: block !important;*/
+    width: 60%;
+    left: 20%;
+  }
+
+  #ptTimeSelectCntr .ptTimeSelectHrCntr a, #ptTimeSelectCntr .ptTimeSelectMinCntr a {
+    display: block;
+    float: left;
+    margin: 1px;
+    padding: 0.6em;
+    text-align: center;
+    text-decoration: none;
+    width: 1.9em;
+  }
+
+  .ptTimeSelectHr ui-state-default{
+
+  }
+
+  .custom-inputs{
+    z-index: 999;
+    position: absolute;
+    width: 20%;
+    top: 20px;
+    left: 35%;
+  }
+
+  .blank-td{
+    width: 10%;
+  }
+
+  .hour-header, .minutes-header{
+    text-align: center;
+    font-weight: bold;
+    left: 20px;
+    padding-left: 25px;
+  }
+
+  .hourInput, .minutesInput{
+    text-align: center;
+  }
 </style>
 
 <form action="/encounters/create" method="POST" target="_top">
@@ -36,32 +83,49 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", "" %>
 
-  <%= text_field_tag "circumcision_year", Date.today.year,
+<%#= text_field_tag "circumcision_year", Date.today.year,
+{
+:id => 'circumcision_year',
+:helpText => 'Circumcision year',
+:field_type => 'number',
+:tt_pageStyleClass => "Numeric NumbersOnly"
+}  %>
+
+<%#= select_tag "circumcision_month", month_name_options,
+{
+:id => 'circumcision_month',
+:helpText => 'Circumcision month',
+:tt_onLoad => "__$('keyboard').style.display = 'none'",
+:tt_onUnLoad => ""
+} %>
+
+
+<%#= text_field_tag "circumcision_day",  nil, {
+:field_type => 'number',
+:helpText => "Circumcision day"} %>
+
+  <%= (touch_text_field_tag "CIRCUMCISION DATE", @patient, nil,
     {
-    :id => 'circumcision_year',
-    :helpText => 'Circumcision year',
-    :field_type => 'number',
-    :tt_pageStyleClass => "Numeric NumbersOnly"
-  }  %>
+      :id => "circumcision-date",
+      :helptext => "Circumcision Date",
+      :field_type => "date"
+    }).html_safe %>
 
-  <%= select_tag "circumcision_month", month_name_options,
+<%#= text_field_tag "anaesthesia time", nil, {
+:helpText => 'Time anaesthesia given (24 Hour clock)',
+:tt_onLoad => "__$('keyboard').style.display = 'none';",
+:field_type => 'advancedTime',
+:id => 'anaesthesia_time'}  %>
+
+  <%= (text_field_tag "REVIEW TIME", "nil",
     {
-    :id => 'circumcision_month',
-    :helpText => 'Circumcision month',
-    :tt_onLoad => "__$('keyboard').style.display = 'none'",
-    :tt_onUnLoad => ""
-  } %>
-
-
-  <%= text_field_tag "circumcision_day",  nil, {
-    :field_type => 'number',
-    :helpText => "Circumcision day"} %>
-
-  <%= text_field_tag "anaesthesia time", nil, {
-    :helpText => 'Time anaesthesia given (24 Hour clock)',
-    :tt_onLoad => "__$('keyboard').style.display = 'none';",
-    :field_type => 'advancedTime',
-    :id => 'anaesthesia_time'}  %>
+      :disabled => true,
+      :optional => true,
+      :class => "time-picker",
+      :tt_onLoad => "loadDatePicker();",
+      :tt_onUnLoad => "unloadDatePicker();",
+      :helpText => "Time anaesthesia given (24 Hour clock)"
+    }).html_safe %>
 
   <%= (touch_select_tag "TYPE OF ANAESTHESIA", @patient, options_for_select(@anaesthesia_types),
     {
@@ -107,4 +171,60 @@
       :helpText => "Time left table"
     }).html_safe %>
 
+  <%= (touch_hidden_tag "ANAESTHESIA TIME", @patient, "", :id => "anaesthesia_time").html_safe %>
 </form>
+
+<script type="text/javascript">
+<%
+this_hour = Time.now.hour
+if this_hour < 10
+  this_hour = "0" + this_hour.to_s
+end
+%>
+  function loadDatePicker(){
+    jQuery("#ptTimeSelectCntr").show();
+    jQuery("#keyboard").hide();
+    jQuery('#touchscreenInput'+tstCurrentPage).ptTimeSelect();
+    jQuery('#page'+tstCurrentPage).hide()
+    loadCustomInput();
+    loadPreviousValues();
+  }
+
+  function unloadDatePicker(){
+    jQuery('#page'+tstCurrentPage).show();
+    jQuery(".custom-inputs").hide();
+    jQuery(".ui-widget-content").hide();
+    hour = jQuery('.hourInput').val();
+    minutes = jQuery('.minutesInput').val();
+    review_time = hour + ":" + minutes;
+    //jQuery('#review_time').val(review_time);
+   // jQuery('#review_time')[0].value = review_time;
+  }
+
+  function loadPreviousValues(){
+    anaesthesiaTime = jQuery('#anaesthesia_time').val().split(":")
+    hour = anaesthesiaTime[0];
+    minutes = anaesthesiaTime[1];
+
+    if (hour.length > 0){
+      jQuery('.hourInput').val(hour);
+      jQuery('.minutesInput').val(minutes);
+    }
+    jQuery("#ptTimeSelectCntr").show();
+  }
+
+  function loadCustomInput(){
+    jQuery(".custom-inputs").remove();
+    html = "<table class='custom-inputs'>";
+    html += "<tr><td colspan='3'><center><span class='helpTextClass'>Time anaesthesia given</span></center></td></tr>"
+    html += "<tr><td><span class='hour-header'>Hour</span></td><td>&nbsp;</td><td><span class='minutes-header'>Minutes</span></td></tr>"
+    html += "<tr>";
+    html += "<td><div class='inputFrameClass' style='padding: 0px;'><input type= 'text' class='touchscreenTextInput hourInput' value='<%= this_hour %>'></input></div></td>"
+    html+= "<td class='blank-td'>&nbsp;</td>"
+    html += "<td><div class='inputFrameClass' style='padding: 0px;'><input type= 'text' class='touchscreenTextInput minutesInput' value='00'></input></div></td></tr>"
+    html += "</table>";
+    jQuery( "body" ).append(html);
+    jQuery(".ui-widget-content").show();
+  }
+
+</script>

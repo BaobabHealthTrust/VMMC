@@ -27,16 +27,49 @@
       data: "patient_id=" + patientID,
       success: function(result){
         result = JSON.parse(result);
+        result = sortObjByDate(result);
         ulVisits = document.getElementById("ulVisits");
-        for (var encounterID in result){
-          encounter_date = result[encounterID]["encounter_date"];
+
+        for(var i=0; i<result.length; i++){
+          encounter_date = formatDate(new Date(result[i]));
           li = '<li onclick="showEncounterDetails(&quot;' + encounter_date + '&quot;); setClassName(this)" style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204); text-align: center;" >' + encounter_date + '</li>';
           ulVisits.innerHTML += li;
         }
+
+        jQuery("#ulVisits li:first-child").click();
       }
 
     });
 
+  }
+
+  function sortObjByDate(result) {
+    encounter_dates = []
+    for (var encounterID in result){
+      encounter_date = result[encounterID]["encounter_date"];
+      encounter_date = new Date(encounter_date);
+      encounter_dates.push(encounter_date.getTime())
+    }
+    return encounter_dates.sort().reverse(); //Latest date first
+
+  }
+
+  function formatDate(date) {
+    var monthNames = [
+      "Jan", "Feb", "Mar",
+      "Apr", "May", "Jun", "Jul",
+      "Aug", "Sep", "Oct",
+      "Nov", "Dec"
+    ];
+
+    var day = date.getDate();
+    if (day < 10){
+      day = "0" + day;
+    }
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    return day + '/' + monthNames[monthIndex] + '/' + year;
   }
 
   function setClassName(obj){
