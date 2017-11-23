@@ -62,7 +62,7 @@ class UsersController < ApplicationController
 	end
 
 	def edit_demographics
-		render layout: false
+		render layout: "menu"
 	end
 
 	def my_profile
