@@ -65,6 +65,15 @@ class UsersController < ApplicationController
 		render layout: "menu"
 	end
 
+  def edit_user
+    @user_first_name = User.current.first_name
+    @user_last_name = User.current.last_name
+    if request.post?
+      raise params.inspect
+    end
+    render layout: "full_page_form"
+  end
+  
 	def my_profile
 		render layout: false
 	end

@@ -88,7 +88,10 @@ Rails.application.routes.draw do
   get "/users" => "users#user"
   get "/change_password" => "users#change_password"
   post "/change_password" => "users#change_password"
-  get '/administration' => 'users#administration'
+  get '/administration' => 'users#administration' #edit_user
+  get '/edit_user' => 'users#edit_user'
+  post '/edit_user' => 'users#edit_user'
+
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 

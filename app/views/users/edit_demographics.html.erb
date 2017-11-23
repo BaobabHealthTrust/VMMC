@@ -58,15 +58,15 @@
     </tr>
     <tr>
       <th class='blue'>First name:&nbsp;</th>
-      <td class='blue'>&nbsp;</td>
+      <td class='blue'>&nbsp; <%=  User.current.first_name %></td>
     </tr>
     <tr>
       <th>Last name:&nbsp;</th>
-      <td>&nbsp;<%#=#@user.last_name%></td>
+      <td>&nbsp;<%=  User.current.last_name%></td>
     </tr>
     <tr>
       <th class='blue'>Date created:&nbsp;</th>
-      <td class='blue'>&nbsp;</td>
+      <td class='blue'>&nbsp; <%=  User.current.date_created.strftime("%d/%b/%Y")%></td>
     </tr>
   </table>
   <div>
@@ -74,7 +74,7 @@
       <tr>
         <td>
           <button id="edit" class="silver" style="margin-top:10px;"
-                  onmousedown="document.location = ''"><span>Edit User names</span>
+                  onmousedown="document.location = '/edit_user'"><span>Edit user details</span>
           </button>
         </td>
       </tr>
