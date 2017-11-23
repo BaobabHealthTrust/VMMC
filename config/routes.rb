@@ -40,7 +40,6 @@ Rails.application.routes.draw do
   get 'report' => 'report#report'
   get 'first_report' => 'clinic#first_report'
   get 'second_report' => 'clinic#second_report'
-  get 'administration' => 'users#administration'
   get 'user' => 'clinic#user'
   get 'manage_location' => 'clinic#manage_location'
   get 'manage_villages' => 'clinic#manage_villages'
@@ -65,6 +64,10 @@ Rails.application.routes.draw do
   post '/encounters/observations'
   get '/encounters/observations'
   post '/encounters/void'
+
+  #user settings route
+  get "/users" => "users#user"
+  get '/administration' => 'users#administration'
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
