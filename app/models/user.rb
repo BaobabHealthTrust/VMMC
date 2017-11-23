@@ -34,4 +34,9 @@ class User < ActiveRecord::Base
     Digest::SHA1.hexdigest(password+salt)
   end
 
+  def update_password(new_password)
+    self.password = User.encrypt(new_password, self.salt)
+    self.save
+  end
+  
 end

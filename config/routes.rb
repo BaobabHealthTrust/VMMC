@@ -33,9 +33,8 @@ Rails.application.routes.draw do
   get '/patients/get_demographics'
   post '/patients/get_demographics'
   get '/my_account' => 'users#my_account'
-  get '/change_password' => 'clinic#change_password'
-  get '/my_profile' => 'clinic#my_profile'
-  get '/edit_demographics' => 'clinic#edit_demographics'
+  get '/my_profile' => 'users#my_profile'
+  get '/edit_demographics' => 'users#edit_demographics'
   get '/overview' => 'clinic#overview'
 
   get 'clinic/todays_statistics'
@@ -87,6 +86,8 @@ Rails.application.routes.draw do
 
   #user settings route
   get "/users" => "users#user"
+  get "/change_password" => "users#change_password"
+  post "/change_password" => "users#change_password"
   get '/administration' => 'users#administration'
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

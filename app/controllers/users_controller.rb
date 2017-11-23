@@ -28,15 +28,37 @@ class UsersController < ApplicationController
 
   def my_account
 		@my_accounts =  [
-        ['/change_password','Change Password'],
-        ['/edit_demographics','Edit Demographics'],
-        ['/my_profile','My profile']
-      ]
+      ['/change_password','Change Password'],
+      ['/edit_demographics','Edit Demographics'],
+      ['/my_profile','My profile']
+    ]
 		render layout: false
   end
 
-  	def change_password
-		render layout: false
+  def change_password
+    if request.post?
+      old_password = params[:user][:old_password]
+      new_password = params[:user][:new_password]
+      confirm_password = params[:user][:confirm_password]
+
+      authenticate_user = User.authenticate(User.current.username, old_password)
+      if authenticate_user
+        if (new_password.squish != confirm_password.squish)
+          flash[:error] = "New password does not match with the confirmed password"
+          redirect_to("/change_password") and return
+        end
+        
+        User.current.update_password(new_password)
+        flash[:notice] = "Password updated. New password is #{new_password}"
+        redirect_to("/") and return
+        
+      else
+        flash[:error] = "Failed to change password. Old password is incorrect"
+        redirect_to("/change_password") and return
+      end
+
+    end
+		render layout: "full_page_form"
 	end
 
 	def edit_demographics
@@ -49,18 +71,18 @@ class UsersController < ApplicationController
 
   def administration
 		@tabs =  [
-        ['/users','User Accounts/Settings'],
-        ['/manage_location','Manage Locations'],
-        ['/manage_villages', 'Manage Villages']
-      ]
+      ['/users','User Accounts/Settings'],
+      ['/manage_location','Manage Locations'],
+      ['/manage_villages', 'Manage Villages']
+    ]
 		render layout:false
   end
   def user
-     @tabs =  [
-        ['/user','Create User'],
-        ['/manage_location','View users'],
-        ['/manage_villages', 'Block']
-      ]
+    @tabs =  [
+      ['/user','Create User'],
+      ['/manage_location','View users'],
+      ['/manage_villages', 'Block']
+    ]
 		render layout:false
 	end
 
