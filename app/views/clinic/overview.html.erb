@@ -35,11 +35,11 @@
             post_op_review = result["POST-OP REVIEW"];
             if (!post_op_review) post_op_review = "0";
 
+            document.getElementById("total_registered_today").innerHTML = registration;
             document.getElementById("vitals_today").innerHTML = vitals;
             document.getElementById("medical_history_today").innerHTML = medical_history;
             document.getElementById("hiv_art_status_today").innerHTML = hiv_testing;
             document.getElementById("genital_exam_today").innerHTML = genital_examinations;
-            document.getElementById("circumsion_today").innerHTML = circumcision;
             document.getElementById("circumsion_today").innerHTML = circumcision;
 
           }
@@ -75,11 +75,11 @@
             post_op_review = result["POST-OP REVIEW"];
             if (!post_op_review) post_op_review = "0";
 
+            document.getElementById("total_registered_month").innerHTML = registration;
             document.getElementById("vitals_month").innerHTML = vitals;
             document.getElementById("medical_history_month").innerHTML = medical_history;
             document.getElementById("hiv_art_status_month").innerHTML = hiv_testing;
             document.getElementById("genital_exam_month").innerHTML = genital_examinations;
-            document.getElementById("circumsion_month").innerHTML = circumcision;
             document.getElementById("circumsion_month").innerHTML = circumcision;
 
           }
@@ -115,11 +115,11 @@
             post_op_review = result["POST-OP REVIEW"];
             if (!post_op_review) post_op_review = "0";
 
+            document.getElementById("total_registered_year").innerHTML = registration;
             document.getElementById("vitals_year").innerHTML = vitals;
             document.getElementById("medical_history_year").innerHTML = medical_history;
             document.getElementById("hiv_art_status_year").innerHTML = hiv_testing;
             document.getElementById("genital_exam_year").innerHTML = genital_examinations;
-            document.getElementById("circumsion_year").innerHTML = circumcision;
             document.getElementById("circumsion_year").innerHTML = circumcision;
 
           }
@@ -159,13 +159,13 @@
           <td style="border-right: 1px solid #305d97; border-bottom: 2px solid #305d97; width: 25%;">
             TOTAL REGISTERED
           </td>
-          <td style="border-right: 1px solid #305d97; border-bottom: 2px solid #305d97; width: 25%;" id="male_today">
+          <td style="border-right: 1px solid #305d97; border-bottom: 2px solid #305d97; width: 25%;" id="total_registered_today">
             &nbsp;
           </td>
-          <td style="border-right: 1px solid #305d97; border-bottom: 2px solid #305d97; width: 25%;" id="male_month">
+          <td style="border-right: 1px solid #305d97; border-bottom: 2px solid #305d97; width: 25%;" id="total_registered_month">
             &nbsp;
           </td>
-          <td style="border-bottom: 2px solid #305d97; width: 25%;" id="male_year">
+          <td style="border-bottom: 2px solid #305d97; width: 25%;" id="total_registered_year">
             &nbsp;
           </td>
         </tr>
