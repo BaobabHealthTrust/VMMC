@@ -37,6 +37,26 @@ Rails.application.routes.draw do
   get '/my_profile' => 'clinic#my_profile'
   get '/edit_demographics' => 'clinic#edit_demographics'
   get '/overview' => 'clinic#overview'
+
+  get 'clinic/todays_statistics'
+  post 'clinic/todays_statistics'
+
+  get 'clinic/this_months_statistics'
+  post 'clinic/this_months_statistics'
+
+  get 'clinic/this_years_statistics'
+  post 'clinic/this_years_statistics'
+
+  get 'clinic/todays_registration'
+  post 'clinic/todays_registration'
+
+  get 'clinic/this_months_registration'
+  post 'clinic/this_months_registration'
+
+  get 'clinic/this_years_registration'
+  post 'clinic/this_years_registration'
+
+
   get 'report' => 'report#report'
   get 'first_report' => 'clinic#first_report'
   get 'second_report' => 'clinic#second_report'

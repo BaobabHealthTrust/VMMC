@@ -24,4 +24,45 @@ class ClinicController < ApplicationController
 	def overview
 		render layout:false
 	end
+
+  def todays_statistics
+    today = Date.today
+    statistics = Location.statistics(today, today)
+    render text: statistics.to_json
+  end
+
+  def this_months_statistics
+    month_beginning = Date.today.beginning_of_month
+    month_ending = Date.today.end_of_month
+    statistics = Location.statistics(month_beginning, month_ending)
+    render text: statistics.to_json
+  end
+
+  def this_years_statistics
+    beginning_year = Date.today.beginning_of_year
+    ending_of_year = Date.today.end_of_year
+    statistics = Location.statistics(beginning_year, ending_of_year)
+    render text: statistics.to_json
+  end
+
+  def todays_registration
+    today = Date.today
+    count = Location.total_registered(today, today)
+    render text: count
+  end
+
+  def this_months_registration
+    month_beginning = Date.today.beginning_of_month
+    month_ending = Date.today.end_of_month
+    count = Location.total_registered(month_beginning, month_ending)
+    render text: count.to_json
+  end
+
+  def this_years_registration
+    month_beginning = Date.today.beginning_of_month
+    month_ending = Date.today.end_of_month
+    count = Location.total_registered(month_beginning, month_ending)
+    render text: count
+  end
+
 end

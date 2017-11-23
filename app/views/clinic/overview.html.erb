@@ -4,8 +4,137 @@
     <meta charset="UTF-8">
     <title>Statistics</title>
     <!--<link rel="stylesheet" type="text/css" href="/stylesheets/style.css"/>-->
+    <script type="text/javascript" src="/assets/jquery-1.3.2.min.js"></script>
+
+    <script type="text/javascript">
+      function loadTodaysStatistics(){
+        jQuery.ajax({
+          type: "POST",
+          url: "/clinic/todays_statistics",
+          data: "statistics=today",
+          success: function(result){
+            result = JSON.parse(result);
+            vitals = result["VITALS"];
+            if (!vitals) vitals = "0";
+
+            registration = result["REGISTRATION"];
+            if (!registration) registration = "0";
+
+            circumcision = result["CIRCUMCISION"];
+            if (!circumcision) circumcision = "0";
+
+            genital_examinations = result["GENITAL EXAMINATION"];
+            if (!genital_examinations) genital_examinations = "0";
+
+            hiv_testing = result["HIV TESTING"];
+            if (!hiv_testing) hiv_testing = "0";
+
+            medical_history = result["MEDICAL HISTORY"];
+            if (!medical_history) medical_history = "0";
+
+            post_op_review = result["POST-OP REVIEW"];
+            if (!post_op_review) post_op_review = "0";
+
+            document.getElementById("vitals_today").innerHTML = vitals;
+            document.getElementById("medical_history_today").innerHTML = medical_history;
+            document.getElementById("hiv_art_status_today").innerHTML = hiv_testing;
+            document.getElementById("genital_exam_today").innerHTML = genital_examinations;
+            document.getElementById("circumsion_today").innerHTML = circumcision;
+            document.getElementById("circumsion_today").innerHTML = circumcision;
+
+          }
+
+        });
+      }
+
+      function loadThisMonthsStatistics(){
+        jQuery.ajax({
+          type: "POST",
+          url: "/clinic/this_months_statistics",
+          data: "statistics=this_month",
+          success: function(result){
+            result = JSON.parse(result);
+            vitals = result["VITALS"];
+            if (!vitals) vitals = "0";
+
+            registration = result["REGISTRATION"];
+            if (!registration) registration = "0";
+
+            circumcision = result["CIRCUMCISION"];
+            if (!circumcision) circumcision = "0";
+
+            genital_examinations = result["GENITAL EXAMINATION"];
+            if (!genital_examinations) genital_examinations = "0";
+
+            hiv_testing = result["HIV TESTING"];
+            if (!hiv_testing) hiv_testing = "0";
+
+            medical_history = result["MEDICAL HISTORY"];
+            if (!medical_history) medical_history = "0";
+
+            post_op_review = result["POST-OP REVIEW"];
+            if (!post_op_review) post_op_review = "0";
+
+            document.getElementById("vitals_month").innerHTML = vitals;
+            document.getElementById("medical_history_month").innerHTML = medical_history;
+            document.getElementById("hiv_art_status_month").innerHTML = hiv_testing;
+            document.getElementById("genital_exam_month").innerHTML = genital_examinations;
+            document.getElementById("circumsion_month").innerHTML = circumcision;
+            document.getElementById("circumsion_month").innerHTML = circumcision;
+
+          }
+
+        });
+      }
+
+      function loadThisYearsStatistics(){
+        jQuery.ajax({
+          type: "POST",
+          url: "/clinic/this_years_statistics",
+          data: "statistics=this_month",
+          success: function(result){
+            result = JSON.parse(result);
+            vitals = result["VITALS"];
+            if (!vitals) vitals = "0";
+
+            registration = result["REGISTRATION"];
+            if (!registration) registration = "0";
+
+            circumcision = result["CIRCUMCISION"];
+            if (!circumcision) circumcision = "0";
+
+            genital_examinations = result["GENITAL EXAMINATION"];
+            if (!genital_examinations) genital_examinations = "0";
+
+            hiv_testing = result["HIV TESTING"];
+            if (!hiv_testing) hiv_testing = "0";
+
+            medical_history = result["MEDICAL HISTORY"];
+            if (!medical_history) medical_history = "0";
+
+            post_op_review = result["POST-OP REVIEW"];
+            if (!post_op_review) post_op_review = "0";
+
+            document.getElementById("vitals_year").innerHTML = vitals;
+            document.getElementById("medical_history_year").innerHTML = medical_history;
+            document.getElementById("hiv_art_status_year").innerHTML = hiv_testing;
+            document.getElementById("genital_exam_year").innerHTML = genital_examinations;
+            document.getElementById("circumsion_year").innerHTML = circumcision;
+            document.getElementById("circumsion_year").innerHTML = circumcision;
+
+          }
+
+        });
+      }
+
+      window.onload = function(){
+        loadTodaysStatistics();
+        loadThisMonthsStatistics();
+        loadThisYearsStatistics();
+      }
+    </script>
   </head>
-  <body style="text-align: center; margin: 20px;" oncontextmenu="return false;">
+  <body style="text-align: center; margin: 20px;">
 
     <table width="100%" style="border: 0px solid #305d97; margin-top: 10px; font-size: 18px;" cellpadding="8"
            cellspacing="0">
@@ -119,7 +248,7 @@
     <tbody>
       <tr style="color: #305d97;">
         <td style="border-right: 1px solid #305d97; border-bottom: 2px solid #305d97; width: 25%;">
-          CIRCUMSION
+          CIRCUMCISION
         </td>
         <td style="border-right: 1px solid #305d97; border-bottom: 2px solid #305d97; width: 25%;" id="circumsion_today">
           &nbsp;
@@ -132,7 +261,7 @@
         </td>
       </tr>
     </tbody>
-    <tbody>
+    <!--<tbody>
       <tr style="color: #305d97;">
         <td style="border-right: 1px solid #305d97; border-bottom: 2px solid #305d97; width: 25%;">
           APPOINTMENT
@@ -147,7 +276,7 @@
           &nbsp;
         </td>
       </tr>
-    </tbody>
+    </tbody>-->
 
   </table>
 </body>

@@ -42,4 +42,33 @@ class Location < ActiveRecord::Base
     @@current_health_center ||= Location.find(GlobalProperty.find_by_property("current_health_center_id").property_value) rescue self.current_location
   end
 
+  def self.statistics(start_date = Date.today, end_date = Date.today)
+    encounter_names = ["VITALS", "CIRCUMCISION", "GENITAL EXAMINATION", "HIV TESTING",
+      "MEDICAL HISTORY", "POST-OP REVIEW", "REGISTRATION"
+    ]
+
+    enounter_type_ids = EncounterType.where(["name IN (?)", encounter_names]).map(&:encounter_type_id)
+    statistics = Encounter.where(["encounter_type IN (?) AND DATE(encounter_datetime) >= ? AND
+         DATE(encounter_datetime) <= ?", enounter_type_ids, start_date.to_date, end_date.to_date]
+    )
+    data = {}
+    statistics.each do |encounter|
+      encounter_name = encounter.type.name.squish.upcase
+      data[encounter_name] = 0 if data[encounter_name].blank?
+      data[encounter_name] += 1
+    end
+
+    return data
+  end
+
+  def self.total_registered(start_date = Date.today, end_date = Date.today)
+    encounter_names = ["REGISTRATION"]
+
+    enounter_type_ids = EncounterType.where(["name IN (?)", encounter_names]).map(&:encounter_type_id)
+    statistics = Encounter.where(["encounter_type IN (?) AND DATE(encounter_datetime) >= ? AND
+         DATE(encounter_datetime) <= ?", enounter_type_ids, start_date.to_date, end_date.to_date]
+    )
+    return statistics.count
+  end
+
 end
