@@ -1,0 +1,5 @@
+<form action="/location/print" method="post">
+  <%= text_field 'location_name', 'clinic_name',
+    :ajaxURL => "/location/search?act=print&search_string=",
+    :allowFreeText => true %>
+</form>

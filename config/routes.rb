@@ -56,11 +56,21 @@ Rails.application.routes.draw do
   post 'clinic/this_years_registration'
 
 
+  get '/new_location' => 'clinic#new_location'
+  get '/delete_location' => 'clinic#delete_location'
+  get '/print_location' => 'clinic#print_location'
+
+  post 'location/create'
+  post 'location/print'
+  post 'location/delete'
+  get 'location/search'
+
+
   get 'report' => 'report#report'
   get 'first_report' => 'clinic#first_report'
   get 'second_report' => 'clinic#second_report'
   get 'user' => 'clinic#user'
-  get 'manage_location' => 'clinic#manage_location'
+  get 'manage_locations' => 'clinic#manage_locations'
   get 'manage_villages' => 'clinic#manage_villages'
   get '/header' => 'patients#header'
   get '/encounters/new' => 'encounters#new'

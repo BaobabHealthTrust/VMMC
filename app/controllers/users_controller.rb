@@ -29,8 +29,8 @@ class UsersController < ApplicationController
   def my_account
 		@my_accounts =  [
       ['/change_password','Change Password'],
-      ['/edit_demographics','Edit Demographics'],
-      ['/my_profile','My profile']
+      ['/edit_demographics','Edit Demographics']#,
+      #['/my_profile','My profile']
     ]
 		render layout: false
   end
@@ -81,8 +81,8 @@ class UsersController < ApplicationController
   def administration
 		@tabs =  [
       ['/users','User Accounts/Settings'],
-      ['/manage_location','Manage Locations'],
-      ['/manage_villages', 'Manage Villages']
+      ['/manage_locations','Manage Locations']#,
+      #['/manage_villages', 'Manage Villages']
     ]
 		render layout:false
   end

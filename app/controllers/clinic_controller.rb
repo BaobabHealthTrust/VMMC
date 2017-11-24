@@ -65,4 +65,25 @@ class ClinicController < ApplicationController
     render text: count
   end
 
+  def manage_locations
+    @locations_options =  [
+      ['/new_location','Add Location'],
+      ['/delete_location','Delete Location'],
+      ['/print_location','Print Location']
+    ]
+    render layout: false
+  end
+
+  def new_location
+    render layout: "full_page_form"
+  end
+
+  def delete_location
+    render layout: "full_page_form"
+  end
+
+  def print_location
+    render layout: "full_page_form"
+  end
+  
 end

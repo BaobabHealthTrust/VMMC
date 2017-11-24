@@ -1,0 +1,86 @@
+<style type="text/css">
+  body {
+    -moz-user-select:none;
+    font-family: Arial,sans-serif;
+  }
+
+  #stats {
+    width:98%;
+    margin:10px;
+    background:white;
+  }
+
+  #stats a {
+    background-color: #669999;
+    border-bottom: 1px outset black;
+    border-style: outset;
+    border-top: 1px outset black;
+    color: white;
+    display: block;
+    padding: 10px 16px 10px 10px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  #stats td {
+    width: 310px;
+  }
+
+  #table_div {
+    overflow:auto;
+    height: 320px;
+    background-color: white;
+    border: #eee 1px solid;
+    border-width: 1px;
+  }
+
+  #tab {
+    -moz-user-select:none;
+  }
+</style>
+
+<script>
+  function setInnerHtmlData(id,path,result, target) {
+    td = document.getElementById(id);
+    if ((result == "Add Location") || (result == "Delete Location") || (result == "Print Location")) {
+      target = "_parent"
+      td.innerHTML = "<a href ='" + path + "' target='" + target + "'>" +  result + "</a>"
+      return td.innerHTML
+    }
+
+    td.innerHTML = "<a href ='" + path + "' target='" + target + "'>" +  result + "</a>"
+  }
+</script>
+
+<div id="tab"><br>
+  <div id="table_div">
+
+    <table id="stats">
+      <% count = @locations_options.length  unless @locations_options.blank? %>
+      <% (@locations_options || []).each do |name,path|
+        count_up = 0
+        count = 0 if @locations_options.blank?
+      %>
+        <% while count_up < count %>
+          <tr>
+            <td id = "<%=count_up+= 1%>"></td>
+            <td id = "<%=count_up+= 1%>"></td>
+            <td id = "<%=count_up+= 1%>"></td>
+          </tr>
+        <%end unless @locations_options.blank?%>
+      <%end%>
+    </table>
+
+
+    <%
+    count = @locations_options.length  unless @locations_options.blank?
+    @locations_options.sort.reverse.map do | path, name | %>
+      <script>
+
+        setInnerHtmlData("<%=count%>","<%=path%>","<%=name%>", "_self");
+      </script>
+      <%count-=1%>
+    <%end%>
+
+  </div>
+</div>
