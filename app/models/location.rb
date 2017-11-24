@@ -2,6 +2,14 @@ class Location < ActiveRecord::Base
   self.table_name = "location"
   self.primary_key = "location_id"
 
+  before_create :before_create
+  
+  def before_create
+    self.creator = User.current.user_id unless User.current.blank?
+    self.date_created = Time.now
+    self.uuid = ActiveRecord::Base.connection.select_one("SELECT UUID() as uuid")['uuid']
+  end
+
   include Openmrs
   
   cattr_accessor :current_location

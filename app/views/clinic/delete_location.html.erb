@@ -1,5 +1,5 @@
-<form action="/location/create" method="post">
+<form action="/location/delete" method="post">
   <%= text_field 'location_name', 'clinic_name',
-    :ajaxURL => "/location/search?act=delete&search_string=",
-    :allowFreeText => true %>
+    :helpText => "Workstation Location",
+    :ajaxURL => "/location/search?act=delete&search_string="%>
 </form>

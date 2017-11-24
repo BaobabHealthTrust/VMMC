@@ -1,5 +1,6 @@
 <form action="/location/create" method="post">
   <%= text_field 'location_name', 'clinic_name',
-    :ajaxURL => "/location/search?act=act&search_string=",
+    :helpText => "Workstation Location",
+    :ajaxURL => "/location/search?act=create&search_string=",
     :allowFreeText => true %>
 </form>
