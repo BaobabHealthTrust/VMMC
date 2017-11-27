@@ -14,24 +14,14 @@ class LocationController < ApplicationController
       location_tag_map = LocationTagMap.new
       location_tag_map.location_id = location.id
       location_tag_map.location_tag_id = LocationTag.find_by_name("Workstation location").id
-      result = location_tag_map.save #rescue (result = false)
-
-      if result == true then
-        flash[:notice] = "location #{clinic_name[:clinic_name]} added successfully"
-      else
-        flash[:notice] = "location #{clinic_name[:clinic_name]} addition failed"
-      end
+      location_tag_map.save #rescue (result = false)
+      flash[:notice] = "location #{clinic_name[:clinic_name]} added successfully"
     else
       location_tag_map = LocationTagMap.new
       location_tag_map.location_id = Location.find_by_name(clinic_name[:clinic_name]).id
       location_tag_map.location_tag_id = LocationTag.find_by_name("Workstation location").id
-      result = location_tag_map.save rescue (result = false)
-
-      if result == true then
-        flash[:notice] = "location #{clinic_name[:clinic_name]} added successfully"
-      else
-        flash[:notice] = "<span style='color:red; display:block; background-color:#DDDDDD;'>location #{clinic_name[:clinic_name]} addition failed</span>"
-      end
+      location_tag_map.save
+      flash[:notice] = "location #{clinic_name[:clinic_name]} added successfully"
     end
 
     redirect_to("/") and return
