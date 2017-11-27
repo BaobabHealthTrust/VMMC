@@ -64,7 +64,7 @@ Rails.application.routes.draw do
   post 'location/print'
   post 'location/delete'
   get 'location/search'
-
+  get 'location/location_label'
 
   get 'report' => 'report#report'
   get 'first_report' => 'clinic#first_report'
@@ -101,6 +101,10 @@ Rails.application.routes.draw do
   get '/administration' => 'users#administration' #edit_user
   get '/edit_user' => 'users#edit_user'
   post '/edit_user' => 'users#edit_user'
+  get "/new_user" => "users#new_user"
+  post "/new_user" => "users#new_user"
+  get "/view_users" => "users#view_users"
+  get "/users/role"
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

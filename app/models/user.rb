@@ -1,6 +1,15 @@
 class User < ActiveRecord::Base
   self.table_name = "users"
   self.primary_key = "user_id"
+
+  before_create :before_create
+  
+  def before_create
+    self.creator = User.current.user_id unless User.current.blank?
+    self.date_created = Time.now
+    self.uuid = ActiveRecord::Base.connection.select_one("SELECT UUID() as uuid")['uuid']
+  end
+
   cattr_accessor :current
 
   belongs_to :person, -> { where voided: 0 },  :foreign_key => :person_id

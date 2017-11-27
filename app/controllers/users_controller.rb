@@ -86,14 +86,66 @@ class UsersController < ApplicationController
     ]
 		render layout:false
   end
+  
   def user
     @tabs =  [
-      ['/user','Create User'],
-      ['/manage_location','View users'],
-      ['/manage_villages', 'Block']
+      ['/new_user','Create User'],
+      ['/view_users','View users']
     ]
 		render layout:false
 	end
+
+  def new_user
+    if request.post?
+      existing_user = User.where(["username = ?", params[:user][:username]]).first
+
+      if existing_user
+        flash[:notice] = 'Username already in use'
+        redirect_to :action => '/new_user' and return
+      end
+
+      if (params[:user][:plain_password] != params[:user_confirm][:password])
+        flash[:error] = 'Password Mismatch'
+        redirect_to :action => '/new_user' and return
+      end
+      
+      ActiveRecord::Base.transaction do
+        person = Person.create()
+        person.names.create(params[:person_name].permit!)
+
+        salt = User.random_string(10)
+        user = User.new
+        user.username = params[:user][:username]
+        user.salt = salt
+        user.password = User.encrypt(params[:user][:plain_password], salt)
+        user.person_id = person.id
+        user.save
+        
+        user_role = UserRole.new
+        user_role.role = Role.find_by_role(params[:user_role][:role_id]).role
+        user_role.user_id = user.user_id
+        user_role.save
+
+      end
+
+      flash[:notice] = 'User was successfully created.'
+      redirect_to("/") and return
+    end
+    render layout: "full_page_form"
+  end
+
+  def view_users
+    render layout: "menu"
+  end
+
+  def role
+    role_conditions = ["role LIKE (?)", "%#{params[:value]}%"]
+    roles = Role.where(role_conditions)
+    roles = roles.map do |r|
+      "<li value='#{r.role}'>#{r.role.gsub('_',' ').capitalize}</li>"
+    end
+    render :text => roles.join('') and return
+  end
 
 	def manage_location
 		render layout:false

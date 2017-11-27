@@ -1,0 +1,37 @@
+<form action="/new_user" method="POST">
+  <%= text_field 'person_name', 'given_name',
+    :helpText => 'First Name',
+    :ajaxURL => '/person_names/given_names?search_string=',
+    :allowFreeText => true%>
+
+  <%= text_field 'person_name', 'family_name',
+    :helpText => 'Last Name',
+    :ajaxURL => '/person_names/family_names?search_string=',
+    :allowFreeText => true%>
+
+  <%= text_field 'user_role', 'role_id',
+    :helpText => 'User role',
+    :ajaxURL => '/users/role?value='%>
+
+  <%= text_field 'user', 'username',
+    :helpText => 'Username',
+    :textCase => "lower",
+    :tt_onload =>"$('touchscreenInput5').value = ($('user_first_name').value.substring(0,3)+$('user_last_name').value.substring(0,3)).toLowerCase()" ,
+    :validationRule =>"\\w{6}\\w*" ,
+    :validationMessage => "Username must have at least SIX letters" ,
+    :textCase => "lower"%>
+
+  <%= password_field 'user', 'plain_password',
+    :helpText => 'Password',
+    :minlength => 6 ,
+    :textCase =>"lower",
+    :validationRule => "\\w{4}\\w*",
+    :validationMessage => "Password less than six characters" %>
+
+  <%= password_field 'user_confirm', 'password',
+    :helpText => 'Confirm Password',
+    :textCase =>"lower",
+    :validationRule =>"\\w{4}\\w*",
+    :validationMessage =>"Password less than FOUR characters." %>
+
+</form>
