@@ -1,18 +1,18 @@
 class ReportController < ApplicationController
 
-def report
+  def report
 		@reports =  [
-        ['/first_report','First Report'],
-        ['/second_report','Second Report']
-      ]
+      ['/registration_report_menu','Registration Report']
+    ]
 		render layout:false
-end
+  end
 
-	def first_report
-		render layout: false
-	end
+  def registration_report_menu
+    render layout: "full_page_form"
+  end
 
-	def second_report
-		render layout:false
-	end
+  def registration_report
+    render layout: "menu"
+  end
+  
 end

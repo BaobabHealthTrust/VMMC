@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 
     if logged_in_user
       session[:user] = user
-      redirect_to("/") and return
+      redirect_to("/work_station") and return
     else
       flash[:error] = "Invalid username or password"
       redirect_to("/login") and return

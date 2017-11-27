@@ -7,16 +7,16 @@ class ClinicController < ApplicationController
 
 	def set_date
 		@months = [["", ""]]
-  		1.upto(12){ |number| 
-       		@months << [Date::MONTHNAMES[number], number.to_s]
-      	}
+    1.upto(12){ |number|
+      @months << [Date::MONTHNAMES[number], number.to_s]
+    }
 
-  		day = Array.new(31){|d|d + 1 } 
-    	@days = [""].concat day
+    day = Array.new(31){|d|d + 1 }
+    @days = [""].concat day
 
-    	if request.post?
-    		redirect_to("/") and return
-    	end
+    if request.post?
+      redirect_to("/") and return
+    end
 
 		render layout: "form"
 	end
@@ -83,6 +83,24 @@ class ClinicController < ApplicationController
   end
 
   def print_location
+    render layout: "full_page_form"
+  end
+
+  def work_station
+    if request.post?
+      location = Location.find(params[:location]) rescue nil
+      location ||= Location.find_by_name(params[:location]) rescue nil
+
+      valid_location = (generic_locations.include?(location.name)) rescue false
+
+      unless location and valid_location
+        flash[:error] = "Invalid workstation location"
+        redirect_to("/work_station") and return
+      end
+
+      session[:workstation_location] = location.name
+      redirect_to '/' and return
+    end
     render layout: "full_page_form"
   end
   

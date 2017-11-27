@@ -42,22 +42,17 @@
 <script>
   function setInnerHtmlData(id,path,result, target) {
     td = document.getElementById(id);
-    if ((result == "Transfer Patient in")|| (result == "Merge Patients" ) || (result == "View System Configurations" ) || (result == "Pharmacy Error Correction" )) {
+    if ((result == "Registration Report")) {
       target = "_parent"
       td.innerHTML = "<a href ='" + path + "' target='" + target + "'>" +  result + "</a>"
       return td.innerHTML
     }
-    if (result == "Possible patient duplicates") {
-      target = "_parent"
-      td.innerHTML = "<a href ='" + path + "' target='" + target + "'>" +  result + "</a>"
-      return td.innerHTML
-    }
-    path += "?dashboard=<%=@landing_dashboard%>"
+
     td.innerHTML = "<a href ='" + path + "' target='" + target + "'>" +  result + "</a>"
   }
 </script>
 
-<div id="tab"><br>
+<div id="tab"><br />
   <div id="table_div">
 
     <table id="stats">
