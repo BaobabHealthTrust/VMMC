@@ -99,11 +99,6 @@
       :field_type => "date"
     }).html_safe %>
 
-<%#= text_field_tag "anaesthesia time", nil, {
-:helpText => 'Time anaesthesia given (24 Hour clock)',
-:tt_onLoad => "__$('keyboard').style.display = 'none';",
-:field_type => 'advancedTime',
-:id => 'anaesthesia_time'}  %>
   <%= (touch_text_field_tag "ANAESTHESIA TIME", @patient, nil,
     {
       :id => "anaesthesia-time",

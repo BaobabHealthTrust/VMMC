@@ -158,6 +158,7 @@ class EncountersController < ApplicationController
     @patient = Patient.find(params["patient_id"])
     @pain_options = pain_options
     @bandage_options = bandage_options
+    @max_date = max_date
     render layout: "form" 
   end
 
