@@ -12,6 +12,7 @@ class EncountersController < ApplicationController
     @services_sources = service_sources_options
     @hiv_test_not_done_reasons = hiv_test_not_done_reasons_options
     @hiv_results_options = hiv_results_option
+    @max_date = max_date
     render action: params[:encounter_type], patient_id: params[:patient_id], layout: "header"
   end
 
@@ -142,7 +143,15 @@ class EncountersController < ApplicationController
     @patient = Patient.find(params["patient_id"])
     @anaesthesia_types = anaesthesia_options
     @circumcision_procedure_types = circumcision_procedure_types
+    @max_date = max_date
     render layout: "form" 
+  end
+
+  def max_date
+    today = Date.today
+    max_date = today + 3.months
+    max_date = max_date.strftime("%Y-%m-%d")
+    return max_date
   end
 
   def post_op_review

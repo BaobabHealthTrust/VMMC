@@ -79,6 +79,10 @@
   .NoKeyboard .inputFrameClass {
     height: 460px !important;
   }
+
+  #Unknown{
+    display: none;
+  }
 </style>
 
 <form action="/encounters/create" method="POST" target="_top">
@@ -87,30 +91,10 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", "" %>
 
-<%#= text_field_tag "circumcision_year", Date.today.year,
-{
-:id => 'circumcision_year',
-:helpText => 'Circumcision year',
-:field_type => 'number',
-:tt_pageStyleClass => "Numeric NumbersOnly"
-}  %>
-
-<%#= select_tag "circumcision_month", month_name_options,
-{
-:id => 'circumcision_month',
-:helpText => 'Circumcision month',
-:tt_onLoad => "__$('keyboard').style.display = 'none'",
-:tt_onUnLoad => ""
-} %>
-
-
-<%#= text_field_tag "circumcision_day",  nil, {
-:field_type => 'number',
-:helpText => "Circumcision day"} %>
-
   <%= (touch_text_field_tag "CIRCUMCISION DATE", @patient, nil,
     {
       :id => "circumcision-date",
+      :maxDate => "#{@max_date}",
       :helptext => "Circumcision Date",
       :field_type => "date"
     }).html_safe %>
@@ -120,9 +104,9 @@
 :tt_onLoad => "__$('keyboard').style.display = 'none';",
 :field_type => 'advancedTime',
 :id => 'anaesthesia_time'}  %>
-  <%= (touch_text_field_tag "REVIEW TIME", @patient, nil,
+  <%= (touch_text_field_tag "ANAESTHESIA TIME", @patient, nil,
     {
-      :id => "review_time",
+      :id => "anaesthesia-time",
       :field_type => "number",
       :allowFreeText => 'true',
       :tt_onLoad => "changeDecimalToColon();",
@@ -154,6 +138,12 @@
   <%= (touch_text_field_tag "INCISION TIME", @patient, nil,
     {
       :id => "incision_time",
+      :field_type => "number",
+      :allowFreeText => 'true',
+      :tt_onLoad => "changeDecimalToColon();",
+      :validationRule => "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
+      :validationMessage => "Bad time format (Use this format: 14<b>:30</b>)",
+      :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
       :helpText => "Incision time"
     }).html_safe %>
 
@@ -165,7 +155,7 @@
 
   <%= (touch_text_field_tag "SPECIFIC ADVERSE EVENT", @patient, nil,
     {
-      :id => "incision_time",
+      :id => "specific-adverse-event",
       :condition => "__$('adverse_events?').value.match(/YES/i)",
       :helpText => "Specify adverse event"
     }).html_safe %>
@@ -173,10 +163,16 @@
   <%= (touch_text_field_tag "TIME LEFT TABLE", @patient, nil,
     {
       :id => "time_left_table",
+      :field_type => "number",
+      :allowFreeText => 'true',
+      :tt_onLoad => "changeDecimalToColon();",
+      :validationRule => "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
+      :validationMessage => "Bad time format (Use this format: 14<b>:30</b>)",
+      :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
       :helpText => "Time left table"
     }).html_safe %>
 
-  <%= (touch_hidden_tag "ANAESTHESIA TIME", @patient, "", :id => "anaesthesia_time").html_safe %>
+
 </form>
 
 <script type="text/javascript">
