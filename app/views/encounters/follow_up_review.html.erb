@@ -1,0 +1,104 @@
+<style type="text/css">
+  #content, .inputPage{
+    height: 545px !important;
+  }
+
+  #content{
+    position: relative;
+    margin-left: 2px;
+    width: 99.7%;
+    top: 383px;
+  }
+  .buttonsDiv{
+    position: fixed;
+    top: auto;
+    bottom: -20px;
+    margin-bottom: 2%;
+    z-index: 1000;
+  }
+
+  .NoKeyboard .inputFrameClass {
+    height: 460px !important;
+  }
+
+</style>
+
+<form action="/encounters/create" method="POST" target="_top">
+  <%= hidden_field_tag "encounter[encounter_type_name]", "FOLLOW UP" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.patient_id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", User.current.person_id %>
+
+  <%= (touch_text_field_tag "FOLLOW UP DATE", @patient, nil,
+    {
+      :id => "follow-up-date",
+      :helptext => "Follow up date",
+      :field_type => "date"
+    }).html_safe %>
+
+  <%= (touch_select_tag "PAIN", @patient, options_for_select(@pain_options),
+    {
+      :id => "type_of_pain",
+      :helpText  => "Type of pain"
+    }).html_safe %>
+
+
+  <%= (touch_select_tag "BANDAGE", @patient, options_for_select(@bandage_options),
+    {
+      :id => "bandage",
+      :helpText  => "Bandage (Bleeding)"
+    }).html_safe %>
+
+  <%= (touch_select_tag "HAEMATOMA", @patient, options_for_select(@haematoma_options),
+    {
+      :id => "haematoma",
+      :helpText  => "Haematoma"
+    }).html_safe %>
+
+  <%= (touch_select_tag "SWELLING", @patient, options_for_select(@swelling_options),
+    {
+      :id => "swelling",
+      :helpText  => "Swelling"
+    }).html_safe %>
+
+  <%= (touch_select_tag "GLANS DAMAGE", @patient, options_for_select(@glans_damage_options),
+    {
+      :id => "glans-damage",
+      :helpText  => "Glans damage"
+    }).html_safe %>
+
+  <%= (touch_select_tag "INFECTION", @patient, options_for_select(@infection_options),
+    {
+      :id => "infection",
+      :helpText  => "Infection"
+    }).html_safe %>
+
+  <%= (touch_select_tag "WOUND DISRUPTION", @patient, options_for_select(@wound_disruption_options),
+    {
+      :id => "wound-disruption",
+      :helpText  => "Wound disruption"
+    }).html_safe %>
+
+  <%= (touch_select_tag "URINARY PROBLEMS", @patient, options_for_select(@urinary_problem_options),
+    {
+      :id => "urinary-problems",
+      :helpText  => "Urinary problems"
+    }).html_safe %>
+
+  <%= (touch_select_tag "EXCESSIVE SKIN REMOVED", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "excessive-skin",
+      :helpText  => "Insufficient skin removed?"
+    }).html_safe %>
+
+  <%= (touch_select_tag "INSUFFICIENT SKIN REMOVED", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "insufficient-skin",
+      :helpText  => "Insufficient skin removed?"
+    }).html_safe %>
+
+</form>
+
+<script type="text/javascript">
+
+</script>

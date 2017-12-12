@@ -162,6 +162,94 @@ class EncountersController < ApplicationController
     render layout: "form" 
   end
 
+  def follow_up_review
+    @patient = Patient.find(params["patient_id"])
+    @pain_options = pain_options
+    @bandage_options = bandage_options
+    @haematoma_options = haematoma_options
+    @swelling_options = swelling_options
+    @glans_damage_options = glans_damage_options
+    @infection_options = infection_options
+    @wound_disruption_options = wound_disruption_options
+    @urinary_problem_options = urinary_problem_options
+    @yes_no_options = yes_no_options
+  end
+
+  def yes_no_options
+    options = [
+      ["", ""],
+      ["Yes", "Yes"],
+      ["No", "No"]
+    ]
+    return options
+  end
+
+  def urinary_problem_options
+    options = [
+      ["", ""],
+      ["None", "None"],
+      ["Mild", "Mild"],
+      ["Moderate", "Moderate"],
+      ["Severe", "Severe"]
+    ]
+    return options
+  end
+
+  def wound_disruption_options
+    options = [
+      ["", ""],
+      ["None", "None"],
+      ["Mild", "Mild"],
+      ["Moderate", "Moderate"],
+      ["Severe", "Severe"]
+    ]
+    return options
+  end
+
+  def infection_options
+    options = [
+      ["", ""],
+      ["None", "None"],
+      ["Mild", "Mild"],
+      ["Moderate", "Moderate"],
+      ["Severe", "Severe"]
+    ]
+    return options
+  end
+
+  def glans_damage_options
+    options = [
+      ["", ""],
+      ["None", "None"],
+      ["Mild", "Mild"],
+      ["Moderate", "Moderate"],
+      ["Severe", "Severe"]
+    ]
+    return options
+  end
+
+  def swelling_options
+    options = [
+      ["", ""],
+      ["None", "None"],
+      ["Mild", "Mild"],
+      ["Moderate", "Moderate"],
+      ["Severe", "Severe"]
+    ]
+    return options
+  end
+
+  def haematoma_options
+    options = [
+      ["", ""],
+      ["None", "None"],
+      ["Mild", "Mild"],
+      ["Moderate", "Moderate"],
+      ["Severe", "Severe"]
+    ]
+    return options
+  end
+
   def pain_options
     options = [
       ["", ""],

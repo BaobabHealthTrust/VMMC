@@ -25,7 +25,7 @@
   <%= hidden_field_tag "encounter[encounter_type_name]", "GENITAL EXAMINATION" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.patient_id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
-  <%= hidden_field_tag "encounter[provider_id]", "" %>
+  <%= hidden_field_tag "encounter[provider_id]", User.current.person_id %>
 
   <%= (touch_select_tag "CIRCUMCISION STATUS", @patient, options_for_select(@circumcision_options),
     {

@@ -1,7 +1,3 @@
-<link rel="stylesheet" type="text/css" href="/time-picker/jquery-ui.css"/>
-<link rel="stylesheet" type="text/css" href="/time-picker/jquery.ptTimeSelect.css" />
-<script type="text/javascript" src="/time-picker/jquery.ptTimeSelect.js"></script>
-
 <style type="text/css">
   #content, .inputPage{
     height: 545px !important;
@@ -89,7 +85,7 @@
   <%= hidden_field_tag "encounter[encounter_type_name]", "CIRCUMCISION" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.patient_id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
-  <%= hidden_field_tag "encounter[provider_id]", "" %>
+  <%= hidden_field_tag "encounter[provider_id]", User.current.person_id%>
 
   <%= (touch_text_field_tag "CIRCUMCISION DATE", @patient, nil,
     {
