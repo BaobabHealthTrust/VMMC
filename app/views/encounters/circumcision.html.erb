@@ -75,6 +75,10 @@
   .hourInput, .minutesInput{
     text-align: center;
   }
+
+  .NoKeyboard .inputFrameClass {
+    height: 460px !important;
+  }
 </style>
 
 <form action="/encounters/create" method="POST" target="_top">
@@ -116,16 +120,17 @@
 :tt_onLoad => "__$('keyboard').style.display = 'none';",
 :field_type => 'advancedTime',
 :id => 'anaesthesia_time'}  %>
-
-  <%= (text_field_tag "REVIEW TIME", "nil",
+  <%= (touch_text_field_tag "REVIEW TIME", @patient, nil,
     {
-      :disabled => true,
-      :optional => true,
-      :class => "time-picker",
-      :tt_onLoad => "loadDatePicker();",
-      :tt_onUnLoad => "unloadDatePicker();",
-      :helpText => "Time anaesthesia given (24 Hour clock)"
-    }).html_safe %>
+      :id => "review_time",
+      :field_type => "number",
+      :allowFreeText => 'true',
+      :tt_onLoad => "changeDecimalToColon();",
+      :validationRule => "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
+      :validationMessage => "Bad time format (Use this format: 14<b>:30</b>)",
+      :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
+      :helpText => "Time anaesthesia given (24 Hour clock)" }).html_safe%>
+
 
   <%= (touch_select_tag "TYPE OF ANAESTHESIA", @patient, options_for_select(@anaesthesia_types),
     {
@@ -175,56 +180,10 @@
 </form>
 
 <script type="text/javascript">
-<%
-this_hour = Time.now.hour
-if this_hour < 10
-  this_hour = "0" + this_hour.to_s
-end
-%>
-  function loadDatePicker(){
-    jQuery("#ptTimeSelectCntr").show();
-    jQuery("#keyboard").hide();
-    jQuery('#touchscreenInput'+tstCurrentPage).ptTimeSelect();
-    jQuery('#page'+tstCurrentPage).hide()
-    loadCustomInput();
-    loadPreviousValues();
-  }
-
-  function unloadDatePicker(){
-    jQuery('#page'+tstCurrentPage).show();
-    jQuery(".custom-inputs").hide();
-    jQuery(".ui-widget-content").hide();
-    hour = jQuery('.hourInput').val();
-    minutes = jQuery('.minutesInput').val();
-    review_time = hour + ":" + minutes;
-    //jQuery('#review_time').val(review_time);
-   // jQuery('#review_time')[0].value = review_time;
-  }
-
-  function loadPreviousValues(){
-    anaesthesiaTime = jQuery('#anaesthesia_time').val().split(":")
-    hour = anaesthesiaTime[0];
-    minutes = anaesthesiaTime[1];
-
-    if (hour.length > 0){
-      jQuery('.hourInput').val(hour);
-      jQuery('.minutesInput').val(minutes);
-    }
-    jQuery("#ptTimeSelectCntr").show();
-  }
-
-  function loadCustomInput(){
-    jQuery(".custom-inputs").remove();
-    html = "<table class='custom-inputs'>";
-    html += "<tr><td colspan='3'><center><span class='helpTextClass'>Time anaesthesia given</span></center></td></tr>"
-    html += "<tr><td><span class='hour-header'>Hour</span></td><td>&nbsp;</td><td><span class='minutes-header'>Minutes</span></td></tr>"
-    html += "<tr>";
-    html += "<td><div class='inputFrameClass' style='padding: 0px;'><input type= 'text' class='touchscreenTextInput hourInput' value='<%= this_hour %>'></input></div></td>"
-    html+= "<td class='blank-td'>&nbsp;</td>"
-    html += "<td><div class='inputFrameClass' style='padding: 0px;'><input type= 'text' class='touchscreenTextInput minutesInput' value='00'></input></div></td></tr>"
-    html += "</table>";
-    jQuery( "body" ).append(html);
-    jQuery(".ui-widget-content").show();
+  function changeDecimalToColon(){
+    decimal = jQuery("#decimal")[0];
+    decimal.innerHTML = '<span>:</span>';
+    decimal.setAttribute("onmousedown", "press(':')")
   }
 
 </script>
