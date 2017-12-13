@@ -91,6 +91,22 @@ Rails.application.routes.draw do
   post '/patients/get_patient_visits'
   post '/patients/get_patient_vitals'
   get '/patients/get_patient_vitals'
+
+  get '/patients/get_registration_encounter_status'
+  post '/patients/get_registration_encounter_status'
+
+  get '/patients/patient_is_circumcised'
+  post '/patients/patient_is_circumcised'
+
+  get '/patients/patient_is_circumcised_today'
+  post '/patients/patient_is_circumcised_today'
+
+  get '/patients/get_follow_up_status'
+  post '/patients/get_follow_up_status'
+
+  get '/patients/check_if_encounter_exists_on_date'
+  post '/patients/check_if_encounter_exists_on_date'
+
   get '/encounters/details'
   post '/encounters/observations'
   get '/encounters/observations'

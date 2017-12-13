@@ -122,7 +122,103 @@
   window.onload = function(){
     getPatientVisits();
     loadVitals();
+    checkIfPatientIsFollowUp();
+  }
 
+  function checkIfPatientIsFollowUp(){
+    jQuery.ajax({
+      type: "POST",
+      url: "/patients/get_follow_up_status",
+      data: "patient_id=" + patientID,
+      success: function(result){
+        if (result == 'true'){
+          jQuery("#registration").hide();
+          jQuery("#medical-history").hide();
+          jQuery("#vital-signs").hide();
+          jQuery("#hiv-status").hide();
+          jQuery("#genital-examination").hide();
+          jQuery("#circumcision").hide();
+          jQuery("#post_op_review").hide();
+        } else {
+          jQuery("#follow_up_review").hide();
+          checkIfPatientHasRegistrationEncounter();
+          checkIfEncounterCaptured('MEDICAL HISTORY', 'medical-history');
+          checkIfEncounterCaptured('VITALS', 'vital-signs');
+          checkIfEncounterCaptured('HIV TESTING', 'hiv-status');
+          checkIfEncounterCaptured('GENITAL EXAMINATION', 'genital-examination');
+          checkIfEncounterCaptured('CIRCUMCISION', 'circumcision');
+          checkIfEncounterCaptured('POST-OP REVIEW', 'post_op_review');
+        }
+      }
+
+    });
+  }
+
+  function checkIfPatientHasRegistrationEncounter(){
+    jQuery.ajax({
+      type: "POST",
+      url: "/patients/get_registration_encounter_status",
+      data: "patient_id=" + patientID,
+      success: function(result){
+        if (result == 'true'){
+          jQuery("#registration").hide();
+        }
+      }
+
+    });
+  }
+
+  function checkIfPatientIsCircumcised(){
+    jQuery.ajax({
+      type: "POST",
+      url: "/patients/patient_is_circumcised",
+      data: "patient_id=" + patientID,
+      success: function(result){
+        if (result == 'false'){
+          jQuery("#post_op_review").hide();
+          jQuery("#follow_up_review").hide();
+        }
+      }
+
+    });
+  }
+
+  function checkIfPatientIsCircumcisedToday(){
+    jQuery.ajax({
+      type: "POST",
+      url: "/patients/patient_is_circumcised_today",
+      data: "patient_id=" + patientID,
+      success: function(result){
+        if (result == 'true'){
+          /*jQuery("#follow_up_review").hide();
+          checkIfEncounterCaptured('medical');
+          checkIfEncounterCaptured('vital');
+          checkIfEncounterCaptured('hiv');
+          checkIfEncounterCaptured('genital');
+          checkIfEncounterCaptured('circumcision');
+          checkIfEncounterCaptured('post');*/
+        }
+      }
+
+    });
+  }
+
+  function checkIfEncounterCaptured(encounterType, id){
+    jQuery.ajax({
+      type: "POST",
+      url: "/patients/check_if_encounter_exists_on_date",
+      data: "patient_id=" + patientID + "&encounter_type=" + encounterType,
+      success: function(result){
+        if (result == 'true'){
+          jQuery("#" + id).css('color', 'gray');
+          jQuery("#" + id).removeAttr("onclick");
+          jQuery("#" + id).mouseover(function(){
+            jQuery(this).css('background-color', 'white');
+          });
+        }
+      }
+
+    });
   }
 
   function confirmAction(){

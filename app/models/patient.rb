@@ -71,5 +71,51 @@ class Patient < ActiveRecord::Base
     data["cell_phone_number"] = patient_bean.cell_phone_number
     return data
   end
-  
+
+  def registration_encounter_status
+    patient = self
+    registration_encounter_type_id = EncounterType.find_by_name("REGISTRATION").encounter_type_id
+    concept_id = Concept.find_by_name("KNOWLEDGE SOURCE").concept_id
+    registration_encounter = patient.encounters.joins(:observations).where(["encounter_type =? AND concept_id =?",
+        registration_encounter_type_id, concept_id]).last
+    return true unless registration_encounter.blank?
+    return false
+  end
+
+  def patient_is_circumcised
+    patient = self
+    circumcision_encounter_type_id = EncounterType.find_by_name("CIRCUMCISION").encounter_type_id
+    circumcision_encounter = patient.encounters.joins(:observations).where(["encounter_type =?",
+        circumcision_encounter_type_id]).last
+    return true unless circumcision_encounter.blank?
+    return false
+  end
+
+  def patient_is_circumcised_today(today = Date.today)
+    patient = self
+    circumcision_encounter_type_id = EncounterType.find_by_name("CIRCUMCISION").encounter_type_id
+    circumcision_encounter = patient.encounters.joins(:observations).where(["encounter_type =? AND
+        DATE(encounter_datetime) =?", circumcision_encounter_type_id, today.to_date]).last
+    return true unless circumcision_encounter.blank?
+    return false
+  end
+
+  def is_patient_follow_up(today = Date.today)
+    patient = self
+    circumcision_encounter_type_id = EncounterType.find_by_name("CIRCUMCISION").encounter_type_id
+    circumcision_encounter = patient.encounters.joins(:observations).where(["encounter_type =? AND
+        DATE(encounter_datetime) < ?", circumcision_encounter_type_id, today.to_date]).last
+    return true unless circumcision_encounter.blank?
+    return false
+  end
+
+  def encounter_exists_on_date(encounter_type, today = Date.today)
+    patient = self
+    encounter_type_id = EncounterType.find_by_name(encounter_type).encounter_type_id
+    encounter = patient.encounters.joins(:observations).where(["encounter_type =? AND
+        DATE(encounter_datetime) =?", encounter_type_id, today.to_date]).last
+    return true unless encounter.blank?
+    return false
+  end
+
 end

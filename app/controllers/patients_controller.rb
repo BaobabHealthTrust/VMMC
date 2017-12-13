@@ -67,4 +67,36 @@ class PatientsController < ApplicationController
     demographics = Patient.get_demographics(params[:patient_id])
     render text: demographics.to_json and return
   end
+
+  def get_registration_encounter_status
+    patient = Patient.find(params[:patient_id])
+    registration_encounter_status = patient.registration_encounter_status
+    render text: registration_encounter_status.to_s and return
+  end
+
+  def patient_is_circumcised
+    patient = Patient.find(params[:patient_id])
+    circumcision_status = patient.patient_is_circumcised
+    render text: circumcision_status.to_s and return
+  end
+
+  def patient_is_circumcised_today
+    patient = Patient.find(params[:patient_id])
+    circumcised_today_status = patient.patient_is_circumcised_today
+    render text: circumcised_today_status.to_s and return
+  end
+
+  def get_follow_up_status
+    patient = Patient.find(params[:patient_id])
+    follow_up_status = patient.is_patient_follow_up
+    render text: follow_up_status.to_s and return
+  end
+
+  def check_if_encounter_exists_on_date
+    encounter_type = params[:encounter_type]
+    patient = Patient.find(params[:patient_id])
+    encounter_status = patient.encounter_exists_on_date(encounter_type)
+    render text: encounter_status.to_s and return
+  end
+
 end
