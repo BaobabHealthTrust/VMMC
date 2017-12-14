@@ -1,0 +1,94 @@
+<script type="text/javascript">
+  var patientID =  "<%= params[:patient_id] %>";
+  var tt_cancel_destination = "/patients/show/" + patientID;
+</script>
+
+<style type="text/css">
+  a {
+    background-color: rgb(98, 129, 167);
+    border-bottom: 1px outset #eeeeee;
+    border-style: outset;
+    border-top: 1px outset #eeeeee;
+    color: white;
+    display: block;
+    padding: 10px 16px 10px 10px;
+    text-align: center;
+    text-decoration: none;
+  }
+</style>
+<div style="font-size: 2.3em; background-color: rgb(98, 129, 167); color: rgb(238, 238, 238); padding: 15px;" align="center">
+			Edit Demographics
+</div>
+<div id="divMain" style="background-color: rgb(255, 255, 255); overflow: auto; height: calc(100vh - 155px);">
+  &nbsp;
+  <table width="100%" cellpadding="2" border="0">
+    <tr>
+      <td style="font-size: 24px; min-width: 40%; color: rgb(51, 51, 51); padding-right: 15px;" align="right"><span style="font-size: 28px">F</span><span style="font-size: 18px">IRST</span><span style="font-size: 28px">N</span><span style="font-size: 18px">AME</span></td>
+      <td style="width: 20px;" align="center">:</td>
+      <td id="first_name" style="font-size: 28px; border-bottom: 1px dotted rgb(204, 204, 204); padding-left: 15px;"><%= @bean.first_name %></td>
+      <td style="width: 150px;">
+        <a href="/patients/update_demographics?field=first_name&patient_id=<%= params[:patient_id]%>" class="anchor_class">Edit</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="font-size: 24px; min-width: 40%; color: rgb(51, 51, 51); padding-right: 15px;" align="right"><span style="font-size: 28px">L</span><span style="font-size: 18px">AST</span><span style="font-size: 28px">N</span><span style="font-size: 18px">AME</span></td>
+      <td style="width: 20px;" align="center">:</td>
+      <td id="last_name" style="font-size: 28px; border-bottom: 1px dotted rgb(204, 204, 204); padding-left: 15px;"><%= @bean.last_name %></td>
+      <td style="width: 150px;">
+        <a href="/patients/update_demographics?field=last_name&patient_id=<%= params[:patient_id]%>" class="anchor_class">Edit</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="font-size: 24px; min-width: 40%; color: rgb(51, 51, 51); padding-right: 15px;" align="right"><span style="font-size: 28px">D</span><span style="font-size: 18px">ATE</span><span style="font-size: 28px">O</span><span style="font-size: 18px">F</span><span style="font-size: 28px">B</span><span style="font-size: 18px">IRTH</span></td><td style="width: 20px;" align="center">:</td>
+      <td id="date_of_birth" style="font-size: 28px; border-bottom: 1px dotted rgb(204, 204, 204); padding-left: 15px;"><%= @bean.birth_date %></td>
+      <td style="width: 150px;">
+        <a href="/patients/update_demographics?field=date_of_birth&patient_id=<%= params[:patient_id]%>" class="anchor_class">Edit</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="font-size: 24px; min-width: 40%; color: rgb(51, 51, 51); padding-right: 15px;" align="right"><span style="font-size: 28px">C</span><span style="font-size: 18px">URRENT</span><span style="font-size: 28px">D</span><span style="font-size: 18px">ISTRICT</span></td>
+      <td style="width: 20px;" align="center">:</td>
+      <td id="current_district" style="font-size: 28px; border-bottom: 1px dotted rgb(204, 204, 204); padding-left: 15px;"><%= @bean.current_district %></td><td style="width: 150px;">
+        <a href="/patients/update_demographics?field=address&patient_id=<%= params[:patient_id]%>" class="anchor_class">Edit</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="font-size: 24px; min-width: 40%; color: rgb(51, 51, 51); padding-right: 15px;" align="right"><span style="font-size: 28px">C</span><span style="font-size: 18px">URRENT</span><span style="font-size: 28px">T</span><span style="font-size: 18px">/A</span></td>
+      <td style="width: 20px;" align="center">:</td>
+      <td id="current_ta" style="font-size: 28px; border-bottom: 1px dotted rgb(204, 204, 204); padding-left: 15px;"><%= @bean.traditional_authority %></td><td style="width: 150px;">
+        <a href="/patients/update_demographics?field=address&patient_id=<%= params[:patient_id]%>" class="anchor_class">Edit</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="font-size: 24px; min-width: 40%; color: rgb(51, 51, 51); padding-right: 15px;" align="right"><span style="font-size: 28px">C</span><span style="font-size: 18px">URRENT</span><span style="font-size: 28px">V</span><span style="font-size: 18px">ILLAGE</span></td>
+      <td style="width: 20px;" align="center">:</td>
+      <td id="current_village" style="font-size: 28px; border-bottom: 1px dotted rgb(204, 204, 204); padding-left: 15px;"><%= @bean.current_residence %></td><td style="width: 150px;">
+        <a href="/patients/update_demographics?field=address&patient_id=<%= params[:patient_id]%>" class="anchor_class">Edit</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="font-size: 24px; min-width: 40%; color: rgb(51, 51, 51); padding-right: 15px;" align="right"><span style="font-size: 28px">H</span><span style="font-size: 18px">OME</span><span style="font-size: 28px">D</span><span style="font-size: 18px">ISTRICT</span></td>
+      <td style="width: 20px;" align="center">:</td>
+      <td id="home_district" style="font-size: 28px; border-bottom: 1px dotted rgb(204, 204, 204); padding-left: 15px;"><%= @bean.home_district %></td>
+      <td style="width: 150px;">
+        <a href="/patients/update_demographics?field=address&patient_id=<%= params[:patient_id]%>" class="anchor_class">Edit</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="font-size: 24px; min-width: 40%; color: rgb(51, 51, 51); padding-right: 15px;" align="right"><span style="font-size: 28px">C</span><span style="font-size: 18px">LOSEST</span><span style="font-size: 28px">L</span><span style="font-size: 18px">ANDMARK</span></td>
+      <td style="width: 20px;" align="center">:</td>
+      <td id="closest_landmark" style="font-size: 28px; border-bottom: 1px dotted rgb(204, 204, 204); padding-left: 15px;"><%= @bean.landmark %></td>
+      <td style="width: 150px;">
+        <a href="/patients/update_demographics?field=land_mark&patient_id=<%= params[:patient_id]%>" class="anchor_class">Edit</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="font-size: 24px; min-width: 40%; color: rgb(51, 51, 51); padding-right: 15px;" align="right"><span style="font-size: 28px">C</span><span style="font-size: 18px">ELL</span><span style="font-size: 28px">P</span><span style="font-size: 18px">HONE</span><span style="font-size: 28px">N</span><span style="font-size: 18px">UMBER</span></td>
+      <td style="width: 20px;" align="center">:</td>
+      <td id="cell_phone_number" style="font-size: 28px; border-bottom: 1px dotted rgb(204, 204, 204); padding-left: 15px;"><%= @bean.cell_phone_number %></td>
+      <td style="width: 150px;">
+        <a href="/patients/update_demographics?field=cell_phone_number&patient_id=<%= params[:patient_id]%>" class="anchor_class">Edit</a>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   post '/select' => 'people#select'
   get '/new_patient' => 'patients#new_patient'
   get '/patients/show/:patient_id' => 'patients#show'
+  get 'edit_demographics/:patient_id' => 'patients#edit_demographics'
   get '/patients/activities'
   get '/patients/patient_demographics_label'
   get '/patients/national_id_label'
@@ -110,6 +111,9 @@ Rails.application.routes.draw do
 
   get '/patients/get_next_task'
   post '/patients/get_next_task'
+
+  get '/patients/update_demographics'
+  post '/patients/update_demographics'
 
   get '/encounters/details'
   post '/encounters/observations'

@@ -16,12 +16,59 @@ class PatientsController < ApplicationController
   def activities
     patient_id = params[:patient_id]
     @links = []
-    @links << ["Demographics (Edit)","/"]
+    @links << ["Demographics (Edit)","/edit_demographics/#{patient_id}"]
     @links << ["Demographics (Print)","/patients/patient_demographics_label?patient_id=#{patient_id}"]
     @links << ["Visit Summary (Print)","/"]
     @links << ["National ID (Print)","/patients/national_id_label?patient_id=#{patient_id}"]
     
     render layout: false
+  end
+
+  def edit_demographics
+    patient = Patient.find(params[:patient_id])
+    @bean = PatientService.get_patient(patient.person)
+    render layout: "menu"
+  end
+
+  def update_demographics
+    patient = Patient.find(params[:patient_id])
+    person = patient.person
+    @bean = PatientService.get_patient(person)
+    if request.post?
+      if (params[:field] == 'first_name' || params[:field] == 'last_name')
+        person.names.last.update_attributes(params["person"]["names"].permit!)
+      end
+
+      if (params[:field] == 'date_of_birth')
+        if params["person"]["birth_year"] == "Unknown"
+          PatientService.set_birthdate_by_age(person, params["person"]['age_estimate'], Date.today)
+        else
+          PatientService.set_birthdate(person, params["person"]["birth_year"], params["person"]["birth_month"], params["person"]["birth_day"])
+        end
+        patient.person.save
+      end
+
+      if (params[:field] == 'address' || params[:field] == 'land_mark')
+        person.addresses.last.update_attributes(params["person"]["addresses"].permit!)
+      end
+
+      if (params[:field] == 'cell_phone_number')
+        person_attribute_type_id = PersonAttributeType.find_by_name("Cell Phone Number").person_attribute_type_id
+        person_attribute = person.person_attributes.find_by_person_attribute_type_id(person_attribute_type_id)
+
+        if person_attribute.blank?
+          person.person_attributes.create(
+            :person_attribute_type_id => person_attribute_type_id,
+            :value => params["person"]["cell_phone_number"])
+        else
+          person_attribute.update_attributes(value: params["person"]["cell_phone_number"])
+        end
+		
+      end
+      
+      redirect_to("/edit_demographics/#{params[:patient_id]}") and return
+    end
+    render layout: "full_page_form"
   end
 
   def get_patient_visits
