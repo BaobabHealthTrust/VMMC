@@ -108,6 +108,9 @@ Rails.application.routes.draw do
   get '/patients/check_if_encounter_exists_on_date'
   post '/patients/check_if_encounter_exists_on_date'
 
+  get '/patients/get_next_task'
+  post '/patients/get_next_task'
+
   get '/encounters/details'
   post '/encounters/observations'
   get '/encounters/observations'

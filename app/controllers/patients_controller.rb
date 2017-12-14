@@ -99,4 +99,10 @@ class PatientsController < ApplicationController
     render text: encounter_status.to_s and return
   end
 
+  def get_next_task
+    patient = Patient.find(params[:patient_id])
+    task_name = next_task(patient.person).name
+    render text: task_name.to_s and return
+  end
+
 end

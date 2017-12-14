@@ -123,6 +123,7 @@
     getPatientVisits();
     loadVitals();
     checkIfPatientIsFollowUp();
+    loadNextTask();
   }
 
   function checkIfPatientIsFollowUp(){
@@ -219,6 +220,17 @@
         }
       }
 
+    });
+  }
+
+  function loadNextTask(){
+    jQuery.ajax({
+      type: "POST",
+      url: "/patients/get_next_task",
+      data: "patient_id=" + patientID,
+      success: function(result){
+        jQuery("#next-task").html(result);
+      }
     });
   }
 
@@ -366,7 +378,7 @@
             <tr style="background-color: rgb(52, 93, 181);">
               <td style="width: 200px; border-right: 1px solid rgb(255, 255, 255); color: rgb(255, 255, 255); text-align: left; font-weight: bold; padding-left: 10px;">Programs</td>
               <td style="width: 200px; border-right: 1px solid rgb(255, 255, 255); color: rgb(255, 255, 255); background-color: rgb(7, 32, 85); text-align: center; font-weight: bold;">Visit History</td>
-              <td style="border-right: 1px solid rgb(255, 255, 255); color: rgb(255, 255, 255); text-align: center; font-weight: bold;" id="header">&nbsp;</td>
+              <td style="border-right: 1px solid rgb(255, 255, 255); color: rgb(255, 255, 255); text-align: center; font-weight: bold;" id="header">Next Task: <span id="next-task">&nbsp;</span></td>
               <td style="width: 200px; border-right: 1px solid rgb(255, 255, 255); color: rgb(255, 255, 255); text-align: left; font-weight: bold; background-color: rgb(7, 32, 85); padding-left: 10px;">Tasks</td>
             </tr>
             <tr>
