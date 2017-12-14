@@ -27,13 +27,7 @@ class EncountersController < ApplicationController
   def create
     session = Date.today
     patient_id = params[:encounter][:patient_id]
-=begin
-    if params[:encounter]["encounter_type_name"].squish.upcase == 'VITALS'
-      create_vitals_encounter(params, session)
-      url = "/patients/show/#{patient_id}"
-      redirect_to url and return
-    end
-=end
+    person = Person.find(patient_id)
 
     encounter_type = EncounterType.find_by_name(params[:encounter]["encounter_type_name"])
     patient_id = params[:encounter]["patient_id"].to_i
@@ -58,7 +52,7 @@ class EncountersController < ApplicationController
       create_obs(encounter, params)
     end
 
-    url = "/patients/show/#{patient_id}"
+    url = next_task(person).url
     redirect_to url and return
       
   end

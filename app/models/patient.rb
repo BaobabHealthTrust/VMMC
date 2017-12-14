@@ -82,6 +82,16 @@ class Patient < ActiveRecord::Base
     return false
   end
 
+  def has_registration_encounter
+    patient = self
+    registration_encounter_type_id = EncounterType.find_by_name("REGISTRATION").encounter_type_id
+    concept_id = Concept.find_by_name("KNOWLEDGE SOURCE").concept_id
+    registration_encounter = patient.encounters.joins(:observations).where(["encounter_type =? AND concept_id =?",
+        registration_encounter_type_id, concept_id]).last
+    return true unless registration_encounter.blank?
+    return false
+  end
+
   def patient_is_circumcised
     patient = self
     circumcision_encounter_type_id = EncounterType.find_by_name("CIRCUMCISION").encounter_type_id
