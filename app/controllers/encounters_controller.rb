@@ -13,6 +13,14 @@ class EncountersController < ApplicationController
     @hiv_test_not_done_reasons = hiv_test_not_done_reasons_options
     @hiv_results_options = hiv_results_option
     @max_date = max_date
+    @haematoma_options = haematoma_options
+    @swelling_options = swelling_options
+    @glans_damage_options = glans_damage_options
+    @infection_options = infection_options
+    @wound_disruption_options = wound_disruption_options
+    @urinary_problem_options = urinary_problem_options
+    @yes_no_options = yes_no_options
+    @none_mild_mod_sev_options = none_mild_mod_sev_options
     render action: params[:encounter_type], patient_id: params[:patient_id], layout: "header"
   end
 
@@ -173,6 +181,19 @@ class EncountersController < ApplicationController
     @wound_disruption_options = wound_disruption_options
     @urinary_problem_options = urinary_problem_options
     @yes_no_options = yes_no_options
+    @none_mild_mod_sev_options = none_mild_mod_sev_options
+    render layout: "form" 
+  end
+
+  def none_mild_mod_sev_options
+    options = [
+      ["", ""],
+      ["None", "None"],
+      ["Mild", "Mild"],
+      ["Moderate", "Moderate"],
+      ["Severe", "Severe"]
+    ]
+    return options
   end
 
   def yes_no_options

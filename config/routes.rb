@@ -83,6 +83,7 @@ Rails.application.routes.draw do
   get '/circumcision' => 'encounters#circumcision'
   get '/post_op_review' => 'encounters#post_op_review'
   get '/registration' => 'encounters#registration'
+  get '/follow_up_review' => 'encounters#follow_up_review'
   get '/person_names/given_names' => 'person_names#given_names'
   get '/person_names/family_names' => 'person_names#family_names'
   get '/person_names/middle_name' => 'person_names#middle_name'

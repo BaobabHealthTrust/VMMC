@@ -21,6 +21,9 @@
     height: 460px !important;
   }
 
+  #Unknown{
+    display: none;
+  }
 </style>
 
 <form action="/encounters/create" method="POST" target="_top">
@@ -36,50 +39,50 @@
       :field_type => "date"
     }).html_safe %>
 
-  <%= (touch_select_tag "PAIN", @patient, options_for_select(@pain_options),
+  <%= (touch_select_tag "PAIN", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "type_of_pain",
       :helpText  => "Type of pain"
     }).html_safe %>
 
 
-  <%= (touch_select_tag "BANDAGE", @patient, options_for_select(@bandage_options),
+  <%= (touch_select_tag "BANDAGE", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "bandage",
       :helpText  => "Bandage (Bleeding)"
     }).html_safe %>
 
-  <%= (touch_select_tag "HAEMATOMA", @patient, options_for_select(@haematoma_options),
+  <%= (touch_select_tag "HAEMATOMA", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "haematoma",
       :helpText  => "Haematoma"
     }).html_safe %>
 
-  <%= (touch_select_tag "SWELLING", @patient, options_for_select(@swelling_options),
+  <%= (touch_select_tag "SWELLING", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "swelling",
       :helpText  => "Swelling"
     }).html_safe %>
 
-  <%= (touch_select_tag "GLANS DAMAGE", @patient, options_for_select(@glans_damage_options),
+  <%= (touch_select_tag "GLANS DAMAGE", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "glans-damage",
-      :helpText  => "Glans damage"
+      :helpText  => "Damage to glans"
     }).html_safe %>
 
-  <%= (touch_select_tag "INFECTION", @patient, options_for_select(@infection_options),
+  <%= (touch_select_tag "INFECTION", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "infection",
       :helpText  => "Infection"
     }).html_safe %>
 
-  <%= (touch_select_tag "WOUND DISRUPTION", @patient, options_for_select(@wound_disruption_options),
+  <%= (touch_select_tag "WOUND DISRUPTION", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "wound-disruption",
       :helpText  => "Wound disruption"
     }).html_safe %>
 
-  <%= (touch_select_tag "URINARY PROBLEMS", @patient, options_for_select(@urinary_problem_options),
+  <%= (touch_select_tag "URINARY PROBLEMS", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "urinary-problems",
       :helpText  => "Urinary problems"
@@ -88,13 +91,33 @@
   <%= (touch_select_tag "EXCESSIVE SKIN REMOVED", @patient, options_for_select(@yes_no_options),
     {
       :id => "excessive-skin",
-      :helpText  => "Insufficient skin removed?"
+      :helpText  => "Excessive skin removed?"
     }).html_safe %>
 
   <%= (touch_select_tag "INSUFFICIENT SKIN REMOVED", @patient, options_for_select(@yes_no_options),
     {
       :id => "insufficient-skin",
       :helpText  => "Insufficient skin removed?"
+    }).html_safe %>
+
+  <%= (touch_select_tag "DELAYED WOUND HEALING", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "delayed-wound-healing",
+      :helpText  => "Delayed wound healing?"
+    }).html_safe %>
+
+  <%= (touch_select_tag "COUNSELLING", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "counselling",
+      :helpText  => "Was counselling done?"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "NUMBER OF CONDOMS DISPENSED", @patient, nil,
+    {
+      :id => "counselling",
+      :field_type => 'number',
+      :tt_pageStyleClass => "Numeric NumbersOnly",
+      :helpText  => "Number of condoms given"
     }).html_safe %>
 
 </form>
