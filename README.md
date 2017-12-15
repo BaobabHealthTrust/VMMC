@@ -10,7 +10,7 @@ Setting up this application shouldn't be complicated. By following the instructi
 *Open your terminal and type the following commands*
 1. Type **git clone https://github.com/BaobabHealthTrust/VMMC.git**
 2. Type **cd VMMC**
-3. *cp config/database.yml.example config/database.yml*
+3. **cp config/database.yml.example config/database.yml**
 4. Open and edit config/database.yml to suit your MySQL settings.
 5.   Type **bin/initial_database_setup.sh development mpc**
 6. Navigate to public folder of the application
