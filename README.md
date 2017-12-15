@@ -7,7 +7,7 @@ Setting up this application shouldn't be complicated. By following the instructi
 3. Mysql version **5.5.53**
 
 **How to setup**
-###Open your terminal and type the following commands
+##Open your terminal and type the following commands
 1. Type *git clone https://github.com/BaobabHealthTrust/VMMC.git*
 2. Type *cd VMMC*
 3. *cp config/database.yml.example config/database.yml*
