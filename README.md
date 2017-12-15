@@ -1,12 +1,12 @@
 # VMMC
 Setting up this application shouldn't be complicated. By following the instructions below you should be able to setup the application without any difficulties
 
-**##Requirements**
+**Requirements**
 1. Ruby version **2.1.2**
 2. Rails version **4.2.6**
 3. Mysql version **5.5.53**
 
-**##How to setup**
+**How to setup**
 Open your terminal and type the following commands
 1. Type *git clone https://github.com/BaobabHealthTrust/VMMC.git*
 2. Type *cd VMMC*
