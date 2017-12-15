@@ -9,14 +9,14 @@ Setting up this application shouldn't be complicated. By following the instructi
 ## How to setup ##
 *Open your terminal and type the following commands*
 1. Type **git clone https://github.com/BaobabHealthTrust/VMMC.git**
-2. Type *cd VMMC*
+2. Type **cd VMMC**
 3. *cp config/database.yml.example config/database.yml*
 4. Open and edit config/database.yml to suit your MySQL settings.
-5.   Type *bin/initial_database_setup.sh development mpc*
+5.   Type **bin/initial_database_setup.sh development mpc**
 6. Navigate to public folder of the application
-7. *git clone https://github.com/BaobabHealthTrust/touchscreentoolkit.git*
+7. **git clone https://github.com/BaobabHealthTrust/touchscreentoolkit.git**
 8. Make sure you are in the root of the application
-9. *bundle install* This will take some time depending on the speed of your Internet
-10. At this time, I assume everything is well. If so then you can start the application by typing *_rails s_*
-11. The application will start on port 3000. If the default port is occupied then you can give -p to specify the port number. For example * rails s -p 3001 *
+9. **bundle install** This will take some time depending on the speed of your Internet
+10. At this time, I assume everything is well. If so then you can start the application by typing **rails s**
+11. The application will start on port 3000. If the default port is occupied then you can give -p to specify the port number. For example **rails s -p 3001**
 
