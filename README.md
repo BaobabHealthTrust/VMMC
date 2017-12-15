@@ -17,6 +17,6 @@ Setting up this application shouldn't be complicated. By following the instructi
 7. *git clone https://github.com/BaobabHealthTrust/touchscreentoolkit.git*
 8. Make sure you are in the root of the application
 9. *bundle install* This will take some time depending on the speed of your Internet
-10. At this time, I assume everything is well. If so then you can start the application by typing *rails s*
-11. The application will start on port 3000. If the default port is occupied then you can give -p to specify the port number. For example *rails s -p 3001*
+10. At this time, I assume everything is well. If so then you can start the application by typing * rails s *
+11. The application will start on port 3000. If the default port is occupied then you can give -p to specify the port number. For example * rails s -p 3001 *
 
