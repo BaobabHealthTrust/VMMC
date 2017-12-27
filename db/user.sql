@@ -1,3 +1,3 @@
 INSERT INTO `users` (`user_id`, `system_id`, `username`, `password`, `salt`, `creator`, `date_created`, `changed_by`, `person_id`, `uuid`) 
-VALUES ('1', '1-8', 'Provider', 'c60419a4689b5caed03312d3d41e0e429924e8c3', '6TnqlzzAa4', '1', NOW(), '1', '1', '48cbaafb-51f6-11e3-8fcd-003018acf05d');
+VALUES ('1', '1-8', 'admini', '3ff922e1b76124b958cfd7d7b605bd4728e6be55', 't6IyxtxCcV', '1', NOW(), '1', '1', 'fa572b7d-eaf7-11e7-a645-c8d3ffdd6fb4');
 

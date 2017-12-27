@@ -17,8 +17,8 @@ Setting up this application shouldn't be complicated. By following the instructi
 	**mysql -u root -p -D database name < /application path/db/users.sql**
 	**mysql -u root -p -D database name < /application path/db/location_tag.sql**
 
-	- Default username: provider
-	- password: provider
+	- Default username: admini
+	- password: test
 	- location: 721 or Room 1
 7. Navigate to public folder of the application
 8. **git clone https://github.com/BaobabHealthTrust/touchscreentoolkit.git**
