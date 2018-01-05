@@ -1,0 +1,8 @@
+<form action="/view_users" method="POST">
+  <%= text_field 'user', 'username',
+    :textCase =>"lower",
+    :ajaxURL => '/users/username?username=',
+    :helpText => 'Select username',
+    :textCase => "lower" %>
+    <%= submit_tag "Find user" %>
+</form>
