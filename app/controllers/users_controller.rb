@@ -35,31 +35,35 @@ class UsersController < ApplicationController
 		render layout: false
   end
 
-  def change_password
-    if request.post?
-      old_password = params[:user][:old_password]
-      new_password = params[:user][:new_password]
-      confirm_password = params[:user][:confirm_password]
+  def new
+    @user = User.new
+  end
 
-      authenticate_user = User.authenticate(User.current.username, old_password)
-      if authenticate_user
-        if (new_password.squish != confirm_password.squish)
-          flash[:error] = "New password does not match with the confirmed password"
-          redirect_to("/change_password") and return
-        end
-        
-        User.current.update_password(new_password)
-        flash[:notice] = "Password updated. New password is #{new_password}"
-        redirect_to("/") and return
-        
-      else
-        flash[:error] = "Failed to change password. Old password is incorrect"
-        redirect_to("/change_password") and return
-      end
+ #  def change_password
+ #    if request.post?
+ #      old_password = params[:user][:old_password]
+ #      new_password = params[:user][:new_password]
+ #      confirm_password = params[:user][:confirm_password]
 
-    end
-		render layout: "full_page_form"
-	end
+ #      authenticate_user = User.authenticate(User.current.username, old_password)
+ #      if authenticate_user
+ #        if (new_password.squish != confirm_password.squish)
+ #          flash[:error] = "New password does not match with the confirmed password"
+ #          redirect_to("/change_password") and return
+ #        end
+        
+ #        User.current.update_password(new_password)
+ #        flash[:notice] = "Password updated. New password is #{new_password}"
+ #        redirect_to("/") and return
+        
+ #      else
+ #        flash[:error] = "Failed to change password. Old password is incorrect"
+ #        redirect_to("/change_password") and return
+ #      end
+
+ #    end
+	# 	render layout: "full_page_form"
+	# end
 
 	def edit_demographics
 		render layout: "menu"
@@ -72,6 +76,31 @@ class UsersController < ApplicationController
       raise params.inspect
     end
     render layout: "full_page_form"
+  end
+
+  def change_password
+    @user = User.find(params[:id])
+
+    unless request.get? 
+      if (params[:user][:new_password] != params[:user][:confirm_password])
+        flash[:notice] = 'Password Mismatch'
+        redirect_to :action => 'new'
+        return
+      else
+        salt = User.random_string(10)
+        @user.salt = salt
+        @user.password = User.encrypt(params[:user][:new_password], salt)
+        if @user.save
+          flash[:notice] = "Password successfully changed"
+          redirect_to :action => "show",:id => @user.id
+          return
+        else
+          flash[:notice] = "Password change failed"
+        end
+      end
+    end
+    render layout: "full_page_form"
+
   end
   
 	def my_profile

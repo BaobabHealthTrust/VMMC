@@ -122,7 +122,7 @@ Rails.application.routes.draw do
 
   #user settings route
   get "/users" => "users#user"
-  get "/change_password" => "users#change_password"
+  get "user/change_password" => "users#change_password"
   post "/change_password" => "users#change_password"
   get '/administration' => 'users#administration' #edit_user
   get '/edit_user' => 'users#edit_user'
