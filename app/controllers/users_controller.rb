@@ -135,7 +135,25 @@ class UsersController < ApplicationController
   end
 
   def view_users
-    render layout: "menu"
+    if request.post?
+      user = User.find_by_username(params[:user]['username'])
+      user_id = user.user_id
+      redirect_to "/show/#{user_id}"
+    else 
+      render layout: "full_page_form"
+    end
+    
+  end
+
+  def show
+    @user = User.find(params[:id])
+    render layout: "full_page_form"
+  end
+
+  def username
+    users = User.where("username LIKE '%#{params[:username]}%'")
+    users = users.map{|u| "<li value='#{u.username}'>#{u.username}</li>" }
+    render :text => users.join('') and return
   end
 
   def role
