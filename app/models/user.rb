@@ -44,15 +44,15 @@ class User < ActiveRecord::Base
   end
 
   def first_name
-		self.person.names.first.given_name rescue ''
+		self.person.names.last.given_name rescue ''
 	end
 
 	def last_name
-		self.person.names.first.family_name rescue ''
+		self.person.names.last.family_name rescue ''
 	end
 
 	def name
-		name = self.person.names.first
+		name = self.person.names.last
 		"#{name.given_name} #{name.family_name}"
 	end
   

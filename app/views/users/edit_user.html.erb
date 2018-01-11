@@ -1,17 +1,21 @@
-<form action= '/edit_user' method= 'POST'>
+<form action='/edit_user?id=<%=params[:id]%>' method= 'POST'>
+
   <%= text_field 'person_name', 'given_name',
     :ajaxURL => '/person_names/given_names?search_string=',
+    :helpText => 'First Name',
     :value => @user_first_name,
     :allowFreeText => true%>
 
   <%= text_field 'person_name', 'family_name',
     :ajaxURL => '/person_names/family_names?search_string=',
+    :helpText => 'Last Name',
     :value => @user_last_name,
     :allowFreeText => true%>
 
   <%= text_field 'user', 'username',
     :textCase => "lower",
-    :value => User.current.username,
+    :helpText => 'Username',
+    :value => @username,
     :validationRule =>"\\w{4}\\w*",
     :validationMessage => "Username must have at least FOUR characters",
     :textCase => "lower" %>

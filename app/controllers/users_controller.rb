@@ -70,12 +70,50 @@ class UsersController < ApplicationController
 	end
 
   def edit_user
-    @user_first_name = User.current.first_name
-    @user_last_name = User.current.last_name
-    if request.post?
-      raise params.inspect
-    end
+    user_id = params[:id]
+    user = User.find(user_id)
+    @user_first_name = user.first_name
+    @user_last_name = user.last_name
+    @username = user.username
+    
     render layout: "full_page_form"
+  end
+
+  # def update
+  #   user_id = params[:id]
+  #   redirect_to :action => "show", :id => user_id
+  # end
+
+  def update
+    #find_by_person_id(params[:id])
+    @user = User.find(params[:id])
+
+    username = params[:user]['username'] rescue session[:user]["username"]
+
+    if username
+      @user.update_attributes(:username => username)
+    end
+    
+    PersonName.where("voided = 0 AND person_id = #{@user.person_id}").each do | person_name |
+      person_name.voided = 1
+      person_name.voided_by = session[:user]["person_id"]
+      person_name.date_voided = Time.now()
+      person_name.void_reason = 'Edited name'
+      person_name.save
+    end
+
+    person_name = PersonName.new()
+    person_name.family_name = params[:person_name]["family_name"]
+    person_name.given_name = params[:person_name]["given_name"]
+    person_name.person_id = @user.person_id
+    person_name
+    if person_name.save
+      flash[:notice] = 'User was successfully updated.'
+      redirect_to :action => 'show', :id => @user.id and return
+    end
+
+    flash[:notice] = "OOps! User was not updated!."
+    render :action => 'show', :id => @user.id
   end
 
   def change_password
