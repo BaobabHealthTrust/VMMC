@@ -1,0 +1,7 @@
+<form action='/update_role?id=<%=params[:id]%>' method= 'POST'>
+
+  <%= text_field 'user_role', 'role',
+    :helpText => 'User role',
+    :ajaxURL => '/users/role?value='%>
+
+</form>

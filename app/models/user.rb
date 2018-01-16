@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
 
   before_create :before_create
   
+  has_one :user_role, foreign_key: "user_id"
+
   def before_create
     self.creator = User.current.user_id unless User.current.blank?
     self.date_created = Time.now
