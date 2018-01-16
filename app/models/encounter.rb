@@ -2,7 +2,6 @@ class Encounter < ActiveRecord::Base
   self.table_name = "encounter"
   self.primary_key = "encounter_id"
 
-
   before_create :before_create
   before_save :before_save
   include Openmrs
@@ -13,7 +12,6 @@ class Encounter < ActiveRecord::Base
   belongs_to :patient, -> { where voided: 0 }
 
   default_scope { where(voided: 0) }
-
 
   def before_save
     self.provider = User.current.person if self.provider.blank?
