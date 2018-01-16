@@ -232,6 +232,23 @@ class UsersController < ApplicationController
     render :text => roles.join('') and return
   end
 
+  def change_role
+    @user = User.find(params[:id])
+    render layout: "full_page_form"
+  end
+
+  def update_role
+    @user = User.find(params[:id])
+    user_role = @user.user_role
+    user_role.role = params[:user_role][:role]
+    if user_role.save
+      redirect_to "/show/#{params[:id]}"
+    else 
+       flash[:notice] = "Error on updating the user"
+       redirect_to "/user/change_role?id=#{params[:id]}"
+    end   
+  end
+
 	def manage_location
 		render layout:false
 	end
