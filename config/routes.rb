@@ -70,6 +70,11 @@ Rails.application.routes.draw do
   get 'report' => 'report#report'
   get 'registration_report_menu' => 'report#registration_report_menu'
   post 'registration_report' => 'report#registration_report'
+
+  get 'quartely_report_menu' => 'report#quartely_report_menu'
+  get 'quartely_report' => 'report#quartely_report'
+  post 'quartely_report' => 'report#quartely_report'
+
   get 'user' => 'clinic#user'
   get 'manage_locations' => 'clinic#manage_locations'
   get 'manage_villages' => 'clinic#manage_villages'

@@ -2,7 +2,7 @@ class PeopleController < ApplicationController
 
   def new
 		@occupations = occupations
-    render layout: "form"
+    render layout: "full_page_form"
 	end
 
 	def search
