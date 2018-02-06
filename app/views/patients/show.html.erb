@@ -275,6 +275,15 @@
     jQuery("#cover").hide();
     jQuery(".confirm").hide();
   }
+
+  function setDate(){
+    window.location = "/set_date?patient_id=" + patientID;
+  }
+
+  function resetDate(){
+    window.location = "/reset_date?patient_id=" + patientID;
+  }
+  
 </script>
 
 <style type="text/css">
@@ -307,7 +316,7 @@
   #session-date{
     padding-right: 20px;
   }
-  
+
 </style>
 <div id="content">
   <table style="font: 14px;-moz-user-select: none; border-collapse: collapse;" width="100%" border="0">

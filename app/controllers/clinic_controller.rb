@@ -17,6 +17,7 @@ class ClinicController < ApplicationController
     if request.post?
       session_date = params[:set_day] + "-" + params[:set_month] + "-" + params[:set_year]
       session[:session_date] = session_date.to_date
+      redirect_to("/patients/show/#{params[:patient_id]}") and return unless params[:patient_id].blank?
       redirect_to("/") and return
     end
 
@@ -25,6 +26,7 @@ class ClinicController < ApplicationController
 
   def reset_date
     session.delete(:session_date)
+    redirect_to("/patients/show/#{params[:patient_id]}") and return unless params[:patient_id].blank?
     redirect_to("/") and return
   end
 
