@@ -34,9 +34,16 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", User.current.person_id%>
 
+  <%= (touch_select_tag "CONSENT CONFIRMATION", @patient, options_for_select(['', 'Yes', 'No']),
+    {
+      :id => "consent",
+      :helpText  => "Has the client given consent?"
+    }).html_safe %>
+
   <%= (touch_select_tag "KNOWLEDGE SOURCE", @patient, options_for_select(@services_sources),
     {
       :multiple => true,
+      :condition => "__$('consent').value.toUpperCase() == 'YES'",
       :helpText  => "How did you learn of this (VMMC) service?"
     }).html_safe %>
 

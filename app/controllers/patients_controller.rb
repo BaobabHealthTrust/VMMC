@@ -152,4 +152,10 @@ class PatientsController < ApplicationController
     render text: task_name.to_s and return
   end
 
+  def patient_consent_given
+    patient = Patient.find(params[:patient_id])
+    consent_given = patient.consent_given?
+    render text: consent_given.to_s and return
+  end
+  
 end
