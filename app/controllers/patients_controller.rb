@@ -102,14 +102,25 @@ class PatientsController < ApplicationController
 
   def generate_visit_summary_label(patient)
     label = ZebraPrinter::StandardLabel.new
-    label.font_size = 2
-    label.font_horizontal_multiplier = 2
-    label.font_vertical_multiplier = 2
+    label.font_size = 3
+    label.font_horizontal_multiplier = 1
+    label.font_vertical_multiplier = 1
     label.left_margin = 50
-    label.draw_barcode(50,180,0,1,4,15,120,false,"#{patient_bean.national_id}")
-    label.draw_multi_text("#{patient_bean.name.titleize}")
-    label.draw_multi_text("#{patient_bean.national_id_with_dashes} #{patient_bean.birth_date}#{sex}")
-    label.draw_multi_text("#{address}" ) unless address.blank?
+    session_date = session[:session_date].to_date rescue Date.today
+    todays_encounters = patient.encounters.where(["DATE(encounter_datetime) = ?", session_date])
+    return nil if todays_encounters.blank?
+
+    label.draw_multi_text("Visit: #{session_date.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)
+
+    todays_encounters.each do |encounter|
+      next if encounter.type.name.upcase == "REGISTRATION"
+      encounter.observations.each do |obs|
+        answer_string = obs.answer_string.squish
+        concept_name = obs.concept.shortname
+        label.draw_multi_text("#{concept_name}: #{answer_string}", :font_reverse => false)
+      end
+    end
+
     label.print(1)
   end
   
