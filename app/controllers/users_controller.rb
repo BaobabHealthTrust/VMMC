@@ -228,6 +228,8 @@ class UsersController < ApplicationController
     role_conditions = ["role LIKE (?)", "%#{params[:value]}%"]
     roles = Role.where(role_conditions)
     roles = roles.map do |r|
+      next unless r.role.match(/clinician|nurse|clerk|doctor|provider/i)
+      next if r.role.match(/spine|feeding|general|vitals/i)
       "<li value='#{r.role}'>#{r.role.gsub('_',' ').capitalize}</li>"
     end
     render :text => roles.join('') and return
