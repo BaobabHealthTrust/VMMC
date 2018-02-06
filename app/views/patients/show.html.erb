@@ -125,6 +125,7 @@
     checkIfPatientIsFollowUp();
     loadNextTask();
     checkIfConsentIsGiven();
+    checkUserRole();
   }
 
   function checkIfPatientIsFollowUp(){
@@ -231,9 +232,27 @@
       data: "patient_id=" + patientID,
       success: function(result){
         if (result == 'false'){
-          jQuery("#registration, #medical-history, #vital-signs, #hiv-status, #genital-examination, #circumcision, #post_op_review").css('color', 'gray');
-          jQuery("#registration, #medical-history, #vital-signs, #hiv-status, #genital-examination, #circumcision, #post_op_review").removeAttr("onclick");
-          jQuery("#registration, #medical-history, #vital-signs, #hiv-status, #genital-examination, #circumcision, #post_op_review").mouseover(function(){
+          jQuery("#registration, #medical-history, #vital-signs, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review").css('color', 'gray');
+          jQuery("#registration, #medical-history, #vital-signs, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review").removeAttr("onclick");
+          jQuery("#registration, #medical-history, #vital-signs, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review").mouseover(function(){
+            jQuery(this).css('background-color', 'white');
+          });
+        }
+      }
+    });
+  }
+
+  //get_user_role
+  function checkUserRole(){
+    jQuery.ajax({
+      type: "POST",
+      url: "/patients/get_user_role",
+      data: "",
+      success: function(result){
+        if (result.match(/clerk/i)){
+          jQuery("#medical-history, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review").css('color', 'gray');
+          jQuery("#medical-history, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review").removeAttr("onclick");
+          jQuery("#medical-history, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review").mouseover(function(){
             jQuery(this).css('background-color', 'white');
           });
         }

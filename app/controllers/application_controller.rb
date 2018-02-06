@@ -25,12 +25,15 @@ class ApplicationController < ActionController::Base
     
     patient = person.patient
     today = session[:session_date].to_date rescue Date.today
+    user = User.find(session[:user]["user_id"]) rescue ""
+    use_role = user.user_role.role rescue ""
+
     if (patient.consent_given? == true)
       if patient.is_patient_follow_up(today)
         if !patient.encounter_exists_on_date("FOLLOW UP", today)
           task.url = "/encounters/new?encounter_type=follow_up_review&patient_id=#{patient.patient_id}"
           task.name = "Follow Up"
-          return task
+          return task if !use_role.match(/clerk/i)
         else
           task.url = "/patients/show/#{person.person_id}"
           task.name = "None"
@@ -45,7 +48,7 @@ class ApplicationController < ActionController::Base
           if !patient.encounter_exists_on_date("MEDICAL HISTORY", today)
             task.url = "/encounters/new?encounter_type=medical_history&patient_id=#{patient.patient_id}"
             task.name = "Medical History"
-            return task
+            return task if !use_role.match(/clerk/i)
           end
 
           if !patient.encounter_exists_on_date("VITALS", today)
@@ -57,25 +60,25 @@ class ApplicationController < ActionController::Base
           if !patient.encounter_exists_on_date("HIV Testing", today)
             task.url = "/encounters/new?encounter_type=hiv_art_status&patient_id=#{patient.patient_id}"
             task.name = "HIV Testing"
-            return task
+            return task if !use_role.match(/clerk/i)
           end
 
           if !patient.encounter_exists_on_date("GENITAL EXAMINATION", today)
             task.url = "/encounters/new?encounter_type=genital_examination&patient_id=#{patient.patient_id}"
             task.name = "Genital Examination"
-            return task
+            return task if !use_role.match(/clerk/i)
           end
 
           if !patient.encounter_exists_on_date("CIRCUMCISION", today)
             task.url = "/encounters/new?encounter_type=circumcision&patient_id=#{patient.patient_id}"
             task.name = "Circumcision"
-            return task
+            return task if !use_role.match(/clerk/i)
           end
 
           if !patient.encounter_exists_on_date("POST-OP REVIEW", today)
             task.url = "/encounters/new?encounter_type=post_op_review&patient_id=#{patient.patient_id}"
             task.name = "Post-OP Review"
-            return task
+            return task if !use_role.match(/clerk/i)
           end
         end
       end

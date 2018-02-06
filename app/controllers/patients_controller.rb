@@ -191,5 +191,11 @@ class PatientsController < ApplicationController
     consent_given = patient.consent_given?
     render text: consent_given.to_s and return
   end
-  
+
+  def get_user_role
+    user = User.find(session[:user]["user_id"])
+    use_role = user.user_role.role rescue ""
+    render text: use_role.to_s and return
+  end
+
 end
