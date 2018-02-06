@@ -168,12 +168,13 @@ class UsersController < ApplicationController
 
       if existing_user
         flash[:notice] = 'Username already in use'
-        redirect_to :action => '/new_user' and return
+        redirect_to :action => 'new_user' and return
       end
 
       if (params[:user][:plain_password] != params[:user_confirm][:password])
         flash[:error] = 'Password Mismatch'
-        redirect_to :action => '/new_user' and return
+        redirect_to :action => 'new_user' and return
+
       end
       
       ActiveRecord::Base.transaction do
@@ -230,6 +231,23 @@ class UsersController < ApplicationController
       "<li value='#{r.role}'>#{r.role.gsub('_',' ').capitalize}</li>"
     end
     render :text => roles.join('') and return
+  end
+
+  def change_role
+    @user = User.find(params[:id])
+    render layout: "full_page_form"
+  end
+
+  def update_role
+    @user = User.find(params[:id])
+    user_role = @user.user_role
+    user_role.role = params[:user_role][:role]
+    if user_role.save
+      redirect_to "/show/#{params[:id]}"
+    else 
+       flash[:notice] = "Error on updating the User Role"
+       redirect_to "/user/change_role?id=#{params[:id]}"
+    end   
   end
 
 	def manage_location

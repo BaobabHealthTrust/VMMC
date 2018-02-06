@@ -134,6 +134,8 @@ Rails.application.routes.draw do
   get "user/change_password" => "users#change_password"
   post "/change_password" => "users#change_password"
   get '/administration' => 'users#administration' #edit_user
+  post '/update_role' => "users#update_role"
+  get 'user/change_role' => 'users#change_role'
   get 'user/edit/:id' => 'users#edit_user'
   post '/edit_user' => 'users#update'
   get "/new_user" => "users#new_user"
