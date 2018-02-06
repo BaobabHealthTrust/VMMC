@@ -130,20 +130,23 @@ class PatientsController < ApplicationController
 
   def patient_is_circumcised_today
     patient = Patient.find(params[:patient_id])
-    circumcised_today_status = patient.patient_is_circumcised_today
+    session_date =  session[:session_date].to_date rescue Date.today
+    circumcised_today_status = patient.patient_is_circumcised_today(session_date)
     render text: circumcised_today_status.to_s and return
   end
 
   def get_follow_up_status
     patient = Patient.find(params[:patient_id])
-    follow_up_status = patient.is_patient_follow_up
+    session_date =  session[:session_date].to_date rescue Date.today
+    follow_up_status = patient.is_patient_follow_up(session_date)
     render text: follow_up_status.to_s and return
   end
 
   def check_if_encounter_exists_on_date
     encounter_type = params[:encounter_type]
     patient = Patient.find(params[:patient_id])
-    encounter_status = patient.encounter_exists_on_date(encounter_type)
+    session_date =  session[:session_date].to_date rescue Date.today
+    encounter_status = patient.encounter_exists_on_date(encounter_type, session_date)
     render text: encounter_status.to_s and return
   end
 
