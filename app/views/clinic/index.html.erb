@@ -1,4 +1,4 @@
- <script type="text/javascript" src="/assets/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="/assets/jquery-1.3.2.min.js"></script>
 
 <style type="text/css">
   .headTab{
@@ -27,6 +27,10 @@
 
   function setDate(){
     window.location = "/set_date";
+  }
+
+  function resetDate(){
+    window.location = "/reset_date";
   }
 
   function findOrRegisterPatient(){
@@ -120,7 +124,13 @@
               <td id="facility">Kamuzu Central Hospital</td>
               <td style="text-align: right; font-weight: bold;" class="blueText">Date</td>
               <td style="text-align: center; width: 3px;">:</td>
-              <td id="today"><%= @session_date.strftime("%d %B, %Y") %></td>
+              <td id="today">
+                <% if session[:session_date].blank? %>
+                  <%= @session_date.strftime("%d %B, %Y") %>
+                <% else %>
+                  <span style="color: red; font-weight: bold;"><%= @session_date.strftime("%d %B, %Y") %></span>
+                <% end %>
+              </td>
             </tr>
             <tr></tr>
             <tr>
@@ -219,10 +229,15 @@
       <button style="margin: 5px 0px 0px; float: right; min-width: 295px;" onclick="findOrRegisterPatient();" class="green right" id="btnNext">
         <span>Find or Register Patient</span>
       </button>
-      <button style="margin: 5px 0px 0px; float: right;" onclick="setDate();" class="blue right" id="btnCancel">
-        <span>Set Date</span>
-      </button>
-
+      <% if session[:session_date].blank? %>
+        <button style="margin: 5px 0px 0px; float: right;" onclick="setDate();" class="blue right" id="btnCancel">
+          <span>Set Date</span>
+        </button>
+      <% else %>
+        <button style="margin: 5px 0px 0px; float: right;" onclick="resetDate();" class="blue right" id="btnCancel">
+          <span>Reset Date</span>
+        </button>
+      <% end %>
     </div>
   </div>
 

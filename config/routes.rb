@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get '/logout' => 'users#logout'
   get '/set_date' => 'clinic#set_date'
   post '/set_date' => 'clinic#set_date'
+  get '/reset_date' => 'clinic#reset_date'
   get '/people/search' => 'people#search'
   get '/people/region' => 'people#region'
   get '/people/district' => 'people#district'
