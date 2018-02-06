@@ -46,7 +46,12 @@
           yesButton = jQuery("#messageBar button")[0];
           yesButton.onmousedown = function(){
             hideMessage();
-            window.top.location.href = "/patients/show/" + patientID;
+            if (patientID.length > 0){
+              window.top.location.href = "/patients/show/" + patientID;
+            } else {
+              window.top.location.href = "/";
+            }
+            
           }
         });
         clearInterval(checkExist);
