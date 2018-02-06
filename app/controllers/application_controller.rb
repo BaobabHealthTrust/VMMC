@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
     task = OpenStruct.new
     
     patient = person.patient
-    today = Date.today
+    today = session[:session_date].to_date rescue Date.today
     if (patient.consent_given? == true)
       if patient.is_patient_follow_up(today)
         if !patient.encounter_exists_on_date("FOLLOW UP", today)

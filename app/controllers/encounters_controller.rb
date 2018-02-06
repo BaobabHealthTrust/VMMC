@@ -25,7 +25,7 @@ class EncountersController < ApplicationController
   end
 
   def create
-    session = Date.today
+    session_datetime = session[:session_date].to_date rescue Date.today
     patient_id = params[:encounter][:patient_id]
     person = Person.find(patient_id)
 
@@ -33,7 +33,7 @@ class EncountersController < ApplicationController
     patient_id = params[:encounter]["patient_id"].to_i
 
     begin
-      encounter_datetime = session[:datetime].to_date.strftime('%Y-%m-%d 00:00:01')
+      encounter_datetime = session_datetime.strftime('%Y-%m-%d 00:00:01')
       params[:encounter]['encounter_datetime'] = encounter_datetime
     rescue
       encounter_datetime = params[:encounter]['encounter_datetime'].to_time.strftime('%Y-%m-%d %H:%M:%S') rescue nil

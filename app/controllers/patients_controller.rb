@@ -6,6 +6,7 @@ class PatientsController < ApplicationController
 
   def show
     person = Person.find (params[:patient_id])
+    @session_date =  (session[:session_date].to_date rescue Date.today).strftime("%d %b, %Y")
     @patient_bean = PatientService.get_patient(person)
   end
 

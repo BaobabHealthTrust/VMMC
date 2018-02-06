@@ -304,6 +304,10 @@
     text-align: center;
   }
 
+  #session-date{
+    padding-right: 20px;
+  }
+  
 </style>
 <div id="content">
   <table style="font: 14px;-moz-user-select: none; border-collapse: collapse;" width="100%" border="0">
@@ -396,7 +400,13 @@
             <tr style="background-color: rgb(52, 93, 181);">
               <td style="width: 200px; border-right: 1px solid rgb(255, 255, 255); color: rgb(255, 255, 255); text-align: left; font-weight: bold; padding-left: 10px;">Programs</td>
               <td style="width: 200px; border-right: 1px solid rgb(255, 255, 255); color: rgb(255, 255, 255); background-color: rgb(7, 32, 85); text-align: center; font-weight: bold;">Visit History</td>
-              <td style="border-right: 1px solid rgb(255, 255, 255); color: rgb(255, 255, 255); text-align: center; font-weight: bold;" id="header">Next Task: <span id="next-task">&nbsp;</span></td>
+              <td style="border-right: 1px solid rgb(255, 255, 255); color: rgb(255, 255, 255); text-align: center; font-weight: bold;" id="header">Date:
+                <% if session[:session_date].blank? %>
+                  <span id="session-date"><%= @session_date %></span>
+                <% else %>
+                  <span id="session-date" style="color: red; "><%= @session_date %></span>
+                <% end %>
+                Next Task: <span id="next-task">&nbsp;</span></td>
               <td style="width: 200px; border-right: 1px solid rgb(255, 255, 255); color: rgb(255, 255, 255); text-align: left; font-weight: bold; background-color: rgb(7, 32, 85); padding-left: 10px;">Tasks</td>
             </tr>
             <tr>
@@ -489,6 +499,15 @@
       <button onclick="finish();" style="margin: 5px 0px 0px; float: right;" onclick="finish();" class="green right" id="btnNext">
         <span>Finish</span>
       </button>
+      <% if session[:session_date].blank? %>
+        <button style="margin: 5px 0px 0px; float: right;" onclick="setDate();" class="blue right" id="btnCancel">
+          <span>Set Date</span>
+        </button>
+      <% else %>
+        <button style="margin: 5px 0px 0px; float: right;" onclick="resetDate();" class="blue right" id="btnCancel">
+          <span>Reset Date</span>
+        </button>
+      <% end %>
       <button  onclick="loadActivities();" style="margin: 5px 0px 0px; float: right;" class="blue right">
         <span>Activities</span>
       </button>
