@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   get '/patients/activities'
   get '/patients/patient_demographics_label'
   get '/patients/national_id_label'
+  get '/patients/visit_summary_label'
+
   get '/patients/get_demographics'
   post '/patients/get_demographics'
   get '/my_account' => 'users#my_account'

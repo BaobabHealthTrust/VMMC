@@ -19,7 +19,7 @@ class PatientsController < ApplicationController
     @links = []
     @links << ["Demographics (Edit)","/edit_demographics/#{patient_id}"]
     @links << ["Demographics (Print)","/patients/patient_demographics_label?patient_id=#{patient_id}"]
-    @links << ["Visit Summary (Print)","/"]
+    @links << ["Visit Summary (Print)","/patients/visit_summary_label?patient_id=#{patient_id}"]
     @links << ["National ID (Print)","/patients/national_id_label?patient_id=#{patient_id}"]
     
     render layout: false
@@ -94,6 +94,25 @@ class PatientsController < ApplicationController
     send_data(print_string,:type=>"application/label; charset=utf-8", :stream => false, :filename => "#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
   end
 
+  def visit_summary_label
+    patient = Patient.find(params[:patient_id])
+    print_string = generate_visit_summary_label(patient)
+    send_data(print_string,:type=>"application/label; charset=utf-8", :stream => false, :filename => "#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
+  end
+
+  def generate_visit_summary_label(patient)
+    label = ZebraPrinter::StandardLabel.new
+    label.font_size = 2
+    label.font_horizontal_multiplier = 2
+    label.font_vertical_multiplier = 2
+    label.left_margin = 50
+    label.draw_barcode(50,180,0,1,4,15,120,false,"#{patient_bean.national_id}")
+    label.draw_multi_text("#{patient_bean.name.titleize}")
+    label.draw_multi_text("#{patient_bean.national_id_with_dashes} #{patient_bean.birth_date}#{sex}")
+    label.draw_multi_text("#{address}" ) unless address.blank?
+    label.print(1)
+  end
+  
   def patient_demographics_label
     print_string = demographics_label(params[:patient_id])
     send_data(print_string, :type=>"application/label; charset=utf-8", :stream => false, :filename => "#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
