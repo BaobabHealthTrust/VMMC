@@ -33,9 +33,17 @@
   <%= hidden_field_tag "encounter[provider_id]", User.current.person_id%>
 
   <%= (touch_select_tag "MEDICAL HISTORY", @patient, options_for_select(@medical_history_options),
-    {
+    { :id => 'medical_history_id',
       :multiple => true,
       :helpText  => "Medical history"
     }).html_safe %>
+
+  <%= hidden_field_tag("observations[][concept_name]", "MEDICAL HISTORY") %>
+  <%= text_field_tag 'observations[][value_coded_or_text]', nil,
+                       {:id => 'other_medical_history',
+                        :field_type => 'alpha',
+                        :helpText => 'Enter other medical history',
+                        :condition => "$('medical_history_id').value == 'Other'",
+                        :allowFreeText => true }%>
 
 </form>

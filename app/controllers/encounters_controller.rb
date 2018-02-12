@@ -97,13 +97,15 @@ class EncountersController < ApplicationController
   def medical_history_options
     options = [
       "",
+      "None",
       "Diabetes",
       "Bleeding disorder",
       "Any meds",
       "Allergies",
       "Genital ulcers",
       "Genital itching",
-      "Painful urination"
+      "Painful urination",
+      "Other"
     ]
     return options
   end
