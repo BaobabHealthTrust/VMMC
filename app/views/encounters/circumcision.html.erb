@@ -112,11 +112,23 @@
       :helpText  => "Type of anaesthesia"
     }).html_safe %>
 
+  <%= (touch_select_tag "ANAESTHESIA", @patient, options_for_select(@anaesthesia),
+    {
+      :id => "anaesthesia",
+      :helpText  => "Anaesthesia"
+    }).html_safe %>
+
+  <%= (touch_select_tag "ANAESTHESIA MEASUREMENT", @patient, options_for_select(@anaesthesia_measurement),
+    {
+      :id => "anaesthesia_measurement",
+      :helpText  => "Anaesthesia dosage measurement"
+    }).html_safe %>
+
   <%= (touch_text_field_tag "ANAESTHESIA QUANTITY", @patient, nil,
     {
       :id => "anaesthesia-quantity",
       :field_type => 'number',
-      :helpText => "Anaesthesia quantity given (ml)",
+      :helpText => "Anaesthesia quantity given",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"
     }).html_safe %>
 

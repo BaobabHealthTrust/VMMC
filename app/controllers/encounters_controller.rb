@@ -6,6 +6,8 @@ class EncountersController < ApplicationController
     @medical_history_options = medical_history_options
     @circumcision_options = circumcision_options
     @anaesthesia_types = anaesthesia_options
+    @anaesthesia = anaesthesia
+    @anaesthesia_measurement = anaesthesia_measurement
     @circumcision_procedure_types = circumcision_procedure_types
     @pain_options = pain_options
     @bandage_options = bandage_options
@@ -146,6 +148,8 @@ class EncountersController < ApplicationController
   def circumcision
     @patient = Patient.find(params["patient_id"])
     @anaesthesia_types = anaesthesia_options
+    @anaesthesia = anaesthesia
+    @anaesthesia_measurement = anaesthesia_measurement
     @circumcision_procedure_types = circumcision_procedure_types
     @max_date = max_date
     render layout: "form" 
@@ -293,6 +297,24 @@ class EncountersController < ApplicationController
       ["", ""],
       ["Local Anaesthesia (LA)", "Local Anaesthesia"],
       ["General Anaesthesia (GA)", "General Anaesthesia"]
+    ]
+    return options
+  end
+
+  def anaesthesia
+    options = [
+      ["", ""],
+      ["Lidocaine", "Lidocaine"],
+      ["Bupivacaine", "Bupivacaine"]
+    ]
+    return options
+  end
+
+  def anaesthesia_measurement
+    options = [
+      ["", ""],
+      ["Percent (%)", "Percent"],
+      ["Milliliter (mls)", "mls"]
     ]
     return options
   end
