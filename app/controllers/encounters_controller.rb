@@ -324,7 +324,8 @@ class EncountersController < ApplicationController
       ["", ""],
       ["Forceps Guided (FG)", "Forceps Guided"],
       ["Dorial Slit (DS)", "Dorial Slit"],
-      ["Device", "Device"]
+      ["Device", "Device"],
+      ["Other", "Other"]
     ]
     return options
   end

@@ -138,6 +138,15 @@
       :helpText  => "Procedure Type"
     }).html_safe %>
 
+  <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
+    {
+      :id => 'other_procedure_type',
+      :field_type => 'alpha',
+      :helpText => 'Specify Other Procedure Type',
+      :condition => "$('procedure-type').value == 'Other'",
+      :allowFreeText => true
+    }).html_safe %>
+
   <%= (touch_text_field_tag "INCISION TIME", @patient, nil,
     {
       :id => "incision_time",
@@ -161,6 +170,13 @@
       :id => "specific-adverse-event",
       :condition => "__$('adverse_events?').value.match(/YES/i)",
       :helpText => "Specify adverse event"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "SPECIFIC ADVERSE EVENT MANAGEMENT", @patient, nil,
+    {
+      :id => "specific-adverse-event-management",
+      :condition => "__$('adverse_events?').value.match(/YES/i)",
+      :helpText => "Specify adverse event management"
     }).html_safe %>
 
   <%= (touch_text_field_tag "TIME LEFT TABLE", @patient, nil,
