@@ -106,6 +106,30 @@
       :helpText  => "Delayed wound healing?"
     }).html_safe %>
 
+  <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
+    {
+      :id => "other_ae",
+      :helpText => "Other AE (Specify)",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "SUMMARY OF FINDINGS", @patient, nil,
+    {
+      :id => "findings_summary",
+      :helpText => "Summary of findings",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "SPECIFIC ADVERSE EVENT MANAGEMENT", @patient, nil,
+    {
+      :id => "management_findings",
+      :helpText => "Management of findings",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %> 
+
   <%= (touch_select_tag "COUNSELLING", @patient, options_for_select(@yes_no_options),
     {
       :id => "counselling",
