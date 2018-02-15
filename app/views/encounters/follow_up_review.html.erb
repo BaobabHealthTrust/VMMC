@@ -97,7 +97,8 @@
   <%= (touch_select_tag "INSUFFICIENT SKIN REMOVED", @patient, options_for_select(@yes_no_options),
     {
       :id => "insufficient-skin",
-      :helpText  => "Insufficient skin removed?"
+      :helpText  => "Insufficient skin removed?",
+      :condition => "__$('excessive-skin').value.match(/NO/i)",
     }).html_safe %>
 
   <%= (touch_select_tag "DELAYED WOUND HEALING", @patient, options_for_select(@yes_no_options),
