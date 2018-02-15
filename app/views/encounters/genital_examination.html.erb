@@ -32,27 +32,27 @@
       :helpText  => "Circumcision Status"
     }).html_safe %>
 
-  <%= (touch_select_tag "PHIMOSIS", @patient, options_for_select(@circumcision_options),
+  <%= (touch_select_tag "PHIMOSIS", @patient, options_for_select(@yes_no_options),
     {
       :helpText  => "Phimosis"
     }).html_safe %>
 
-  <%= (touch_select_tag "ULCER", @patient, options_for_select(@circumcision_options),
+  <%= (touch_select_tag "ULCER", @patient, options_for_select(@yes_no_options),
     {
       :helpText  => "Ulcer"
     }).html_safe %>
 
-  <%= (touch_select_tag "URETHRAL DISCHARGE", @patient, options_for_select(@circumcision_options),
+  <%= (touch_select_tag "URETHRAL DISCHARGE", @patient, options_for_select(@yes_no_options),
     {
       :helpText  => "Urethral discharge"
     }).html_safe %>
 
-  <%= (touch_select_tag "SCROTUM SWELLING", @patient, options_for_select(@circumcision_options),
+  <%= (touch_select_tag "SCROTUM SWELLING", @patient, options_for_select(@yes_no_options),
     {
       :helpText  => "Scrotum swelling/tenderness"
     }).html_safe %>
 
-  <%= (touch_select_tag "INGUINAL NODES ENLARGED/TENDER", @patient, options_for_select(@circumcision_options),
+  <%= (touch_select_tag "INGUINAL NODES ENLARGED/TENDER", @patient, options_for_select(@yes_no_options),
     {
       :helpText  => "Inguinal nodes enlarged/tender"
     }).html_safe %>
