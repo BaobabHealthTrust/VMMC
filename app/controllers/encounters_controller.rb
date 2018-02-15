@@ -142,6 +142,7 @@ class EncountersController < ApplicationController
   def genital_examination
     @patient = Patient.find(params["patient_id"])
     @circumcision_options = circumcision_options
+    @yes_no_options = yes_no_options
     render layout: "form"
   end
 

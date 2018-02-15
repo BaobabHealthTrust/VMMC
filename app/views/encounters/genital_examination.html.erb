@@ -56,4 +56,19 @@
     {
       :helpText  => "Inguinal nodes enlarged/tender"
     }).html_safe %>
+
+  <%= (touch_select_tag "ANY ABNORMALITIES", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "any-abnormality",
+      :helpText  => "Other abnormality"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
+    {
+      :id => "other-abnormalities",
+      :helpText  => "Specify other abnormalities",
+      :condition => "__$('any-abnormality').value.match(/YES/i)",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %>
 </form>
