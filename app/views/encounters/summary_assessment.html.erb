@@ -1,0 +1,87 @@
+<style type="text/css">
+  #content, .inputPage{
+    height: 545px !important;
+  }
+
+  #content{
+    position: relative;
+    margin-left: 2px;
+    width: 99.7%;
+    top: 383px;
+  }
+  .buttonsDiv{
+    position: fixed;
+    top: auto;
+    bottom: -20px;
+    margin-bottom: 2%;
+    z-index: 1000;
+  }
+
+  .NoKeyboard .inputFrameClass {
+    height: 460px !important;
+  }
+
+  #Unknown{
+    display: none;
+  }
+</style>
+
+<form action="/encounters/create" method="POST" target="_top">
+  <%= hidden_field_tag "encounter[encounter_type_name]", "SUMMARY ASSESSMENT" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.patient_id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", User.current.person_id %>
+
+  <%= (touch_select_tag "ANY CONTRAINDICATIONS", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "contraindications",
+      :helpText  => "Any contraindications?"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
+    {
+      :id => "other-contraindications",
+      :helpText => "Specify other contraindications",
+      :condition => "__$('contraindications').value.match(/YES/i)",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "SPECIFIC MANAGEMENT OF CONTRAINDICATIONS", @patient, nil,
+    {
+      :id => "Specify-contraindications",
+      :helpText => "Specify management of contraindications",
+      :condition => "__$('contraindications').value.match(/YES/i)",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %> 
+
+  <%= (touch_select_tag "SUITABLE FOR CIRCUMCISION", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "circumcision-assessment",
+      :helpText  => "Suitable for circumcision?"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
+    {
+      :id => "not-suitable",
+      :helpText => "Specify reason",
+      :condition => "__$('circumcision-assessment').value.match(/NO/i)",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "APPOINTMENT DATE", @patient, nil,
+    {
+      :id => "appointment-date",
+      :maxDate => "#{@max_date}",
+      :helptext => "Specify Next Appointment date",
+      :condition => "__$('circumcision-assessment').value.match(/NO/i)",
+      :field_type => "date"
+    }).html_safe %>
+
+</form>
+<script type="text/javascript">
+
+</script>
+

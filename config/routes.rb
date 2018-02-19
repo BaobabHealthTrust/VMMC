@@ -92,6 +92,7 @@ Rails.application.routes.draw do
   get '/medical_history' => 'encounters#medical_history'
   get '/hiv_art_status' => 'encounters#hiv_art_status'
   get '/genital_examination' => 'encounters#genital_examination'
+  get '/summary_assessment' => 'encounters#summary_assessment'
   get '/circumcision' => 'encounters#circumcision'
   get '/post_op_review' => 'encounters#post_op_review'
   get '/registration' => 'encounters#registration'

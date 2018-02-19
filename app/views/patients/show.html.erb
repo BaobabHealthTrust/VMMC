@@ -140,6 +140,7 @@
           jQuery("#vital-signs").hide();
           jQuery("#hiv-status").hide();
           jQuery("#genital-examination").hide();
+          jQuery("#summary-assessment").hide();
           jQuery("#circumcision").hide();
           jQuery("#post_op_review").hide();
           checkIfEncounterCaptured('FOLLOW UP', 'follow_up_review');
@@ -150,6 +151,7 @@
           checkIfEncounterCaptured('VITALS', 'vital-signs');
           checkIfEncounterCaptured('HIV TESTING', 'hiv-status');
           checkIfEncounterCaptured('GENITAL EXAMINATION', 'genital-examination');
+          checkIfEncounterCaptured('SUMMARY ASSESSMENT', 'summary-assessment');
           checkIfEncounterCaptured('CIRCUMCISION', 'circumcision');
           //checkIfEncounterCaptured('POST-OP REVIEW', 'post_op_review');
         }
@@ -483,6 +485,10 @@
                     </li>
                     <li onclick="goToEncouterType('genital_examination');" id="genital-examination" style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204);">
 								Genital Examination
+                    </li>
+
+                <li onclick="goToEncouterType('summary_assessment');" id="summary-assessment" style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204);">
+                Summary Assessment
                     </li>
 
                     <li onclick="goToEncouterType('circumcision');" id="circumcision" style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204);">

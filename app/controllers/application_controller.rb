@@ -69,6 +69,12 @@ class ApplicationController < ActionController::Base
             return task if !use_role.match(/clerk/i)
           end
 
+          if !patient.encounter_exists_on_date("SUMMARY ASSESSMENT", today)
+            task.url = "/encounters/new?encounter_type=summary_assessment&patient_id=#{patient.patient_id}"
+            task.name = "Summary Assessment"
+            return task if !use_role.match(/clerk/i)
+          end
+
           if !patient.encounter_exists_on_date("CIRCUMCISION", today)
             task.url = "/encounters/new?encounter_type=circumcision&patient_id=#{patient.patient_id}"
             task.name = "Circumcision"

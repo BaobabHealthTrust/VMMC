@@ -146,6 +146,13 @@ class EncountersController < ApplicationController
     render layout: "form"
   end
 
+  def summary_assessment
+    @patient = Patient.find(params["patient_id"])
+    @yes_no_options = yes_no_options
+    @max_date = max_date
+    render layout: "form"
+  end
+
   def circumcision
     @patient = Patient.find(params["patient_id"])
     @anaesthesia_types = anaesthesia_options

@@ -3,7 +3,7 @@ class ReportController < ApplicationController
   def report
 		@reports =  [
       ['/registration_report_menu','Registration Report'],
-      ['/quartely_report_menu','Quartely Report']
+      ['/quartely_report_menu','VMMC - District Quarterly Report']
     ]
 		render layout:false
   end
