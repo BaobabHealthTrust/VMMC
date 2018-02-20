@@ -252,9 +252,9 @@
       data: "",
       success: function(result){
         if (result.match(/clerk/i)){
-          jQuery("#medical-history, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review").css('color', 'gray');
-          jQuery("#medical-history, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review").removeAttr("onclick");
-          jQuery("#medical-history, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review").mouseover(function(){
+          jQuery("#medical-history, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review, #summary-assessment").css('color', 'gray');
+          jQuery("#medical-history, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review, #summary-assessment").removeAttr("onclick");
+          jQuery("#medical-history, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review, #summary-assessment").mouseover(function(){
             jQuery(this).css('background-color', 'white');
           });
         }
