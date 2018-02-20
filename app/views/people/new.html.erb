@@ -62,6 +62,7 @@
 
 <script type="text/javascript">
   var tt_cancel_destination = "/"
+  var date_diff = "<%= @date_diff %>"
 
   function validateDate() {
     selectYear = parseInt(document.getElementsByName('person[birth_year]')[0].value);
@@ -85,6 +86,40 @@
       rule = availableMonths.join("|");
       rule = rule + "|Unknown";
       return $('touchscreenInput'+tstCurrentPage).setAttribute('validationRule',rule);
+    }
+  }
+
+  function validateYear() {
+    selectYear = parseInt(document.getElementsByName('person[birth_year]')[0].value);
+    selectDay = parseInt(document.getElementsByName('person[birth_day]')[0].value);
+    date = new Date
+    currYear = date.getFullYear();
+    currDay = date.getDate();
+
+    abMax = parseInt(date_diff.split("-")[0]) - 10;
+
+    jQuery('#touchscreenInput'+ tstCurrentPage).attr("absoluteMax", date_diff.split("-")[0]);
+    console.log(date_diff);
+
+  }
+  function updateMonthAbsMax(){
+    var month = jQuery('#person_birth_month').val();
+    var year = jQuery('#person_birth_year').val();
+    
+    if ((parseInt(year) == parseInt(date_diff.split("-")[0])) && (parseInt(month) > parseInt(date_diff.split("-")[1]))) {
+      var message = "Month selected is greater than Current Month";
+      setTimeout(function () {
+        gotoPage(tstCurrentPage - 1, false, true);
+        showMessage(message,null,30000);
+      }, 10);
+    }
+  }
+
+  function updateDayAbsMax(){
+    var month = jQuery('#person_birth_month').val();
+    var year = jQuery('#person_birth_year').val();
+    if ((parseInt(year) == parseInt(date_diff.split("-")[0])) && (parseInt(month) == parseInt(date_diff.split("-")[1]))){
+      jQuery('#touchscreenInput'+ tstCurrentPage).attr("absoluteMax", date_diff.split("-")[2]);
     }
   }
 
@@ -155,18 +190,19 @@
     {:helpText => 'Year of Birth',
     :field_type => 'number',
     :absoluteMin => "1900", :min => "1900",
-    :absoluteMax => Date.today.year,
+    :tt_onLoad => 'validateYear()',
     :tt_pageStyleClass => "Numeric NumbersOnly"}  %>
 
   <%= select_tag "person[birth_month]", month_name_options,
     {:helpText => 'Month of Birth',
     :condition => '$("person_birth_year").value.toLowerCase() != "unknown"',
     :validationMessage => 'Please enter a valid date',
-    :tt_onLoad =>" validateDate();__$('keyboard').style.display = 'none'"}%>
+    :tt_onLoad =>" validateDate();__$('keyboard').style.display = 'none';",
+    :tt_onUnLoad => "updateMonthAbsMax();"}%>
 
   <%= text_field_tag "person[age_estimate]", nil,
     {:helpText => 'Age Estimate',
-    :absoluteMin => 1,
+    :absoluteMin => 10,
     :absoluteMax => 120,
     :field_type => 'number',
     :condition => '$("person_birth_year").value == "Unknown"',
@@ -178,7 +214,7 @@
     :helpText => 'Birth Day',
     :validationMessage => 'Please enter a valid date',
     :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown")',
-    :tt_onLoad =>  "validateDay(); getDayOfMonthPicker($('person_birth_year').value, $('person_birth_month').value);$('nextButton').style.display = 'block';"
+    :tt_onLoad =>  "validateDay(); getDayOfMonthPicker($('person_birth_year').value, $('person_birth_month').value);$('nextButton').style.display = 'block';updateDayAbsMax();"
 %>
 
   <label for="region_region_name">Region of Origin</label>
