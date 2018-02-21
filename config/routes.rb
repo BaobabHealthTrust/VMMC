@@ -118,6 +118,9 @@ Rails.application.routes.draw do
   get '/patients/patient_consent_given'
   post '/patients/patient_consent_given'
 
+  get '/patients/patient_circumcision_consent'
+  post '/patients/patient_circumcision_consent'
+
   get '/patients/get_follow_up_status'
   post '/patients/get_follow_up_status'
 

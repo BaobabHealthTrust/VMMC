@@ -126,6 +126,8 @@
     loadNextTask();
     checkIfConsentIsGiven();
     checkUserRole();
+    CheckIfReadyForCircumcision();
+
   }
 
   function checkIfPatientIsFollowUp(){
@@ -283,6 +285,23 @@
         jQuery('.active-link').click();
       }
 
+    });
+  }
+
+  function CheckIfReadyForCircumcision(){
+    jQuery.ajax({
+      type: "POST",
+      url: "/patients/patient_circumcision_consent",
+      data: "patient_id=" + patientID,
+      success: function(result){
+        if (result == 'false'){
+          jQuery("#registration, #medical-history, #vital-signs, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review").css('color', 'gray');
+          jQuery("#registration, #medical-history, #vital-signs, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review").removeAttr("onclick");
+          jQuery("#registration, #medical-history, #vital-signs, #hiv-status, #genital-examination, #circumcision, #post_op_review, #follow_up_review").mouseover(function(){
+            jQuery(this).css('background-color', 'white');
+          });
+        }
+      }
     });
   }
 

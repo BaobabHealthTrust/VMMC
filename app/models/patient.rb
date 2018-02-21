@@ -106,6 +106,20 @@ class Patient < ActiveRecord::Base
     return true
   end
 
+  def circumcision_consent?
+    patient = self
+    concept_id = Concept.find_by_name("CONTINUE TO CIRCUMCISION?").concept_id
+    conset_obs = patient.person.observations.joins(:encounter).where(["concept_id =? ", concept_id]).last
+
+    unless conset_obs.blank?
+      concept_answer = conset_obs.answer_string.squish.upcase
+      return true if concept_answer.match(/YES/i)
+      return false
+    end
+
+    return true
+  end
+
   def patient_is_circumcised
     patient = self
     circumcision_encounter_type_id = EncounterType.find_by_name("CIRCUMCISION").encounter_type_id

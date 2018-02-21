@@ -80,6 +80,13 @@
       :field_type => "date"
     }).html_safe %>
 
+  <%= (touch_select_tag "CONTINUE TO CIRCUMCISION?", @patient, options_for_select(['', 'Yes', 'No']),
+    {
+      :id => "circumcision-consent",
+      :helpText  => "Continue to Circumcision?",
+      :condition => "__$('circumcision-assessment').value.match(/YES/i)",
+    }).html_safe %>
+
 </form>
 <script type="text/javascript">
 

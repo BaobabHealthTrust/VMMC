@@ -192,6 +192,12 @@ class PatientsController < ApplicationController
     render text: consent_given.to_s and return
   end
 
+  def patient_circumcision_consent
+    patient = Patient.find(params[:patient_id])
+    continue_to_circumcision = patient.circumcision_consent?
+    render text: continue_to_circumcision.to_s and return
+  end
+
   def get_user_role
     user = User.find(session[:user]["user_id"])
     use_role = user.user_role.role rescue ""
