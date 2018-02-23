@@ -122,7 +122,7 @@ class UsersController < ApplicationController
     unless request.get? 
       if (params[:user][:new_password] != params[:user][:confirm_password])
         flash[:notice] = 'Password Mismatch'
-        redirect_to :action => 'new'
+        redirect_to "/user/change_password?id=#{params[:id]}"
         return
       else
         salt = User.random_string(10)
