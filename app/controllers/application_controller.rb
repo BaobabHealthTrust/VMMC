@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
           if !patient.encounter_exists_on_date("VITALS", today)
             task.url = "/encounters/new?encounter_type=vitals&patient_id=#{patient.patient_id}"
             task.name = "Vital Signs"
-            return task
+            return task if !use_role.match(/clerk/i)
           end
 
           if !patient.encounter_exists_on_date("HIV Testing", today)
