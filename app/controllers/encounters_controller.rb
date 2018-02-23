@@ -4,6 +4,7 @@ class EncountersController < ApplicationController
     @min_weight = 15
     @max_weight = 100
     @medical_history_options = medical_history_options
+    @diabetes_types = diabetes_types
     @circumcision_options = circumcision_options
     @anaesthesia_types = anaesthesia_options
     @anaesthesia = anaesthesia
@@ -88,6 +89,8 @@ class EncountersController < ApplicationController
   def medical_history
     @patient = Patient.find(params["patient_id"])
     @medical_history_options = medical_history_options
+    @diabetes_types = diabetes_types
+    @yes_no_options = yes_no_options
     render layout: "form"
   end
 
@@ -108,6 +111,16 @@ class EncountersController < ApplicationController
       "Genital itching",
       "Painful urination",
       "Other"
+    ]
+    return options
+  end
+
+  def diabetes_types
+    options = [
+      ["", ""],
+      ["Type 1 diabetes", "Type 1 diabetes"],
+      ["Type 2 diabetes", "Type 2 diabetes"],
+      ["Unknown", "Unknown"]
     ]
     return options
   end
@@ -337,7 +350,6 @@ class EncountersController < ApplicationController
     ]
     return options
   end
-
 
   def void
     encounter = Encounter.find(params[:encounter_id])

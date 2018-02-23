@@ -32,18 +32,128 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", User.current.person_id%>
 
-  <%= (touch_select_tag "MEDICAL HISTORY", @patient, options_for_select(@medical_history_options),
-    { :id => 'medical_history_id',
-      :multiple => true,
-      :helpText  => "Medical history"
+  <%= (touch_select_tag "ANY MEDICAL HISTORY?", @patient, options_for_select(['', 'Yes', 'No']),
+    {
+      :id => "medical_history",
+      :helpText  => "Any medical history?"
+    }).html_safe %>
+  
+  <%= (touch_select_tag "DIABETES", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "diabetes",
+      :helpText  => "Diabetes?",
+      :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
-  <%= hidden_field_tag("observations[][concept_name]", "MEDICAL HISTORY") %>
-  <%= text_field_tag 'observations[][value_coded_or_text]', nil,
-                       {:id => 'other_medical_history',
-                        :field_type => 'alpha',
-                        :helpText => 'Enter other medical history',
-                        :condition => "$('medical_history_id').value == 'Other'",
-                        :allowFreeText => true }%>
+  <%= (touch_select_tag "TYPE OF DIABETES", @patient, options_for_select(@diabetes_types),
+    {
+      :helpText  => "Type of diabetes",
+      :condition => "__$('diabetes').value.match(/YES/i)"
+    }).html_safe %>
+
+  <%= (touch_select_tag "BLEEDING DISORDER", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "bleeding",
+      :helpText  => "Bleeding disorder?",
+      :condition => "__$('medical_history').value.match(/YES/i)"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "SPECIFY THE BLEEDING DISORDER", @patient, nil,
+    {
+      :helpText => "Specify the bleeding disorder",
+      :condition => "__$('bleeding').value.match(/YES/i)",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %>
+
+  <%= (touch_select_tag "ANY MEDS", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "meds",
+      :helpText  => "Any meds?",
+      :condition => "__$('medical_history').value.match(/YES/i)"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "SPECIFY ANY MEDS", @patient, nil,
+    {
+      :helpText => "Specify any meds",
+      :condition => "__$('meds').value.match(/YES/i)",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %>
+
+  <%= (touch_select_tag "ALLERGIES", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "allergies",
+      :helpText  => "Allergies?",
+      :condition => "__$('medical_history').value.match(/YES/i)"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "SPECIFY ALLERGIES", @patient, nil,
+    {
+      :helpText => "Specify allergies",
+      :condition => "__$('allergies').value.match(/YES/i)",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %>
+
+  <%= (touch_select_tag "GENITAL ULCERS", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "ulcers",
+      :helpText  => "Genital ulcers?",
+      :condition => "__$('medical_history').value.match(/YES/i)"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "SPECIFY GENITAL ULCERS", @patient, nil,
+    {
+      :helpText => "Specify genital ulcers",
+      :condition => "__$('ulcers').value.match(/YES/i)",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %>
+
+  <%= (touch_select_tag "GENITAL ITCHING", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "itching",
+      :helpText  => "Genital itching?",
+      :condition => "__$('medical_history').value.match(/YES/i)"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "SPECIFY GENITAL ITCHING", @patient, nil,
+    {
+      :helpText => "Specify genital itching",
+      :condition => "__$('itching').value.match(/YES/i)",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %>
+
+  <%= (touch_select_tag "PAINFUL URINATION", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "urination",
+      :helpText  => "Painful urination?",
+      :condition => "__$('medical_history').value.match(/YES/i)"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "SPECIFY PAINFUL URINATION", @patient, nil,
+    {
+      :helpText => "Specify painful urination",
+      :condition => "__$('urination').value.match(/YES/i)",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %>
+
+  <%= (touch_select_tag "OTHER MEDICAL CONDITION", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "other_medical_history",
+      :helpText  => "Any other Medical condition?",
+      :condition => "__$('medical_history').value.match(/YES/i)"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "SPECIFY OTHER MEDICAL CONDITION", @patient, nil,
+    {
+      :helpText => "Specify other medical condition",
+      :condition => "__$('other_medical_history').value.match(/YES/i)",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %>
 
 </form>
