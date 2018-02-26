@@ -166,6 +166,7 @@
       :id => "appointment-date",
       :maxDate => "#{@max_date}",
       :helptext => "Appointment date",
+      :condition => "__$('ready-for-discharge').value.match(/YES/i)",
       :field_type => "date"
     }).html_safe %>
 
