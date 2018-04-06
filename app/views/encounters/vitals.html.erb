@@ -116,11 +116,9 @@
       :id => "systolic_blood_pressure",
       :helptext => "Systolic Blood Pressure (?/Y)",
       :field_type => "number",
-      :absoluteMin => 50,
-      :absoluteMax => 240,
       :tt_pageStyleClass => "NumbersWithUnknown",
-      :absoluteMin => 0,
-      :max => 250 }).html_safe %>
+      :min => 80,
+      :max => 150 }).html_safe %>
 
   <%= (touch_text_field_tag "DIASTOLIC BLOOD PRESSURE", @patient, nil,
     {
@@ -128,8 +126,8 @@
       :helptext => "Diastolic Blood Pressure",
       :field_type => "number",
       :tt_pageStyleClass => "NumbersWithUnknown",
-      :absoluteMin => 35,
-      :absoluteMax  => 140 }).html_safe %>
+      :min => 50,
+      :max  => 100 }).html_safe %>
 
   <%= (touch_text_field_tag "TEMPERATURE (C)", @patient, nil,
     {
