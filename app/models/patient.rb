@@ -156,4 +156,17 @@ class Patient < ActiveRecord::Base
     return false
   end
 
+  def self.circumcision_by_date_range(start_date, end_date)
+    circumcision_encounter_type_id = EncounterType.find_by_name("CIRCUMCISION").encounter_type_id
+    patients = []
+    circumcision_encounters = Encounter.where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ?", circumcision_encounter_type_id, start_date.to_date, end_date.to_date])
+
+    circumcision_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+    return patients.uniq
+  end
+
 end
