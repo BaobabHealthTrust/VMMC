@@ -35,6 +35,7 @@
   <%= (touch_select_tag "ANY MEDICAL HISTORY?", @patient, options_for_select(['', 'Yes', 'No']),
     {
       :id => "medical_history",
+      :tt_requireNextClick => false,
       :helpText  => "Any medical history?"
     }).html_safe %>
   
@@ -42,6 +43,7 @@
     {
       :id => "diabetes",
       :helpText  => "Diabetes?",
+      :tt_requireNextClick => false,
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
@@ -55,6 +57,7 @@
     {
       :id => "bleeding",
       :helpText  => "Bleeding disorder?",
+      :tt_requireNextClick => false,
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
@@ -70,6 +73,7 @@
     {
       :id => "meds",
       :helpText  => "Any meds?",
+      :tt_requireNextClick => false,
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
@@ -85,6 +89,7 @@
     {
       :id => "allergies",
       :helpText  => "Allergies?",
+      :tt_requireNextClick => false,
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
@@ -100,6 +105,7 @@
     {
       :id => "ulcers",
       :helpText  => "Genital ulcers?",
+      :tt_requireNextClick => false,
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
@@ -115,6 +121,7 @@
     {
       :id => "itching",
       :helpText  => "Genital itching?",
+      :tt_requireNextClick => false,
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
@@ -130,6 +137,7 @@
     {
       :id => "urination",
       :helpText  => "Painful urination?",
+      :tt_requireNextClick => false,
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
@@ -145,6 +153,7 @@
     {
       :id => "other_medical_history",
       :helpText  => "Any other Medical condition?",
+      :tt_requireNextClick => false,
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
