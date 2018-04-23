@@ -29,38 +29,45 @@
 
   <%= (touch_select_tag "CIRCUMCISION STATUS", @patient, options_for_select(@circumcision_options),
     {
-      :helpText  => "Circumcision Status"
+      :helpText  => "Circumcision Status",
+      :id => "circumcision_idd"
     }).html_safe %>
 
   <%= (touch_select_tag "PHIMOSIS", @patient, options_for_select(@yes_no_options),
     {
-      :helpText  => "Phimosis"
+      :helpText  => "Phimosis",
+      :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
   <%= (touch_select_tag "ULCER", @patient, options_for_select(@yes_no_options),
     {
-      :helpText  => "Ulcer"
+      :helpText  => "Ulcer",
+      :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
   <%= (touch_select_tag "URETHRAL DISCHARGE", @patient, options_for_select(@yes_no_options),
     {
-      :helpText  => "Urethral discharge"
+      :helpText  => "Urethral discharge",
+      :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
   <%= (touch_select_tag "SCROTUM SWELLING", @patient, options_for_select(@yes_no_options),
     {
-      :helpText  => "Scrotum swelling/tenderness"
+      :helpText  => "Scrotum swelling/tenderness",
+      :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
   <%= (touch_select_tag "INGUINAL NODES ENLARGED/TENDER", @patient, options_for_select(@yes_no_options),
     {
-      :helpText  => "Inguinal nodes enlarged/tender"
+      :helpText  => "Inguinal nodes enlarged/tender",
+      :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
   <%= (touch_select_tag "ANY ABNORMALITIES", @patient, options_for_select(@yes_no_options),
     {
       :id => "any-abnormality",
-      :helpText  => "Other abnormality"
+      :helpText  => "Other abnormality",
+      :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
   <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
