@@ -47,7 +47,7 @@ class Report
   end
 
   def hiv_art_status
-
+    patients = Patient.hiv_art_status(@start_date, @end_date)
   end
 
   def circumcision_status

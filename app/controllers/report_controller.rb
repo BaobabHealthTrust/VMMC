@@ -36,6 +36,7 @@ class ReportController < ApplicationController
     data = {}
     report = Report.new(start_date.to_date, end_date.to_date)
     age_category = report.age_category
+    hiv_art_status = report.hiv_art_status
 
     data["age"] = age_category
     render text: data.to_json and return
