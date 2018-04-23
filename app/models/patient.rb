@@ -156,4 +156,105 @@ class Patient < ActiveRecord::Base
     return false
   end
 
+  def self.circumcision_by_date_range(start_date, end_date)
+    circumcision_encounter_type_id = EncounterType.find_by_name("CIRCUMCISION").encounter_type_id
+    patients = []
+    circumcision_encounters = Encounter.where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ?", circumcision_encounter_type_id, start_date.to_date, end_date.to_date])
+
+    circumcision_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+    return patients.uniq
+  end
+
+  def self.hiv_art_status(start_date, end_date)
+    hiv_testing_encounter_type_id = EncounterType.find_by_name("HIV TESTING").encounter_type_id
+    patients = []
+    hiv_testing_encounters = Encounter.where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ?", hiv_testing_encounter_type_id, start_date.to_date, end_date.to_date])
+
+    hiv_testing_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+    
+    return patients.uniq
+  end
+
+  def self.currently_taking_arvs(start_date, end_date)
+    hiv_testing_encounter_type_id = EncounterType.find_by_name("HIV TESTING").encounter_type_id
+    currently_taking_arvs_concept_id = Concept.find_by_name("CURRENTLY TAKING ARVS").concept_id
+    yes_concept_id = Concept.find_by_name("YES").concept_id
+    patients = []
+    hiv_testing_encounters = Encounter.joins(:observations).where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ? AND concept_id =? AND value_coded =?", hiv_testing_encounter_type_id,
+        start_date.to_date, end_date.to_date, currently_taking_arvs_concept_id, yes_concept_id])
+
+    hiv_testing_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.prev_positive_not_on_art(start_date, end_date)
+    hiv_testing_encounter_type_id = EncounterType.find_by_name("HIV TESTING").encounter_type_id
+    art_taking_patient_ids = self.currently_taking_arvs(start_date, end_date).collect{|p|p.patient_id}
+    reason_hiv_test_not_done_concept_id = Concept.find_by_name("REASON HIV TEST NOT DONE").concept_id
+    previous_positive_concept_id = Concept.find_by_name("PREVIOUS POSITIVE").concept_id
+
+    hiv_testing_encounters = Encounter.joins(:observations).where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ? AND concept_id =? AND value_coded =? AND patient_id NOT IN (?)", hiv_testing_encounter_type_id,
+        start_date.to_date, end_date.to_date, reason_hiv_test_not_done_concept_id, 
+        previous_positive_concept_id, art_taking_patient_ids])
+
+    patients = []
+    hiv_testing_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.prev_positive_on_art(start_date, end_date)
+    hiv_testing_encounter_type_id = EncounterType.find_by_name("HIV TESTING").encounter_type_id
+
+    art_taking_patient_ids = self.currently_taking_arvs(start_date, end_date).collect{|p|p.patient_id}
+    reason_hiv_test_not_done_concept_id = Concept.find_by_name("REASON HIV TEST NOT DONE").concept_id
+    previous_positive_concept_id = Concept.find_by_name("PREVIOUS POSITIVE").concept_id
+
+    hiv_testing_encounters = Encounter.joins(:observations).where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ? AND concept_id =? AND value_coded =? AND patient_id IN (?)", hiv_testing_encounter_type_id,
+        start_date.to_date, end_date.to_date, reason_hiv_test_not_done_concept_id,
+        previous_positive_concept_id, art_taking_patient_ids])
+
+    patients = []
+    hiv_testing_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.new_negatives(patient_ids)
+    result_of_hiv_test_concept_id = Concept.find_by_name("RESULT OF HIV TEST").concept_id
+  end
+
+  def self.new_positives(patient_ids)
+    result_of_hiv_test_concept_id = Concept.find_by_name("RESULT OF HIV TEST").concept_id
+  end
+  
+  def self.testing_declined(patient_ids)
+
+  end
+
+  def self.testing_not_done(patient_ids)
+
+  end
+
 end

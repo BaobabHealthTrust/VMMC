@@ -1,18 +1,48 @@
 <head>
   <title>Report</title>
-  <script type="text/javascript" language="javascript">
-    <!--
-    tt_cancel_destination = '/';
-    tt_show = '/';
 
-    cTable = "";
-    tableRows = JSON.parse('null');
+  <script type="text/javascript" >
 
-   
+    var start_date = '<%= @start_date %>';
+    var end_date = '<%= @end_date %>';
 
-    //-->
+    function loadReportData() {
+      jQuery.ajax({
+        type: "POST",
+        url: "/get_quartely_report_data",
+        data: "start_date=" + start_date + "&end_date=" + end_date,
+        beforeSend: function(){
+          jQuery(".valueCell").html('<img src="/images/loader.gif"/>');
+        },
+
+        success: function(result){
+          result = JSON.parse(result);
+          age_1 = result["age"]["0_1"];
+          age_2 = result["age"]["1_14"];
+          age_3 = result["age"]["15_24"];
+          age_4 = result["age"]["25_49"];
+          age_5 = result["age"]["50_above"];
+          age_total = age_1.length + age_2.length + age_3.length + age_4.length + age_5.length;
+
+          jQuery(".age-1").html(age_1.length);
+          jQuery(".age-2").html(age_2.length);
+          jQuery(".age-3").html(age_3.length);
+          jQuery(".age-4").html(age_4.length);
+          jQuery(".age-5").html(age_5.length);
+
+          jQuery(".age-category-total").html(age_total)
+          console.log(result)
+        
+        }
+
+      });
+
+    }
+
+    //loadReportData();
   </script>
-  <style media="print">
+
+  <style type="text/css" media="print">
     button {
       display: none;
     }
@@ -20,7 +50,8 @@
       height: 100%;
     }
   </style>
-  <style>
+
+  <style type="text/css">
 
     .err-rows {
       background-color: red;
@@ -58,6 +89,8 @@
     }
     .valueCell {
       border: 3px solid #000;
+      text-align: center;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -153,7 +186,7 @@
                             <td style="border-top: 1px solid #999; border-left: 1px solid #999;">
                               Neonates
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell age-1">
                               &nbsp;
                             </td>
                           </tr>
@@ -163,7 +196,7 @@
                             <td style="border-left: 1px solid #999; border-bottom: 0px solid #999;">
                               1 month - 14years
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell age-2">
                               &nbsp;
                             </td>
                           </tr>
@@ -173,7 +206,7 @@
                             <td style="border-left: 1px solid #999; border-bottom: 0px solid #999;">
                               15 - 24 years
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell age-3">
                               &nbsp;
                             </td>
                           </tr>
@@ -183,7 +216,7 @@
                             <td style="border-left: 1px solid #999; border-bottom: 0px solid #999;">
                               25 - 49 years
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell age-4">
                               &nbsp;
                             </td>
                           </tr>
@@ -193,7 +226,7 @@
                             <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
                               50 years and above
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell age-5">
                               &nbsp;
                             </td>
                           </tr>
@@ -203,7 +236,7 @@
                             <td style="font-style:italic;">
                               Total clients
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell age-category-total">
                               &nbsp;
                             </td>
                           </tr>
@@ -660,7 +693,7 @@
                             </td>
                           </tr>
 
-<tr>
+                          <tr>
                             <td>&nbsp;</td>
                             <td colspan="2" style="font-weight: bold;">
                               3<sup style="font-weight: normal;">rd</sup> Review (6 weeks)
@@ -735,9 +768,9 @@
                               &nbsp;
                             </td>
                           </tr>
-                          
-                          
-                         
+
+
+
                           <tr>
                             <td colspan="2" style="font-weight: bold;">
                               Report filled
@@ -835,5 +868,7 @@
     </button>
   </div>
 
-
+  <script>
+    loadReportData();
+  </script>
 </body>
