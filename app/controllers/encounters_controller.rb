@@ -12,6 +12,7 @@ class EncountersController < ApplicationController
     @circumcision_procedure_types = circumcision_procedure_types
     @pain_options = pain_options
     @bandage_options = bandage_options
+    @other_ae_options = other_ae_options
     @services_sources = service_sources_options
     @hiv_test_not_done_reasons = hiv_test_not_done_reasons_options
     @hiv_results_options = hiv_results_option
@@ -187,6 +188,7 @@ class EncountersController < ApplicationController
     @patient = Patient.find(params["patient_id"])
     @pain_options = pain_options
     @bandage_options = bandage_options
+    @other_ae_options = other_ae_options
     @max_date = max_date
     render layout: "form" 
   end
@@ -195,6 +197,7 @@ class EncountersController < ApplicationController
     @patient = Patient.find(params["patient_id"])
     @pain_options = pain_options
     @bandage_options = bandage_options
+    @other_ae_options = other_ae_options
     @haematoma_options = haematoma_options
     @swelling_options = swelling_options
     @glans_damage_options = glans_damage_options
@@ -309,6 +312,17 @@ class EncountersController < ApplicationController
       ["Dry", "Dry"],
       ["Spot", "Spot"],
       ["Soak", "Soak"]
+    ]
+    return options
+  end
+
+  def other_ae_options
+    options = [
+      ["", ""],
+      ["None", "None"],
+      ["Mild", "Mild"],
+      ["Moderate", "Moderate"],
+      ["Severe", "Severe"]
     ]
     return options
   end
