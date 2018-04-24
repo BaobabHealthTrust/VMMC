@@ -13,6 +13,7 @@ class EncountersController < ApplicationController
     @pain_options = pain_options
     @bandage_options = bandage_options
     @other_ae_options = other_ae_options
+    @contraindications = contraindications
     @services_sources = service_sources_options
     @hiv_test_not_done_reasons = hiv_test_not_done_reasons_options
     @hiv_results_options = hiv_results_option
@@ -153,6 +154,22 @@ class EncountersController < ApplicationController
     return options
   end
 
+  def contraindications
+    options = [
+      ["", ""],
+      ["Active or symptomatic STIs", "Active or symptomatic STIs"],
+      ["Hypertension", "Hypertension"],
+      ["Diabetes", "Diabetes"],
+      ["Bleeding disorders", "Bleeding disorders"],
+      ["Erectile dysfunction", "Erectile dysfunction"],
+      ["Anatomical deformities of the penis e.g. hypospodiasis", "Anatomical deformities of the penis e.g. hypospodiasis"],
+      ["Chronic paraphimosis", "Chronic paraphimosis"],
+      ["Penile cancer", "Penile cancer"],
+      ["Other chronic disorders of the penis e.g. filariasis", "Other chronic disorders of the penis e.g. filariasis"]
+    ]
+    return options
+  end
+
   def genital_examination
     @patient = Patient.find(params["patient_id"])
     @circumcision_options = circumcision_options
@@ -164,6 +181,7 @@ class EncountersController < ApplicationController
     @patient = Patient.find(params["patient_id"])
     @yes_no_options = yes_no_options
     @max_date = max_date
+    @contraindications = contraindications
     render layout: "form"
   end
 
