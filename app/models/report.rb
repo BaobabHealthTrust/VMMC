@@ -47,7 +47,22 @@ class Report
   end
 
   def hiv_art_status
-    patients = Patient.hiv_art_status(@start_date, @end_date)
+    data = {}
+    prev_positive_not_on_art_patients = Patient.prev_positive_not_on_art(@start_date, @end_date).collect{|p|p.patient_id}
+    prev_positive_on_art_patients = Patient.prev_positive_on_art(@start_date, @end_date).collect{|p|p.patient_id}
+    new_negatives_patients = Patient.new_negatives(@start_date, @end_date).collect{|p|p.patient_id}
+    new_positives_patients = Patient.new_positives(@start_date, @end_date).collect{|p|p.patient_id}
+    testing_declined_patients = Patient.testing_declined(@start_date, @end_date).collect{|p|p.patient_id}
+    testing_not_done_patients = Patient.testing_not_done(@start_date, @end_date).collect{|p|p.patient_id}
+
+    data["prev_positive_not_on_art"] = prev_positive_not_on_art_patients
+    data["prev_positive_on_art"] = prev_positive_on_art_patients
+    data["new_negatives"] = new_negatives_patients
+    data["new_positives"] = new_positives_patients
+    data["testing_declined"] = testing_declined_patients
+    data["testing_not_done"] = testing_not_done_patients
+
+    return data
   end
 
   def circumcision_status

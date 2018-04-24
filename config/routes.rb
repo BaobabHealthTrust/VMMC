@@ -80,7 +80,10 @@ Rails.application.routes.draw do
   get 'quartely_report_menu' => 'report#quartely_report_menu'
   get 'quartely_report' => 'report#quartely_report'
   post 'quartely_report' => 'report#quartely_report'
-  post 'get_quartely_report_data' => 'report#get_quartely_report_data'
+  post 'get_quartely_report_data' => 'report#get_quartely_report_data' #get_hiv_data
+
+  get 'get_hiv_data' => 'report#get_hiv_data'
+  post 'get_hiv_data' => 'report#get_hiv_data'
 
   get 'user' => 'clinic#user'
   get 'manage_locations' => 'clinic#manage_locations'

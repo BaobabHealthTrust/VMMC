@@ -39,6 +39,42 @@
 
     }
 
+    function loadHIVstatusData(){
+      jQuery.ajax({
+        type: "POST",
+        url: "/get_hiv_data",
+        data: "start_date=" + start_date + "&end_date=" + end_date,
+        beforeSend: function(){
+          //jQuery(".valueCell").html('<img src="/images/loader.gif"/>');
+        },
+
+        success: function(result){
+          result = JSON.parse(result);
+
+          prev_positive_not_on_art = result["prev_positive_not_on_art"]
+          prev_positive_on_art = result["prev_positive_on_art"]
+          new_negatives = result["new_negatives"]
+          new_positives = result["new_positives"]
+          testing_declined = result["testing_declined"]
+          testing_not_done = result["testing_not_done"]
+
+          total_eligible_clients = prev_positive_not_on_art.length + prev_positive_on_art.length + new_negatives.length + new_positives.length + testing_declined.length + testing_not_done.length;
+
+          jQuery(".previous_positive_not_on_art").html(prev_positive_not_on_art.length);
+          jQuery(".previous_positive_on_art").html(prev_positive_on_art.length);
+          jQuery(".new_negatives").html(new_negatives.length);
+          jQuery(".new_positives").html(new_positives.length);
+          jQuery(".test_declined").html(testing_declined.length);
+          jQuery(".test_not_done").html(testing_not_done.length);
+
+          jQuery(".total_eligible_clients").html(total_eligible_clients)
+          console.log(result)
+
+        }
+
+      });
+    }
+
     //loadReportData();
   </script>
 
@@ -256,7 +292,7 @@
                             <td style="border-top: 1px solid #999; border-left: 1px solid #999; width: 60%;">
                               Prev+ NOT on ART
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell previous_positive_not_on_art">
                               &nbsp;
                             </td>
                           </tr>
@@ -266,7 +302,7 @@
                             <td style="border-left: 1px solid #999;">
                               Prev+ ON on ART
                             </td>
-                            <td class="valueCell" style="border-top: 0px">
+                            <td class="valueCell previous_positive_on_art" style="border-top: 0px">
                               &nbsp;
                             </td>
                           </tr>
@@ -276,7 +312,7 @@
                             <td style="border-left: 1px solid #999;">
                               New negative
                             </td>
-                            <td class="valueCell" style="border-top: 0px">
+                            <td class="valueCell new_negatives" style="border-top: 0px">
                               &nbsp;
                             </td>
                           </tr>
@@ -286,7 +322,7 @@
                             <td style="border-left: 1px solid #999;">
                               New positive
                             </td>
-                            <td class="valueCell" style="border-top: 0px">
+                            <td class="valueCell new_positives" style="border-top: 0px">
                               &nbsp;
                             </td>
                           </tr>
@@ -296,7 +332,7 @@
                             <td style="border-left: 1px solid #999;">
                               Testing declined
                             </td>
-                            <td class="valueCell" style="border-top: 0px">
+                            <td class="valueCell test_declined" style="border-top: 0px">
                               &nbsp;
                             </td>
                           </tr>
@@ -306,7 +342,7 @@
                             <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
                               Test NOT done
                             </td>
-                            <td class="valueCell" style="border-top: 0px; border-bottom: 0px;">
+                            <td class="valueCell test_not_done" style="border-top: 0px; border-bottom: 0px;">
                               &nbsp;
                             </td>
                           </tr>
@@ -316,7 +352,7 @@
                             <td style="font-style:italic;">
                               Total Eligible Clients
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell total_eligible_clients">
                               &nbsp;
                             </td>
                           </tr>
@@ -868,7 +904,8 @@
     </button>
   </div>
 
-  <script>
+  <script type="text/javascript">
     loadReportData();
+    loadHIVstatusData();
   </script>
 </body>
