@@ -66,6 +66,20 @@ class PatientsController < ApplicationController
         end
 		
       end
+
+      if (params[:field] == 'guardian_cell_phone_number')
+        person_attribute_type_id = PersonAttributeType.find_by_name("Next of kin phone number").person_attribute_type_id
+        person_attribute = person.person_attributes.find_by_person_attribute_type_id(person_attribute_type_id)
+
+        if person_attribute.blank?
+          person.person_attributes.create(
+            :person_attribute_type_id => person_attribute_type_id,
+            :value => params["person"]["guardian_cell_phone_number"])
+        else
+          person_attribute.update_attributes(value: params["person"]["guardian_cell_phone_number"])
+        end
+    
+      end
       
       redirect_to("/edit_demographics/#{params[:patient_id]}") and return
     end
