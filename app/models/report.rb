@@ -74,11 +74,17 @@ class Report
   end
 
   def contraindications_identified
-
+    data = {}
+    data["none"] = Patient.none_contraindications(@start_date, @end_date).collect{|p|p.patient_id}
+    data["yes"] = Patient.yes_contraindications(@start_date, @end_date).collect{|p|p.patient_id}
+    return data
   end
 
   def consent_granted
-
+    data = {}
+    data["yes"] = Patient.yes_consent(@start_date, @end_date).collect{|p|p.patient_id}
+    data["no"] = Patient.no_consent(@start_date, @end_date).collect{|p|p.patient_id}
+    return data
   end
 
   def procedures_used

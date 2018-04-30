@@ -372,4 +372,76 @@ class Patient < ActiveRecord::Base
     return patients.uniq
   end
 
+  def self.none_contraindications(start_date, end_date)
+    summary_assessment_encounter_type_id = EncounterType.find_by_name("SUMMARY ASSESSMENT").encounter_type_id
+    any_contraindications_concept_id = Concept.find_by_name("ANY CONTRAINDICATIONS").concept_id
+    no_concept_id = Concept.find_by_name("NO").concept_id
+
+    patients = []
+    summary_assessment_encounters = Encounter.joins(:observations).where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ? AND concept_id =? AND value_coded =?", summary_assessment_encounter_type_id,
+        start_date.to_date, end_date.to_date, any_contraindications_concept_id, no_concept_id])
+
+    summary_assessment_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.yes_contraindications(start_date, end_date)
+    summary_assessment_encounter_type_id = EncounterType.find_by_name("SUMMARY ASSESSMENT").encounter_type_id
+    any_contraindications_concept_id = Concept.find_by_name("ANY CONTRAINDICATIONS").concept_id
+    yes_concept_id = Concept.find_by_name("YES").concept_id
+
+    patients = []
+    summary_assessment_encounters = Encounter.joins(:observations).where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ? AND concept_id =? AND value_coded =?", summary_assessment_encounter_type_id,
+        start_date.to_date, end_date.to_date, any_contraindications_concept_id, yes_concept_id])
+
+    summary_assessment_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.yes_consent(start_date, end_date)
+    registration_encounter_type_id = EncounterType.find_by_name("REGISTRATION").encounter_type_id
+    consent_confirmation_concept_id = Concept.find_by_name("CONSENT CONFIRMATION").concept_id
+    yes_concept_id = Concept.find_by_name("YES").concept_id
+
+    patients = []
+    summary_assessment_encounters = Encounter.joins(:observations).where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ? AND concept_id =? AND value_coded =?", registration_encounter_type_id,
+        start_date.to_date, end_date.to_date, consent_confirmation_concept_id, yes_concept_id])
+
+    summary_assessment_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.no_consent(start_date, end_date)
+    registration_encounter_type_id = EncounterType.find_by_name("REGISTRATION").encounter_type_id
+    consent_confirmation_concept_id = Concept.find_by_name("CONSENT CONFIRMATION").concept_id
+    no_concept_id = Concept.find_by_name("NO").concept_id
+
+    patients = []
+    summary_assessment_encounters = Encounter.joins(:observations).where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ? AND concept_id =? AND value_coded =?", registration_encounter_type_id,
+        start_date.to_date, end_date.to_date, consent_confirmation_concept_id, no_concept_id])
+
+    summary_assessment_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
 end

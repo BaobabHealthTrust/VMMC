@@ -56,6 +56,21 @@ class ReportController < ApplicationController
     circumcision_status = report.circumcision_status
     render text: circumcision_status.to_json and return
   end
-  
+
+  def get_contraindications_data
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+    report = Report.new(start_date.to_date, end_date.to_date)
+    contraindications_identified = report.contraindications_identified
+    render text: contraindications_identified.to_json and return
+  end
+
+  def get_consent_granted_data
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+    report = Report.new(start_date.to_date, end_date.to_date)
+    consent_granted = report.consent_granted
+    render text: consent_granted.to_json and return
+  end
   
 end
