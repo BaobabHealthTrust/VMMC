@@ -862,6 +862,7 @@ module PatientService
     patient.filing_number = get_patient_identifier(person.patient, 'Filing Number')
     patient.occupation = get_attribute(person, 'Occupation')
     patient.cell_phone_number = get_attribute(person, 'Cell phone number')
+    patient.guardian_cell_phone_number = get_attribute(person, 'Next of kin phone number') rescue nil
     patient.office_phone_number = get_attribute(person, 'Office phone number')
     patient.home_phone_number = get_attribute(person, 'Home phone number')
     patient
@@ -929,6 +930,10 @@ module PatientService
 		person.person_attributes.create(
 		  :person_attribute_type_id => PersonAttributeType.find_by_name("Cell Phone Number").person_attribute_type_id,
 		  :value => params["cell_phone_number"]) unless params["cell_phone_number"].blank?# rescue nil
+
+    person.person_attributes.create(
+      :person_attribute_type_id => PersonAttributeType.find_by_name("Next of kin phone number").person_attribute_type_id,
+      :value => params["guardian_cell_phone_number"]) unless params["guardian_cell_phone_number"].blank?# rescue nil
 
 		person.person_attributes.create(
 		  :person_attribute_type_id => PersonAttributeType.find_by_name("Office Phone Number").person_attribute_type_id,

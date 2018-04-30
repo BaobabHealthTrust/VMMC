@@ -28,6 +28,8 @@
 
   .tt_controls_cell_phone_number #num , #plus, #apostrophe, #star, #char, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
 
+  .tt_controls_guardian_cell_phone_number #num , #plus, #apostrophe, #star, #char, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
+
   .tt_controls_home_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
 
   .tt_controls_office_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
@@ -338,6 +340,17 @@
   :validationMessage => "Not a valid phone number",
   :tt_pageStyleClass => "nota",
   :id => 'cellphone'
+}
+%>
+
+<%= text_field_tag "person[guardian_cell_phone_number]",  params[:guardian_cell_phone_number],
+  {
+  :field_type => 'number',
+  :helpText => 'Next of Kin Cell Phone Number',
+  :validationRule => "^0\\d{7}$|Unknown|Not Available|N\/A|^0\\d{9}$",
+  :validationMessage => "Not a valid phone number",
+  :tt_pageStyleClass => "nota NumbersOnlyWithUnknown",
+  :id => 'guardian_cellphone'
 }
 %>
 

@@ -36,30 +36,35 @@
   <%= (touch_select_tag "PHIMOSIS", @patient, options_for_select(@yes_no_options),
     {
       :helpText  => "Phimosis",
+      :tt_requireNextClick => false,
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
   <%= (touch_select_tag "ULCER", @patient, options_for_select(@yes_no_options),
     {
       :helpText  => "Ulcer",
+      :tt_requireNextClick => false,
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
   <%= (touch_select_tag "URETHRAL DISCHARGE", @patient, options_for_select(@yes_no_options),
     {
       :helpText  => "Urethral discharge",
+      :tt_requireNextClick => false,
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
   <%= (touch_select_tag "SCROTUM SWELLING", @patient, options_for_select(@yes_no_options),
     {
       :helpText  => "Scrotum swelling/tenderness",
+      :tt_requireNextClick => false,
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
   <%= (touch_select_tag "INGUINAL NODES ENLARGED/TENDER", @patient, options_for_select(@yes_no_options),
     {
       :helpText  => "Inguinal nodes enlarged/tender",
+      :tt_requireNextClick => false,
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
@@ -67,6 +72,7 @@
     {
       :id => "any-abnormality",
       :helpText  => "Other abnormality",
+      :tt_requireNextClick => false,
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 

@@ -137,7 +137,19 @@
       :helpText  => "Bandage (Bleeding)"
     }).html_safe %>
 
+  <%= (touch_select_tag "OTHER ADVERSE EVENT ACTION", @patient, options_for_select(@other_ae_options),
+    {
+      :id => "other_ae",
+      :helpText  => "Other Adverse Event?"
+    }).html_safe %>
 
+  <%= (touch_text_field_tag "SPECIFIC ADVERSE EVENT", @patient, nil,
+    {
+      :helpText => "Specify other Adverse Event",
+      :field_type => 'alpha',
+      :condition => "__$('other_ae').value != 'None'",
+      :allowFreeText => true
+    }).html_safe %> 
 
   <%= (touch_select_tag "MEDS GIVEN?", @patient, options_for_select(["", "Yes", "No"]),
     {

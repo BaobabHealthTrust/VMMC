@@ -90,5 +90,13 @@
         <a href="/patients/update_demographics?field=cell_phone_number&patient_id=<%= params[:patient_id]%>" class="anchor_class">Edit</a>
       </td>
     </tr>
+    <tr>
+      <td style="font-size: 24px; min-width: 40%; color: rgb(51, 51, 51); padding-right: 15px;" align="right"><span style="font-size: 28px">G</span><span style="font-size: 18px">UARDIAN</span><span style="font-size: 28px">C</span><span style="font-size: 18px">ELL</span><span style="font-size: 28px">P</span><span style="font-size: 18px">HONE</span><span style="font-size: 28px">N</span><span style="font-size: 18px">UMBER</span></td>
+      <td style="width: 20px;" align="center">:</td>
+      <td id="guardian_cell_phone_number" style="font-size: 28px; border-bottom: 1px dotted rgb(204, 204, 204); padding-left: 15px;"><%= @bean.guardian_cell_phone_number %></td>
+      <td style="width: 150px;">
+        <a href="/patients/update_demographics?field=guardian_cell_phone_number&patient_id=<%= params[:patient_id]%>" class="anchor_class">Edit</a>
+      </td>
+    </tr>
   </table>
 </div>

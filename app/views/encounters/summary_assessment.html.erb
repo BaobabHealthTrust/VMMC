@@ -38,11 +38,18 @@
       :helpText  => "Any contraindications?"
     }).html_safe %>
 
+  <%= (touch_select_tag "CONTRAINDICATIONS", @patient, options_for_select(@contraindications),
+    {
+      :id => "contraindications_options",
+      :helpText  => "Select contraindications",
+      :condition => "__$('contraindications').value.match(/YES/i)"
+    }).html_safe %>
+
   <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
     {
       :id => "other-contraindications",
       :helpText => "Specify other contraindications",
-      :condition => "__$('contraindications').value.match(/YES/i)",
+      :condition => "__$('contraindications_options').value == 'Other chronic disorders of the penis e.g. filariasis'",
       :field_type => 'alpha',
       :allowFreeText => true
     }).html_safe %>
@@ -53,6 +60,7 @@
       :helpText => "Specify management of contraindications",
       :condition => "__$('contraindications').value.match(/YES/i)",
       :field_type => 'alpha',
+      :optional => true,
       :allowFreeText => true
     }).html_safe %> 
 
