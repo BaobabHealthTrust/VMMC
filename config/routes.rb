@@ -85,6 +85,9 @@ Rails.application.routes.draw do
   get 'get_hiv_data' => 'report#get_hiv_data'
   post 'get_hiv_data' => 'report#get_hiv_data'
 
+  get 'get_circumcision_status_data' => 'report#get_circumcision_status_data'
+  post 'get_circumcision_status_data' => 'report#get_circumcision_status_data'
+
   get 'user' => 'clinic#user'
   get 'manage_locations' => 'clinic#manage_locations'
   get 'manage_villages' => 'clinic#manage_villages'

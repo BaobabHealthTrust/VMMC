@@ -75,6 +75,34 @@
       });
     }
 
+    function loadCircumcisionStatusData(){
+      jQuery.ajax({
+        type: "POST",
+        url: "/get_circumcision_status_data",
+        data: "start_date=" + start_date + "&end_date=" + end_date,
+        beforeSend: function(){
+          //jQuery(".valueCell").html('<img src="/images/loader.gif"/>');
+        },
+
+        success: function(result){
+          result = JSON.parse(result);
+
+          full_circumcision_status = result["full"];
+          partial_circumcision_status = result["partial"];
+          none_circumcision_status = result["none"];
+
+
+          jQuery(".full-circumcision-status").html(full_circumcision_status.length);
+          jQuery(".partial-circumcision-status").html(partial_circumcision_status.length);
+          jQuery(".none-circumcision-status").html(none_circumcision_status.length);
+          
+          console.log(result)
+
+        }
+
+      });
+    }
+
     //loadReportData();
   </script>
 
@@ -371,7 +399,7 @@
                             <td style="border-top: 1px solid #999; border-left: 1px solid #999;">
                               Full
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell full-circumcision-status">
                               &nbsp;
                             </td>
                           </tr>
@@ -381,7 +409,7 @@
                             <td style="border-left: 1px solid #999;">
                               Partial
                             </td>
-                            <td class="valueCell" style="border-top: 0px">
+                            <td class="valueCell partial-circumcision-status" style="border-top: 0px">
                               5
                             </td>
                           </tr>
@@ -391,7 +419,7 @@
                             <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
                               None
                             </td>
-                            <td class="valueCell" style="border-top: 0px; border-bottom:0px;">
+                            <td class="valueCell none-circumcision-status" style="border-top: 0px; border-bottom:0px;">
                               1
                             </td>
                           </tr>
@@ -907,5 +935,6 @@
   <script type="text/javascript">
     loadReportData();
     loadHIVstatusData();
+    loadCircumcisionStatusData();
   </script>
 </body>

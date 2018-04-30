@@ -318,4 +318,58 @@ class Patient < ActiveRecord::Base
     
   end
 
+  def self.full_circumcision_status(start_date, end_date)
+    genital_examination_encounter_type_id = EncounterType.find_by_name("GENITAL EXAMINATION ").encounter_type_id
+    circumcision_status_concept_id = Concept.find_by_name("CIRCUMCISION STATUS").concept_id
+    full_concept_id = Concept.find_by_name("FULL").concept_id
+
+    patients = []
+    genital_examination_encounters = Encounter.joins(:observations).where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ? AND concept_id =? AND value_coded =?", genital_examination_encounter_type_id,
+        start_date.to_date, end_date.to_date, circumcision_status_concept_id, full_concept_id])
+
+    genital_examination_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.partial_circumcision_status(start_date, end_date)
+    genital_examination_encounter_type_id = EncounterType.find_by_name("GENITAL EXAMINATION ").encounter_type_id
+    circumcision_status_concept_id = Concept.find_by_name("CIRCUMCISION STATUS").concept_id
+    part_concept_id = Concept.find_by_name("PART").concept_id
+
+    patients = []
+    genital_examination_encounters = Encounter.joins(:observations).where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ? AND concept_id =? AND value_coded =?", genital_examination_encounter_type_id,
+        start_date.to_date, end_date.to_date, circumcision_status_concept_id, part_concept_id])
+
+    genital_examination_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.none_circumcision_status(start_date, end_date)
+    genital_examination_encounter_type_id = EncounterType.find_by_name("GENITAL EXAMINATION ").encounter_type_id
+    circumcision_status_concept_id = Concept.find_by_name("CIRCUMCISION STATUS").concept_id
+    none_concept_id = Concept.find_by_name("NONE").concept_id
+
+    patients = []
+    genital_examination_encounters = Encounter.joins(:observations).where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ? AND concept_id =? AND value_coded =?", genital_examination_encounter_type_id,
+        start_date.to_date, end_date.to_date, circumcision_status_concept_id, none_concept_id])
+
+    genital_examination_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
 end
