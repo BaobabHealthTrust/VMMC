@@ -67,8 +67,88 @@
           jQuery(".test_declined").html(testing_declined.length);
           jQuery(".test_not_done").html(testing_not_done.length);
 
-          jQuery(".total_eligible_clients").html(total_eligible_clients)
+          jQuery(".total_eligible_clients").html(total_eligible_clients);
           console.log(result)
+
+        }
+
+      });
+    }
+
+    function loadCircumcisionStatusData(){
+      jQuery.ajax({
+        type: "POST",
+        url: "/get_circumcision_status_data",
+        data: "start_date=" + start_date + "&end_date=" + end_date,
+        beforeSend: function(){
+          //jQuery(".valueCell").html('<img src="/images/loader.gif"/>');
+        },
+
+        success: function(result){
+          result = JSON.parse(result);
+
+          full_circumcision_status = result["full"];
+          partial_circumcision_status = result["partial"];
+          none_circumcision_status = result["none"];
+
+
+          jQuery(".full-circumcision-status").html(full_circumcision_status.length);
+          jQuery(".partial-circumcision-status").html(partial_circumcision_status.length);
+          jQuery(".none-circumcision-status").html(none_circumcision_status.length);
+
+        }
+
+      });
+    }
+
+    function loadContraindicationsData(){
+      jQuery.ajax({
+        type: "POST",
+        url: "/get_contraindications_data",
+        data: "start_date=" + start_date + "&end_date=" + end_date,
+        beforeSend: function(){
+          //jQuery(".valueCell").html('<img src="/images/loader.gif"/>');
+        },
+
+        success: function(result){
+          result = JSON.parse(result);
+
+          none_contraindications = result["none"];
+          yes_contraindications = result["yes"];
+
+          //contraindications-eligible-clients
+          jQuery(".none-contraindications").html(none_contraindications.length);
+          jQuery(".yes-contraindications").html(yes_contraindications.length);
+
+          total_eligible_clients = none_contraindications.length + yes_contraindications.length;
+          jQuery(".contraindications-eligible-clients").html(total_eligible_clients)
+
+        }
+
+      });
+    }
+
+    function loadConsentGrantedData(){
+      jQuery.ajax({
+        type: "POST",
+        url: "/get_consent_granted_data",
+        data: "start_date=" + start_date + "&end_date=" + end_date,
+        beforeSend: function(){
+          //jQuery(".valueCell").html('<img src="/images/loader.gif"/>');
+        },
+
+        success: function(result){
+          result = JSON.parse(result);
+
+          yes_consent = result["yes"];
+          no_consent = result["no"];
+
+          //contraindications-eligible-clients
+          jQuery(".yes-consent").html(yes_consent.length);
+          jQuery(".no-consent").html(no_consent.length);
+
+          total_eligible_clients = yes_consent.length + no_consent.length;
+          jQuery(".consent-eligible-clients").html(total_eligible_clients)
 
         }
 
@@ -371,7 +451,7 @@
                             <td style="border-top: 1px solid #999; border-left: 1px solid #999;">
                               Full
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell full-circumcision-status">
                               &nbsp;
                             </td>
                           </tr>
@@ -381,8 +461,8 @@
                             <td style="border-left: 1px solid #999;">
                               Partial
                             </td>
-                            <td class="valueCell" style="border-top: 0px">
-                              5
+                            <td class="valueCell partial-circumcision-status" style="border-top: 0px">
+                              &nbsp;
                             </td>
                           </tr>
 
@@ -391,8 +471,8 @@
                             <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
                               None
                             </td>
-                            <td class="valueCell" style="border-top: 0px; border-bottom:0px;">
-                              1
+                            <td class="valueCell none-circumcision-status" style="border-top: 0px; border-bottom:0px;">
+                              &nbsp;
                             </td>
                           </tr>
 
@@ -407,8 +487,8 @@
                             <td style="border-top: 1px solid #999; border-left: 1px solid #999; width: 60%;">
                               None
                             </td>
-                            <td class="valueCell">
-                              0
+                            <td class="valueCell none-contraindications">
+                              &nbsp;
                             </td>
                           </tr>
 
@@ -417,7 +497,7 @@
                             <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
                               Yes
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell yes-contraindications">
                               &nbsp;
                             </td>
                           </tr>
@@ -426,7 +506,7 @@
                             <td style="font-style:italic;">
                               Total Eligible Clients
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell contraindications-eligible-clients">
                               &nbsp;
                             </td>
                           </tr>
@@ -452,7 +532,7 @@
                             <td style="border-left: 1px solid #999; border-top: 1px solid #999; ">
                               Yes
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell yes-consent">
                               &nbsp;
                             </td>
                           </tr>
@@ -462,7 +542,7 @@
                             <td style="border-left: 1px solid #999; border-bottom: 1px solid #999;">
                               No
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell no-consent">
                               &nbsp;
                             </td>
                           </tr>
@@ -471,7 +551,7 @@
                             <td style="font-style:italic;">
                               Total Eligible Clients
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell consent-eligible-clients">
                               &nbsp;
                             </td>
                           </tr>
@@ -907,5 +987,8 @@
   <script type="text/javascript">
     loadReportData();
     loadHIVstatusData();
+    loadCircumcisionStatusData();
+    loadContraindicationsData();
+    loadConsentGrantedData();
   </script>
 </body>
