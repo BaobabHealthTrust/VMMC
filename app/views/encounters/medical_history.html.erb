@@ -26,6 +26,35 @@
   }
 </style>
 
+<script type="text/javascript">
+
+  function displayMessage(options){
+
+    setTimeout(function(){
+
+        if (options == 'diabetes')
+        {
+          showMessage('Note: Client has Diabetes and may not be suitable for circumcision',null,10000000000);
+        }
+        else if (options == 'bleeding')
+        {
+          showMessage('Note: Client has Bleeding disorder and may not be suitable for circumcision',null,10000000000);
+        }
+        else if (options == 'ulcers')
+        {
+          showMessage('Note: Client has Genital ulcers and may not be suitable for circumcision',null,10000000000);
+        }
+        else if (options == 'urination')
+        {
+          showMessage('Note: Client has Painful urination and may not be suitable for circumcision',null,10000000000);
+        }
+
+       
+    },100);  
+}
+
+</script>
+
 <form action="/encounters/create" method="POST" target="_top">
   <%= hidden_field_tag "encounter[encounter_type_name]", "MEDICAL HISTORY" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.patient_id %>
@@ -44,6 +73,7 @@
       :id => "diabetes",
       :helpText  => "Diabetes?",
       :tt_requireNextClick => false,
+      :tt_onUnLoad => "displayMessage('diabetes');",
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
@@ -58,6 +88,7 @@
       :id => "bleeding",
       :helpText  => "Bleeding disorder?",
       :tt_requireNextClick => false,
+      :tt_onUnLoad => "displayMessage('bleeding');",
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
@@ -106,6 +137,7 @@
       :id => "ulcers",
       :helpText  => "Genital ulcers?",
       :tt_requireNextClick => false,
+      :tt_onUnLoad => "displayMessage('ulcers');",
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
@@ -138,6 +170,7 @@
       :id => "urination",
       :helpText  => "Painful urination?",
       :tt_requireNextClick => false,
+      :tt_onUnLoad => "displayMessage('urination');",
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
