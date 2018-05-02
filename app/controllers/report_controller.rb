@@ -72,5 +72,13 @@ class ReportController < ApplicationController
     consent_granted = report.consent_granted
     render text: consent_granted.to_json and return
   end
+
+  def get_procedures_used_data
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+    report = Report.new(start_date.to_date, end_date.to_date)
+    procedures_used = report.procedures_used
+    render text: procedures_used.to_json and return
+  end
   
 end

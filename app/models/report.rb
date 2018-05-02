@@ -88,7 +88,11 @@ class Report
   end
 
   def procedures_used
-
+    data = {}
+    data["forceps_guided"] = Patient.forceps_guided_procedure(@start_date, @end_date).collect{|p|p.patient_id}
+    data["device"] = Patient.device_procedure(@start_date, @end_date).collect{|p|p.patient_id}
+    data["others"] = Patient.other_procedures_used(@start_date, @end_date).collect{|p|p.patient_id}
+    return data
   end
 
   def intra_operation_adverse_events

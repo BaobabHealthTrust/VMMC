@@ -155,6 +155,31 @@
       });
     }
 
+    function loadProceduresUsedData(){
+      jQuery.ajax({
+        type: "POST",
+        url: "/get_procedures_used_data",
+        data: "start_date=" + start_date + "&end_date=" + end_date,
+        beforeSend: function(){
+          //jQuery(".valueCell").html('<img src="/images/loader.gif"/>');
+        },
+
+        success: function(result){
+          result = JSON.parse(result);
+
+          forceps_guided = result["forceps_guided"];
+          device = result["device"];
+          others = result["others"];
+
+          jQuery(".forceps-guided").html(forceps_guided.length);
+          jQuery(".device").html(device.length);
+          jQuery(".others").html(others.length);
+
+        }
+
+      });
+    }
+
     //loadReportData();
   </script>
 
@@ -569,7 +594,7 @@
                             <td style="border-top: 1px solid #999; border-left: 1px solid #999;border-bottom: 0px;">
                               Forceps guided
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell forceps-guided">
                               &nbsp;
                             </td>
                           </tr>
@@ -579,7 +604,7 @@
                             <td style="border-left: 1px solid #999;border-bottom: 0px;">
                               Device
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell device">
                               &nbsp;
                             </td>
                           </tr>
@@ -590,7 +615,7 @@
                             <td style="border-bottom: 1px solid #999; border-top: 0px; border-left: 1px solid #999;">
                               Others
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell others">
                               &nbsp;
                             </td>
                           </tr>
@@ -990,5 +1015,6 @@
     loadCircumcisionStatusData();
     loadContraindicationsData();
     loadConsentGrantedData();
+    loadProceduresUsedData();
   </script>
 </body>

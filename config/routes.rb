@@ -92,7 +92,10 @@ Rails.application.routes.draw do
   post 'get_contraindications_data' => 'report#get_contraindications_data' #get_consent_granted_data
 
   get 'get_consent_granted_data' => 'report#get_consent_granted_data'
-  post 'get_consent_granted_data' => 'report#get_consent_granted_data'
+  post 'get_consent_granted_data' => 'report#get_consent_granted_data' #get_procedures_used_data
+
+  get 'get_procedures_used_data' => 'report#get_procedures_used_data'
+  post 'get_procedures_used_data' => 'report#get_procedures_used_data'
 
   get 'user' => 'clinic#user'
   get 'manage_locations' => 'clinic#manage_locations'
