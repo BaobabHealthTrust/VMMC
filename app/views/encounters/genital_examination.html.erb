@@ -21,6 +21,30 @@
   }
 </style>
 
+<script type="text/javascript">
+
+  function displayMessage(options){
+
+    setTimeout(function(){
+
+        if (options == 'ulcer_id')
+        {
+          showMessage('Note: Client has Ulcer and may not be suitable for circumcision',null,10000000000);
+        }
+        else if (options == 'urethral_id')
+        {
+          showMessage('Note: Client has Urethral Discharge and may not be suitable for circumcision',null,10000000000);
+        }
+        else if (options == 'swelling_id')
+        {
+          showMessage('Note: Client has Scrotum swelling/tenderness and may not be suitable for circumcision',null,10000000000);
+        }
+       
+    },100);  
+}
+
+</script>
+
 <form action="/encounters/create" method="POST" target="_top">
   <%= hidden_field_tag "encounter[encounter_type_name]", "GENITAL EXAMINATION" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.patient_id %>
@@ -42,22 +66,28 @@
 
   <%= (touch_select_tag "ULCER", @patient, options_for_select(@yes_no_options),
     {
+      :id => "ulcer_id",
       :helpText  => "Ulcer",
       :tt_requireNextClick => false,
+      :tt_onUnLoad => "displayMessage('ulcer_id');",
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
   <%= (touch_select_tag "URETHRAL DISCHARGE", @patient, options_for_select(@yes_no_options),
     {
+      :id => "urethral_id",
       :helpText  => "Urethral discharge",
       :tt_requireNextClick => false,
+      :tt_onUnLoad => "displayMessage('urethral_id');",
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
   <%= (touch_select_tag "SCROTUM SWELLING", @patient, options_for_select(@yes_no_options),
     {
+      :id => "swelling_id",
       :helpText  => "Scrotum swelling/tenderness",
       :tt_requireNextClick => false,
+      :tt_onUnLoad => "displayMessage('swelling_id');",
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
