@@ -91,7 +91,7 @@
     {
       :id => "circumcision-date",
       :maxDate => "#{@max_date}",
-      :helptext => "Circumcision Date",
+      :helptext => "Circumcision Date <span class='helper'> Circumcision</span>",
       :field_type => "date"
     }).html_safe %>
 
@@ -104,45 +104,45 @@
       :validationRule => "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
       :validationMessage => "Bad time format (Use this format: 14<b>:30</b>)",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-      :helpText => "Time anaesthesia given (24 Hour clock)" }).html_safe%>
+      :helpText => "Time anaesthesia given (24 Hour clock) <span class='helper'> Circumcision</span>" }).html_safe%>
 
 
   <%= (touch_select_tag "TYPE OF ANAESTHESIA", @patient, options_for_select(@anaesthesia_types),
     {
-      :helpText  => "Type of anaesthesia"
+      :helpText  => "Type of anaesthesia <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "ANAESTHESIA", @patient, options_for_select(@anaesthesia),
     {
       :id => "anaesthesia",
-      :helpText  => "Anaesthesia"
+      :helpText  => "Anaesthesia <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "ANAESTHESIA MEASUREMENT", @patient, options_for_select(@anaesthesia_measurement),
     {
       :id => "anaesthesia_measurement",
-      :helpText  => "Anaesthesia dosage measurement"
+      :helpText  => "Anaesthesia dosage measurement <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
   <%= (touch_text_field_tag "ANAESTHESIA QUANTITY", @patient, nil,
     {
       :id => "anaesthesia-quantity",
       :field_type => 'number',
-      :helpText => "Anaesthesia quantity given",
+      :helpText => "Anaesthesia quantity given <span class='helper'> Circumcision</span>",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"
     }).html_safe %>
 
   <%= (touch_select_tag "PROCEDURE TYPE", @patient, options_for_select(@circumcision_procedure_types),
     {
       :id => "procedure-type",
-      :helpText  => "Procedure Type"
+      :helpText  => "Procedure Type <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
   <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
     {
       :id => 'other_procedure_type',
       :field_type => 'alpha',
-      :helpText => 'Specify Other Procedure Type',
+      :helpText => "Specify Other Procedure Type <span class='helper'> Circumcision</span>",
       :condition => "$('procedure-type').value == 'Other'",
       :allowFreeText => true
     }).html_safe %>
@@ -156,20 +156,20 @@
       :validationRule => "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
       :validationMessage => "Bad time format (Use this format: 14<b>:30</b>)",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-      :helpText => "Incision time"
+      :helpText => "Incision time <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "INTRA-OP ADVERSE EVENTS?", @patient, options_for_select(["", "Yes", "No"]),
     {
       :id => "adverse_events?",
-      :helpText  => "Any Intra-OP Adverse events"
+      :helpText  => "Any Intra-OP Adverse events <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
   <%= (touch_text_field_tag "SPECIFIC ADVERSE EVENT", @patient, nil,
     {
       :id => "specific-adverse-event",
       :condition => "__$('adverse_events?').value.match(/YES/i)",
-      :helpText => "Specify adverse event"
+      :helpText => "Specify adverse event <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
   <%= (touch_text_field_tag "SPECIFIC ADVERSE EVENT MANAGEMENT", @patient, nil,
@@ -177,7 +177,7 @@
       :id => "specific-adverse-event-management",
       :condition => "__$('adverse_events?').value.match(/YES/i)",
       :optional => true,
-      :helpText => "Specify adverse event management"
+      :helpText => "Specify adverse event management <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
   <%= (touch_text_field_tag "TIME LEFT TABLE", @patient, nil,
@@ -189,7 +189,7 @@
       :validationRule => "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
       :validationMessage => "Bad time format (Use this format: 14<b>:30</b>)",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-      :helpText => "Time left table"
+      :helpText => "Time left table <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
 

@@ -53,13 +53,13 @@
 
   <%= (touch_select_tag "CIRCUMCISION STATUS", @patient, options_for_select(@circumcision_options),
     {
-      :helpText  => "Circumcision Status",
+      :helpText  => "Circumcision Status <span class='helper'> Genital exam</span>",
       :id => "circumcision_idd"
     }).html_safe %>
 
   <%= (touch_select_tag "PHIMOSIS", @patient, options_for_select(@yes_no_options),
     {
-      :helpText  => "Phimosis",
+      :helpText  => "Phimosis <span class='helper'> Genital exam</span>",
       :tt_requireNextClick => false,
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
@@ -67,7 +67,7 @@
   <%= (touch_select_tag "ULCER", @patient, options_for_select(@yes_no_options),
     {
       :id => "ulcer_id",
-      :helpText  => "Ulcer",
+      :helpText  => "Ulcer <span class='helper'> Genital exam</span>",
       :tt_requireNextClick => false,
       :tt_onUnLoad => "displayMessage('ulcer_id');",
       :condition => "__$('circumcision_idd').value != 'Full'"
@@ -76,7 +76,7 @@
   <%= (touch_select_tag "URETHRAL DISCHARGE", @patient, options_for_select(@yes_no_options),
     {
       :id => "urethral_id",
-      :helpText  => "Urethral discharge",
+      :helpText  => "Urethral discharge <span class='helper'> Genital exam</span>",
       :tt_requireNextClick => false,
       :tt_onUnLoad => "displayMessage('urethral_id');",
       :condition => "__$('circumcision_idd').value != 'Full'"
@@ -85,7 +85,7 @@
   <%= (touch_select_tag "SCROTUM SWELLING", @patient, options_for_select(@yes_no_options),
     {
       :id => "swelling_id",
-      :helpText  => "Scrotum swelling/tenderness",
+      :helpText  => "Scrotum swelling/tenderness <span class='helper'> Genital exam</span>",
       :tt_requireNextClick => false,
       :tt_onUnLoad => "displayMessage('swelling_id');",
       :condition => "__$('circumcision_idd').value != 'Full'"
@@ -93,7 +93,7 @@
 
   <%= (touch_select_tag "INGUINAL NODES ENLARGED/TENDER", @patient, options_for_select(@yes_no_options),
     {
-      :helpText  => "Inguinal nodes enlarged/tender",
+      :helpText  => "Inguinal nodes enlarged/tender <span class='helper'> Genital exam</span>",
       :tt_requireNextClick => false,
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
@@ -101,7 +101,7 @@
   <%= (touch_select_tag "ANY ABNORMALITIES", @patient, options_for_select(@yes_no_options),
     {
       :id => "any-abnormality",
-      :helpText  => "Other abnormality",
+      :helpText  => "Other abnormality <span class='helper'> Genital exam</span>",
       :tt_requireNextClick => false,
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
@@ -109,7 +109,7 @@
   <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
     {
       :id => "other-abnormalities",
-      :helpText  => "Specify other abnormalities",
+      :helpText  => "Specify other abnormalities <span class='helper'> Genital exam</span>",
       :condition => "__$('any-abnormality').value.match(/YES/i)",
       :field_type => 'alpha',
       :allowFreeText => true

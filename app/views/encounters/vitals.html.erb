@@ -88,7 +88,7 @@
     {
       :id => "respiratory_rate",
       :field_type => 'number',
-      :helptext => 'Respiratory Rate (Breaths per Minute)',
+      :helptext => "Respiratory Rate (Breaths per Minute) <span class='helper'> Vitals</span>",
       :min => 8,
       :max => 65,
       :tt_onLoad => "$('decimal').style.display='none'",
@@ -102,7 +102,7 @@
   <%= (touch_text_field_tag "PULSE", @patient, nil,
     {
       :id => "pulse",
-      :helptext => 'Pulse Rate (Beats per Minute)',
+      :helptext => "Pulse Rate (Beats per Minute) <span class='helper'> Vitals</span>",
       :field_type => 'number',
       :min => 50,
       :max => 120,
@@ -114,7 +114,7 @@
   <%= (touch_text_field_tag "SYSTOLIC BLOOD PRESSURE", @patient, nil,
     {
       :id => "systolic_blood_pressure",
-      :helptext => "Systolic Blood Pressure (?/Y)",
+      :helptext => "Systolic Blood Pressure (?/Y) <span class='helper'> Vitals</span>",
       :field_type => "number",
       :tt_pageStyleClass => "NumbersWithUnknown",
       :min => 80,
@@ -123,7 +123,7 @@
   <%= (touch_text_field_tag "DIASTOLIC BLOOD PRESSURE", @patient, nil,
     {
       :id => "diastolic_blood_pressure",
-      :helptext => "Diastolic Blood Pressure",
+      :helptext => "Diastolic Blood Pressure <span class='helper'> Vitals</span>",
       :field_type => "number",
       :tt_pageStyleClass => "NumbersWithUnknown",
       :min => 50,
@@ -140,7 +140,7 @@
       :validationRule => "(^[+-]?([0-9]*[.])?[0-9]+$)|Unknown$",
       :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-      :helpText => "Temperature (C)" }).html_safe%>
+      :helpText => "Temperature (C) <span class='helper'> Vitals</span>" }).html_safe%>
 
   <%= (touch_numeric_tag "WEIGHT (KG)", @patient, nil,
     {	:id => "weight",
@@ -154,7 +154,7 @@
       :validationRule => "(^[+-]?([0-9]*[.])?[0-9]+$)|Unknown$",
       :validationMessage => "You must enter a decimal between 0 and 9 (for example: 54<b>.6</b>)",
       :tt_pageStyleClass => "unknownButton",
-      :helpText => "Weight (Kg)" }).html_safe %>
+      :helpText => "Weight (Kg) <span class='helper'> Vitals</span>" }).html_safe %>
 
 
 <%#= (touch_numeric_tag "HEIGHT (CM)", @patient, nil,

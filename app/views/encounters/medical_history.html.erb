@@ -65,13 +65,13 @@
     {
       :id => "medical_history",
       :tt_requireNextClick => false,
-      :helpText  => "Any medical history?"
+      :helpText  => "Any medical history? <span class='helper'> Medical History</span>"
     }).html_safe %>
   
   <%= (touch_select_tag "DIABETES", @patient, options_for_select(@yes_no_options),
     {
       :id => "diabetes",
-      :helpText  => "Diabetes?",
+      :helpText  => "Diabetes? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
       :tt_onUnLoad => "displayMessage('diabetes');",
       :condition => "__$('medical_history').value.match(/YES/i)"
@@ -79,14 +79,14 @@
 
   <%= (touch_select_tag "TYPE OF DIABETES", @patient, options_for_select(@diabetes_types),
     {
-      :helpText  => "Type of diabetes",
+      :helpText  => "Type of diabetes <span class='helper'> Medical History</span>",
       :condition => "__$('diabetes').value.match(/YES/i)"
     }).html_safe %>
 
   <%= (touch_select_tag "BLEEDING DISORDER", @patient, options_for_select(@yes_no_options),
     {
       :id => "bleeding",
-      :helpText  => "Bleeding disorder?",
+      :helpText  => "Bleeding disorder? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
       :tt_onUnLoad => "displayMessage('bleeding');",
       :condition => "__$('medical_history').value.match(/YES/i)"
@@ -94,7 +94,7 @@
 
   <%= (touch_text_field_tag "SPECIFY THE BLEEDING DISORDER", @patient, nil,
     {
-      :helpText => "Specify the bleeding disorder",
+      :helpText => "Specify the bleeding disorder <span class='helper'> Medical History</span>",
       :condition => "__$('bleeding').value.match(/YES/i)",
       :field_type => 'alpha',
       :allowFreeText => true
@@ -103,14 +103,14 @@
   <%= (touch_select_tag "ANY MEDS", @patient, options_for_select(@yes_no_options),
     {
       :id => "meds",
-      :helpText  => "Any meds?",
+      :helpText  => "Any meds? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
   <%= (touch_text_field_tag "SPECIFY ANY MEDS", @patient, nil,
     {
-      :helpText => "Specify any meds",
+      :helpText => "Specify any meds <span class='helper'> Medical History</span>",
       :condition => "__$('meds').value.match(/YES/i)",
       :field_type => 'alpha',
       :allowFreeText => true
@@ -119,14 +119,14 @@
   <%= (touch_select_tag "ALLERGIES", @patient, options_for_select(@yes_no_options),
     {
       :id => "allergies",
-      :helpText  => "Allergies?",
+      :helpText  => "Allergies? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
   <%= (touch_text_field_tag "SPECIFY ALLERGIES", @patient, nil,
     {
-      :helpText => "Specify allergies",
+      :helpText => "Specify allergies <span class='helper'> Medical History</span>",
       :condition => "__$('allergies').value.match(/YES/i)",
       :field_type => 'alpha',
       :allowFreeText => true
@@ -135,7 +135,7 @@
   <%= (touch_select_tag "GENITAL ULCERS", @patient, options_for_select(@yes_no_options),
     {
       :id => "ulcers",
-      :helpText  => "Genital ulcers?",
+      :helpText  => "Genital ulcers? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
       :tt_onUnLoad => "displayMessage('ulcers');",
       :condition => "__$('medical_history').value.match(/YES/i)"
@@ -143,7 +143,7 @@
 
   <%= (touch_text_field_tag "SPECIFY GENITAL ULCERS", @patient, nil,
     {
-      :helpText => "Specify genital ulcers",
+      :helpText => "Specify genital ulcers <span class='helper'> Medical History</span>",
       :condition => "__$('ulcers').value.match(/YES/i)",
       :field_type => 'alpha',
       :allowFreeText => true
@@ -152,14 +152,14 @@
   <%= (touch_select_tag "GENITAL ITCHING", @patient, options_for_select(@yes_no_options),
     {
       :id => "itching",
-      :helpText  => "Genital itching?",
+      :helpText  => "Genital itching? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
   <%= (touch_text_field_tag "SPECIFY GENITAL ITCHING", @patient, nil,
     {
-      :helpText => "Specify genital itching",
+      :helpText => "Specify genital itching <span class='helper'> Medical History</span>",
       :condition => "__$('itching').value.match(/YES/i)",
       :field_type => 'alpha',
       :allowFreeText => true
@@ -168,7 +168,7 @@
   <%= (touch_select_tag "PAINFUL URINATION", @patient, options_for_select(@yes_no_options),
     {
       :id => "urination",
-      :helpText  => "Painful urination?",
+      :helpText  => "Painful urination? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
       :tt_onUnLoad => "displayMessage('urination');",
       :condition => "__$('medical_history').value.match(/YES/i)"
@@ -176,7 +176,7 @@
 
   <%= (touch_text_field_tag "SPECIFY PAINFUL URINATION", @patient, nil,
     {
-      :helpText => "Specify painful urination",
+      :helpText => "Specify painful urination <span class='helper'> Medical History</span>",
       :condition => "__$('urination').value.match(/YES/i)",
       :field_type => 'alpha',
       :allowFreeText => true
@@ -185,14 +185,14 @@
   <%= (touch_select_tag "OTHER MEDICAL CONDITION", @patient, options_for_select(@yes_no_options),
     {
       :id => "other_medical_history",
-      :helpText  => "Any other Medical condition?",
+      :helpText  => "Any other Medical condition? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
   <%= (touch_text_field_tag "SPECIFY OTHER MEDICAL CONDITION", @patient, nil,
     {
-      :helpText => "Specify other medical condition",
+      :helpText => "Specify other medical condition <span class='helper'> Medical History</span>",
       :condition => "__$('other_medical_history').value.match(/YES/i)",
       :field_type => 'alpha',
       :allowFreeText => true

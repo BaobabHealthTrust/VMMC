@@ -35,82 +35,82 @@
   <%= (touch_text_field_tag "FOLLOW UP DATE", @patient, nil,
     {
       :id => "follow-up-date",
-      :helptext => "Follow up date",
+      :helptext => "Follow up date <span class='helper'> Follow-up review</span>",
       :field_type => "date"
     }).html_safe %>
 
   <%= (touch_select_tag "PAIN", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "type_of_pain",
-      :helpText  => "Type of pain"
+      :helpText  => "Type of pain <span class='helper'> Follow-up review</span>"
     }).html_safe %>
 
 
   <%= (touch_select_tag "BANDAGE", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "bandage",
-      :helpText  => "Bandage (Bleeding)"
+      :helpText  => "Bandage (Bleeding) <span class='helper'> Follow-up review</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "HAEMATOMA", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "haematoma",
-      :helpText  => "Haematoma"
+      :helpText  => "Haematoma <span class='helper'> Follow-up review</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "SWELLING", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "swelling",
-      :helpText  => "Swelling"
+      :helpText  => "Swelling <span class='helper'> Follow-up review</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "GLANS DAMAGE", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "glans-damage",
-      :helpText  => "Damage to glans"
+      :helpText  => "Damage to glans <span class='helper'> Follow-up review</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "INFECTION", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "infection",
-      :helpText  => "Infection"
+      :helpText  => "Infection <span class='helper'> Follow-up review</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "WOUND DISRUPTION", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "wound-disruption",
-      :helpText  => "Wound disruption"
+      :helpText  => "Wound disruption <span class='helper'> Follow-up review</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "URINARY PROBLEMS", @patient, options_for_select(@none_mild_mod_sev_options),
     {
       :id => "urinary-problems",
-      :helpText  => "Urinary problems"
+      :helpText  => "Urinary problems <span class='helper'> Follow-up review</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "EXCESSIVE SKIN REMOVED", @patient, options_for_select(@yes_no_options),
     {
       :id => "excessive-skin",
-      :helpText  => "Excessive skin removed?"
+      :helpText  => "Excessive skin removed? <span class='helper'> Follow-up review</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "INSUFFICIENT SKIN REMOVED", @patient, options_for_select(@yes_no_options),
     {
       :id => "insufficient-skin",
-      :helpText  => "Insufficient skin removed?",
+      :helpText  => "Insufficient skin removed? <span class='helper'> Follow-up review</span>",
       :condition => "__$('excessive-skin').value.match(/NO/i)",
     }).html_safe %>
 
   <%= (touch_select_tag "DELAYED WOUND HEALING", @patient, options_for_select(@yes_no_options),
     {
       :id => "delayed-wound-healing",
-      :helpText  => "Delayed wound healing?"
+      :helpText  => "Delayed wound healing? <span class='helper'> Follow-up review</span>"
     }).html_safe %>
 
   <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
     {
       :id => "other_ae",
-      :helpText => "Other AE (Specify)",
+      :helpText => "Other AE (Specify) <span class='helper'> Follow-up review</span>",
       :field_type => 'alpha',
       :optional => true,
       :allowFreeText => true
@@ -119,7 +119,7 @@
   <%= (touch_text_field_tag "SUMMARY OF FINDINGS", @patient, nil,
     {
       :id => "findings_summary",
-      :helpText => "Summary of findings",
+      :helpText => "Summary of findings <span class='helper'> Follow-up review</span>",
       :field_type => 'alpha',
       :allowFreeText => true
     }).html_safe %>
@@ -127,7 +127,7 @@
   <%= (touch_text_field_tag "SPECIFIC ADVERSE EVENT MANAGEMENT", @patient, nil,
     {
       :id => "management_findings",
-      :helpText => "Management of findings",
+      :helpText => "Management of findings <span class='helper'> Follow-up review</span>",
       :field_type => 'alpha',
       :optional => true,
       :allowFreeText => true
@@ -136,7 +136,7 @@
   <%= (touch_select_tag "COUNSELLING", @patient, options_for_select(@yes_no_options),
     {
       :id => "counselling",
-      :helpText  => "Was counselling done?"
+      :helpText  => "Was counselling done? <span class='helper'> Follow-up review</span>"
     }).html_safe %>
 
   <%= (touch_text_field_tag "NUMBER OF CONDOMS DISPENSED", @patient, nil,
@@ -144,7 +144,7 @@
       :id => "counselling",
       :field_type => 'number',
       :tt_pageStyleClass => "Numeric NumbersOnly",
-      :helpText  => "Number of condoms given"
+      :helpText  => "Number of condoms given <span class='helper'> Follow-up review</span>"
     }).html_safe %>
 
 </form>
