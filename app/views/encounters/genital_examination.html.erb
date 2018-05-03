@@ -27,15 +27,15 @@
 
     setTimeout(function(){
 
-        if (options == 'ulcer_id')
+        if (options == 'ulcer_id' && __$('ulcer_id').value == 'Yes')
         {
           showMessage('Note: Client has Ulcer and may not be suitable for circumcision',null,10000000000);
         }
-        else if (options == 'urethral_id')
+        else if (options == 'urethral_id' && __$('urethral_id').value == 'Yes')
         {
           showMessage('Note: Client has Urethral Discharge and may not be suitable for circumcision',null,10000000000);
         }
-        else if (options == 'swelling_id')
+        else if (options == 'swelling_id' && __$('swelling_id').value == 'Yes')
         {
           showMessage('Note: Client has Scrotum swelling/tenderness and may not be suitable for circumcision',null,10000000000);
         }

@@ -32,19 +32,19 @@
 
     setTimeout(function(){
 
-        if (options == 'diabetes')
+        if (options == 'diabetes' && __$('diabetes').value == 'Yes')
         {
           showMessage('Note: Client has Diabetes and may not be suitable for circumcision',null,10000000000);
         }
-        else if (options == 'bleeding')
+        else if (options == 'bleeding' && __$('bleeding').value == 'Yes')
         {
           showMessage('Note: Client has Bleeding disorder and may not be suitable for circumcision',null,10000000000);
         }
-        else if (options == 'ulcers')
+        else if (options == 'ulcers' && __$('ulcers').value == 'Yes')
         {
           showMessage('Note: Client has Genital ulcers and may not be suitable for circumcision',null,10000000000);
         }
-        else if (options == 'urination')
+        else if (options == 'urination' && __$('urination').value == 'Yes')
         {
           showMessage('Note: Client has Painful urination and may not be suitable for circumcision',null,10000000000);
         }
