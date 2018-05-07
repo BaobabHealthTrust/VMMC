@@ -37,14 +37,14 @@
   <%= (touch_select_tag "CONSENT CONFIRMATION", @patient, options_for_select(['', 'Yes', 'No']),
     {
       :id => "consent",
-      :helpText  => "Has the client given consent?"
+      :helpText  => "Has the client given consent? <span class='helper'> Registration</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "KNOWLEDGE SOURCE", @patient, options_for_select(@services_sources),
     {
       :multiple => true,
       :condition => "__$('consent').value.toUpperCase() == 'YES'",
-      :helpText  => "How did you learn of this (VMMC) service?"
+      :helpText  => "How did you learn of this (VMMC) service? <span class='helper'> Registration</span>"
     }).html_safe %>
 
 </form>

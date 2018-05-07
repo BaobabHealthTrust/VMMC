@@ -366,7 +366,7 @@ class EncountersController < ApplicationController
   def anaesthesia_measurement
     options = [
       ["", ""],
-      ["Percent (%)", "Percent"],
+      ["Percentage (%)", "Percent"],
       ["Milliliter (mls)", "mls"]
     ]
     return options

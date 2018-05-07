@@ -35,20 +35,20 @@
   <%= (touch_select_tag "ANY CONTRAINDICATIONS", @patient, options_for_select(@yes_no_options),
     {
       :id => "contraindications",
-      :helpText  => "Any contraindications?"
+      :helpText  => "Any contraindications? <span class='helper'> Summary assessment</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "CONTRAINDICATIONS", @patient, options_for_select(@contraindications),
     {
       :id => "contraindications_options",
-      :helpText  => "Select contraindications",
+      :helpText  => "Select contraindications <span class='helper'> Summary assessment</span>",
       :condition => "__$('contraindications').value.match(/YES/i)"
     }).html_safe %>
 
   <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
     {
       :id => "other-contraindications",
-      :helpText => "Specify other contraindications",
+      :helpText => "Specify other contraindications <span class='helper'> Summary assessment</span>",
       :condition => "__$('contraindications_options').value == 'Other chronic disorders of the penis e.g. filariasis'",
       :field_type => 'alpha',
       :allowFreeText => true
@@ -57,7 +57,7 @@
   <%= (touch_text_field_tag "SPECIFIC MANAGEMENT OF CONTRAINDICATIONS", @patient, nil,
     {
       :id => "Specify-contraindications",
-      :helpText => "Specify management of contraindications",
+      :helpText => "Specify management of contraindications <span class='helper'> Summary assessment</span>",
       :condition => "__$('contraindications').value.match(/YES/i)",
       :field_type => 'alpha',
       :optional => true,
@@ -67,13 +67,13 @@
   <%= (touch_select_tag "SUITABLE FOR CIRCUMCISION", @patient, options_for_select(@yes_no_options),
     {
       :id => "circumcision-assessment",
-      :helpText  => "Suitable for circumcision?"
+      :helpText  => "Suitable for circumcision? <span class='helper'> Summary assessment</span>"
     }).html_safe %>
 
   <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
     {
       :id => "not-suitable",
-      :helpText => "Specify reason",
+      :helpText => "Specify reason <span class='helper'> Summary assessment</span>",
       :condition => "__$('circumcision-assessment').value.match(/NO/i)",
       :field_type => 'alpha',
       :allowFreeText => true
@@ -83,7 +83,7 @@
     {
       :id => "appointment-date",
       :maxDate => "#{@max_date}",
-      :helptext => "Specify Next Appointment date",
+      :helptext => "Specify Next Appointment date <span class='helper'> Summary assessment</span>",
       :condition => "__$('circumcision-assessment').value.match(/NO/i)",
       :field_type => "date"
     }).html_safe %>
@@ -91,7 +91,7 @@
   <%= (touch_select_tag "CONTINUE TO CIRCUMCISION?", @patient, options_for_select(['', 'Yes', 'No']),
     {
       :id => "circumcision-consent",
-      :helpText  => "Does client still want to get circumcised?",
+      :helpText  => "Does client still want to get circumcised? <span class='helper'> Summary assessment</span>",
       :condition => "__$('circumcision-assessment').value.match(/YES/i)",
     }).html_safe %>
 
