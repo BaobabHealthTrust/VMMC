@@ -96,7 +96,12 @@ class Report
   end
 
   def intra_operation_adverse_events
-
+    data = {}
+    data["none"] = Patient.none_adverse_events(@start_date, @end_date).collect{|p|p.patient_id}
+    data["mild"] = Patient.mild_adverse_events(@start_date, @end_date).collect{|p|p.patient_id}
+    data["moderate"] = Patient.moderate_adverse_events(@start_date, @end_date).collect{|p|p.patient_id}
+    data["severe"] = Patient.severe_adverse_events(@start_date, @end_date).collect{|p|p.patient_id}
+    return data
   end
 
   def first_review_within_48_hrs

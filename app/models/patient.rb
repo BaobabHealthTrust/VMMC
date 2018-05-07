@@ -498,4 +498,76 @@ class Patient < ActiveRecord::Base
     return patients.uniq
   end
 
+  def self.none_adverse_events(start_date, end_date)
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    adverse_concept_id = Concept.find_by_name("OTHER ADVERSE EVENT ACTION").concept_id
+    none_concept_id = Concept.find_by_name("NONE").concept_id
+
+    patients = []
+    post_op_review_encounters = Encounter.joins(:observations).where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ? AND concept_id =? AND value_coded =?", post_op_review_encounter_type_id,
+        start_date.to_date, end_date.to_date, adverse_concept_id, none_concept_id])
+
+    post_op_review_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.mild_adverse_events(start_date, end_date)
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    adverse_concept_id = Concept.find_by_name("OTHER ADVERSE EVENT ACTION").concept_id
+    mild_concept_id = Concept.find_by_name("MILD").concept_id
+
+    patients = []
+    post_op_review_encounters = Encounter.joins(:observations).where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ? AND concept_id =? AND value_coded =?", post_op_review_encounter_type_id,
+        start_date.to_date, end_date.to_date, adverse_concept_id, mild_concept_id])
+
+    post_op_review_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.moderate_adverse_events(start_date, end_date)
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    adverse_concept_id = Concept.find_by_name("OTHER ADVERSE EVENT ACTION").concept_id
+    moderate_concept_id = Concept.find_by_name("MODERATE").concept_id
+
+    patients = []
+    post_op_review_encounters = Encounter.joins(:observations).where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ? AND concept_id =? AND value_coded =?", post_op_review_encounter_type_id,
+        start_date.to_date, end_date.to_date, adverse_concept_id, moderate_concept_id])
+
+    post_op_review_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.severe_adverse_events(start_date, end_date)
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    adverse_concept_id = Concept.find_by_name("OTHER ADVERSE EVENT ACTION").concept_id
+    severe_concept_id = Concept.find_by_name("SEVERE").concept_id
+
+    patients = []
+    post_op_review_encounters = Encounter.joins(:observations).where(["encounter_type =? AND DATE(encounter_datetime) >= ?
+        AND DATE(encounter_datetime) <= ? AND concept_id =? AND value_coded =?", post_op_review_encounter_type_id,
+        start_date.to_date, end_date.to_date, adverse_concept_id, severe_concept_id])
+
+    post_op_review_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
 end

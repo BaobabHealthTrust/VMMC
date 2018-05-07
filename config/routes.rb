@@ -95,7 +95,10 @@ Rails.application.routes.draw do
   post 'get_consent_granted_data' => 'report#get_consent_granted_data' #get_procedures_used_data
 
   get 'get_procedures_used_data' => 'report#get_procedures_used_data'
-  post 'get_procedures_used_data' => 'report#get_procedures_used_data'
+  post 'get_procedures_used_data' => 'report#get_procedures_used_data' #get_adverse_events_data
+
+  get 'get_adverse_events_data' => 'report#get_adverse_events_data'
+  post 'get_adverse_events_data' => 'report#get_adverse_events_data'
 
   get 'user' => 'clinic#user'
   get 'manage_locations' => 'clinic#manage_locations'
