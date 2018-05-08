@@ -26,6 +26,8 @@ class EncountersController < ApplicationController
     @urinary_problem_options = urinary_problem_options
     @yes_no_options = yes_no_options
     @none_mild_mod_sev_options = none_mild_mod_sev_options
+    @side_effects_array = ["Pain", "Bleeding", "Haematoma","Swelling", "Damage to glans", "Infection", "Wound Disruption", "Urinary problems"]
+
     render action: params[:encounter_type], patient_id: params[:patient_id], layout: "header"
   end
 
@@ -224,6 +226,7 @@ class EncountersController < ApplicationController
     @urinary_problem_options = urinary_problem_options
     @yes_no_options = yes_no_options
     @none_mild_mod_sev_options = none_mild_mod_sev_options
+    @side_effects_array = ["Pain", "Bleeding", "Haematoma","Swelling", "Damage to glans", "Infection", "Wound Disruption", "Urinary problems"]
     render layout: "form" 
   end
 
