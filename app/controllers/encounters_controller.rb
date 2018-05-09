@@ -27,6 +27,7 @@ class EncountersController < ApplicationController
     @yes_no_options = yes_no_options
     @none_mild_mod_sev_options = none_mild_mod_sev_options
     @side_effects_array = ["Pain", "Bleeding", "Haematoma","Swelling", "Damage to glans", "Infection", "Wound Disruption", "Urinary problems"]
+    @bean = PatientService.get_patient(@patient.person)
 
     render action: params[:encounter_type], patient_id: params[:patient_id], layout: "header"
   end
@@ -194,6 +195,7 @@ class EncountersController < ApplicationController
     @anaesthesia_measurement = anaesthesia_measurement
     @circumcision_procedure_types = circumcision_procedure_types
     @max_date = max_date
+    @bean = PatientService.get_patient(@patient.person)
     render layout: "form" 
   end
 
