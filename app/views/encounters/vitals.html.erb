@@ -117,6 +117,7 @@
       :helptext => "Systolic Blood Pressure (?/Y) <span class='helper'> Vitals</span>",
       :field_type => "number",
       :tt_pageStyleClass => "NumbersWithUnknown",
+      :tt_onUnLoad => "displayMessage('systolic_blood_pressure');",
       :min => 80,
       :max => 150 }).html_safe %>
 
@@ -126,6 +127,7 @@
       :helptext => "Diastolic Blood Pressure <span class='helper'> Vitals</span>",
       :field_type => "number",
       :tt_pageStyleClass => "NumbersWithUnknown",
+      :tt_onUnLoad => "displayMessage('diastolic_blood_pressure');",
       :min => 50,
       :max  => 100 }).html_safe %>
 
@@ -174,6 +176,22 @@
 </form>
 
 <script type="text/javascript">
+
+  function displayMessage(options){
+
+    setTimeout(function(){
+
+        if (options == 'systolic_blood_pressure' && __$('systolic_blood_pressure').value >= 140 && __$('systolic_blood_pressure').value <= 150)
+        {
+          showMessage('Note: Client Systolic Blood Pressure is high and may not be suitable for circumcision',null,10000000000);
+        }
+        else if (options == 'diastolic_blood_pressure' && __$('diastolic_blood_pressure').value >= 50 && __$('diastolic_blood_pressure').value <= 90 )
+        {
+          showMessage('Note: Client Diastolic Blood Pressure is high and may not be suitable for circumcision',null,10000000000);
+        }
+       
+    },100);  
+}
 
 </script>
 
