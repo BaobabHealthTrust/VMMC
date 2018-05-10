@@ -82,6 +82,7 @@
   <%= (touch_text_field_tag "APPOINTMENT DATE", @patient, nil,
     {
       :id => "appointment-date",
+      :absoluteMin => (Date.today + 1.day),
       :maxDate => "#{@max_date}",
       :helptext => "Specify Next Appointment date <span class='helper'> Summary assessment</span>",
       :condition => "__$('circumcision-assessment').value.match(/NO/i)",
