@@ -381,7 +381,7 @@ class EncountersController < ApplicationController
     options = [
       ["", ""],
       ["Forceps Guided (FG)", "Forceps Guided"],
-      ["Dorsal Slit (DS)", "Dorial Slit"],
+      ["Dorsal Slit (DS)", "Dorsal Slit"],
       ["Device", "Device"],
       ["Other", "Other"]
     ]

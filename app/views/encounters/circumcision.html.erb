@@ -129,6 +129,8 @@
     {
       :id => "lidocaine-quantity",
       :field_type => 'number',
+      :min => 0,
+      :max => 2,
       :helpText => "Lidocaine quantity given in percentage <span class='helper'> Circumcision</span>",
       :condition => "(__$('anaesthesia').value == 'Lidocaine')",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"
@@ -138,24 +140,30 @@
     {
       :id => "lidocaine-mls",
       :field_type => 'number',
+      :min => 0,
+      :max => 5,
       :helpText => "Lidocaine quantity given in mls <span class='helper'> Circumcision</span>",
       :condition => "(__$('anaesthesia').value == 'Lidocaine')",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"
     }).html_safe %>
 
-  <%= (touch_text_field_tag "ANAESTHESIA QUANTITY", @patient, nil,
+  <%= (touch_text_field_tag "ANAESTHESIA QUANTITY (PERCENTAGE)", @patient, nil,
     {
       :id => "bupivacaine-quantity",
       :field_type => 'number',
+      :min => 0,
+      :max => 0.5,
       :helpText => "Bupivacaine quantity given in percentage <span class='helper'> Circumcision</span>",
       :condition => "(__$('anaesthesia').value == 'Bupivacaine')",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"
     }).html_safe %>
 
-  <%= (touch_text_field_tag "ANAESTHESIA QUANTITY", @patient, nil,
+  <%= (touch_text_field_tag "ANAESTHESIA QUANTITY (PERCENTAGE)", @patient, nil,
     {
       :id => "bupivacaine-mls",
       :field_type => 'number',
+      :min => 0,
+      :max => 5,
       :helpText => "Bupivacaine quantity given in mls <span class='helper'> Circumcision</span>",
       :condition => "(__$('anaesthesia').value == 'Bupivacaine')",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"
