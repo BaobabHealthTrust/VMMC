@@ -194,10 +194,12 @@ class UsersController < ApplicationController
         user_role.user_id = user.user_id
         user_role.save
 
-      end
 
       flash[:notice] = 'User was successfully created.'
-      redirect_to("/") and return
+      redirect_to("/show/#{user.user_id}") and return
+
+      end rescue redirect_to "/new_user" and return
+
     end
     render layout: "full_page_form"
   end
