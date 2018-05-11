@@ -199,9 +199,11 @@
                     <li style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204);" onclick="setIframeSource('/report')">
 									Reports
                     </li>
+                    <%if User.current.admin?%>
                     <li style="padding: 15px 10px; cursor: pointer; margin-bottom: 5px; border-bottom: 1px solid rgb(204, 204, 204);" onclick="setIframeSource('/administration')">
 									Administration
                     </li>
+                    <%end%>
                   </ul>
                 </div></td>
             </tr>
