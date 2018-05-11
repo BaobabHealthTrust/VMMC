@@ -119,17 +119,45 @@
       :helpText  => "Anaesthesia <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
-  <%= (touch_select_tag "ANAESTHESIA MEASUREMENT", @patient, options_for_select(@anaesthesia_measurement),
+  <%#= (touch_select_tag "ANAESTHESIA MEASUREMENT", @patient, options_for_select(@anaesthesia_measurement),
     {
       :id => "anaesthesia_measurement",
       :helpText  => "Anaesthesia dosage measurement <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
+  <%= (touch_text_field_tag "ANAESTHESIA QUANTITY (PERCENTAGE)", @patient, nil,
+    {
+      :id => "lidocaine-quantity",
+      :field_type => 'number',
+      :helpText => "Lidocaine quantity given in percentage <span class='helper'> Circumcision</span>",
+      :condition => "(__$('anaesthesia').value == 'Lidocaine')",
+      :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "ANAESTHESIA QUANTITY (MLS)", @patient, nil,
+    {
+      :id => "lidocaine-mls",
+      :field_type => 'number',
+      :helpText => "Lidocaine quantity given in mls <span class='helper'> Circumcision</span>",
+      :condition => "(__$('anaesthesia').value == 'Lidocaine')",
+      :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"
+    }).html_safe %>
+
   <%= (touch_text_field_tag "ANAESTHESIA QUANTITY", @patient, nil,
     {
-      :id => "anaesthesia-quantity",
+      :id => "bupivacaine-quantity",
       :field_type => 'number',
-      :helpText => "Anaesthesia quantity given <span class='helper'> Circumcision</span>",
+      :helpText => "Bupivacaine quantity given in percentage <span class='helper'> Circumcision</span>",
+      :condition => "(__$('anaesthesia').value == 'Bupivacaine')",
+      :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "ANAESTHESIA QUANTITY", @patient, nil,
+    {
+      :id => "bupivacaine-mls",
+      :field_type => 'number',
+      :helpText => "Bupivacaine quantity given in mls <span class='helper'> Circumcision</span>",
+      :condition => "(__$('anaesthesia').value == 'Bupivacaine')",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"
     }).html_safe %>
 
