@@ -27,8 +27,9 @@ class UsersController < ApplicationController
   end 
 
   def my_account
+    user_id = session[:user]['user_id'].inspect
 		@my_accounts =  [
-      ['/change_password','Change Password'],
+      ["/user/change_password?id=#{user_id}",'Change Password'],
       ['/edit_demographics','Edit Demographics']#,
       #['/my_profile','My profile']
     ]
