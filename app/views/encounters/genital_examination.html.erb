@@ -61,6 +61,7 @@
     {
       :helpText  => "Phimosis <span class='helper'> Genital exam</span>",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
@@ -69,6 +70,7 @@
       :id => "ulcer_id",
       :helpText  => "Ulcer <span class='helper'> Genital exam</span>",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :tt_onUnLoad => "displayMessage('ulcer_id');",
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
@@ -78,6 +80,7 @@
       :id => "urethral_id",
       :helpText  => "Urethral discharge <span class='helper'> Genital exam</span>",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :tt_onUnLoad => "displayMessage('urethral_id');",
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
@@ -87,6 +90,7 @@
       :id => "swelling_id",
       :helpText  => "Scrotum swelling/tenderness <span class='helper'> Genital exam</span>",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :tt_onUnLoad => "displayMessage('swelling_id');",
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
@@ -95,6 +99,7 @@
     {
       :helpText  => "Inguinal nodes enlarged/tender <span class='helper'> Genital exam</span>",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
@@ -103,6 +108,7 @@
       :id => "any-abnormality",
       :helpText  => "Other abnormality <span class='helper'> Genital exam</span>",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
@@ -111,6 +117,7 @@
       :id => "other-abnormalities",
       :helpText  => "Specify other abnormalities <span class='helper'> Genital exam</span>",
       :condition => "__$('any-abnormality').value.match(/YES/i)",
+      :tt_onLoad => "$('nextButton').style.display = 'inline';",
       :field_type => 'alpha',
       :allowFreeText => true
     }).html_safe %>

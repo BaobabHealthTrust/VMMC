@@ -65,6 +65,7 @@
     {
       :id => "medical_history",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :helpText  => "Any medical history? <span class='helper'> Medical History</span>"
     }).html_safe %>
   
@@ -73,6 +74,7 @@
       :id => "diabetes",
       :helpText  => "Diabetes? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :tt_onUnLoad => "displayMessage('diabetes');",
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
@@ -80,6 +82,7 @@
   <%= (touch_select_tag "TYPE OF DIABETES", @patient, options_for_select(@diabetes_types),
     {
       :helpText  => "Type of diabetes <span class='helper'> Medical History</span>",
+      :tt_onLoad => "$('nextButton').style.display = 'inline';",
       :condition => "__$('diabetes').value.match(/YES/i)"
     }).html_safe %>
 
@@ -88,6 +91,7 @@
       :id => "bleeding",
       :helpText  => "Bleeding disorder? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :tt_onUnLoad => "displayMessage('bleeding');",
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
@@ -96,6 +100,7 @@
     {
       :helpText => "Specify the bleeding disorder <span class='helper'> Medical History</span>",
       :condition => "__$('bleeding').value.match(/YES/i)",
+      :tt_onLoad => "$('nextButton').style.display = 'inline';",
       :field_type => 'alpha',
       :allowFreeText => true
     }).html_safe %>
@@ -105,6 +110,7 @@
       :id => "meds",
       :helpText  => "Any meds? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
@@ -113,6 +119,7 @@
       :helpText => "Specify any meds <span class='helper'> Medical History</span>",
       :condition => "__$('meds').value.match(/YES/i)",
       :field_type => 'alpha',
+      :tt_onLoad => "$('nextButton').style.display = 'inline';",
       :allowFreeText => true
     }).html_safe %>
 
@@ -121,6 +128,7 @@
       :id => "allergies",
       :helpText  => "Allergies? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
@@ -128,6 +136,7 @@
     {
       :helpText => "Specify allergies <span class='helper'> Medical History</span>",
       :condition => "__$('allergies').value.match(/YES/i)",
+      :tt_onLoad => "$('nextButton').style.display = 'inline';",
       :field_type => 'alpha',
       :allowFreeText => true
     }).html_safe %>
@@ -137,6 +146,7 @@
       :id => "ulcers",
       :helpText  => "Genital ulcers? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :tt_onUnLoad => "displayMessage('ulcers');",
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
@@ -145,6 +155,7 @@
     {
       :helpText => "Specify genital ulcers <span class='helper'> Medical History</span>",
       :condition => "__$('ulcers').value.match(/YES/i)",
+      :tt_onLoad => "$('nextButton').style.display = 'inline';",
       :field_type => 'alpha',
       :allowFreeText => true
     }).html_safe %>
@@ -154,6 +165,7 @@
       :id => "itching",
       :helpText  => "Genital itching? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
@@ -161,6 +173,7 @@
     {
       :helpText => "Specify genital itching <span class='helper'> Medical History</span>",
       :condition => "__$('itching').value.match(/YES/i)",
+      :tt_onLoad => "$('nextButton').style.display = 'inline';",
       :field_type => 'alpha',
       :allowFreeText => true
     }).html_safe %>
@@ -170,6 +183,7 @@
       :id => "urination",
       :helpText  => "Painful urination? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :tt_onUnLoad => "displayMessage('urination');",
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
@@ -178,6 +192,7 @@
     {
       :helpText => "Specify painful urination <span class='helper'> Medical History</span>",
       :condition => "__$('urination').value.match(/YES/i)",
+      :tt_onLoad => "$('nextButton').style.display = 'inline';",
       :field_type => 'alpha',
       :allowFreeText => true
     }).html_safe %>
@@ -187,6 +202,7 @@
       :id => "other_medical_history",
       :helpText  => "Any other Medical condition? <span class='helper'> Medical History</span>",
       :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
       :condition => "__$('medical_history').value.match(/YES/i)"
     }).html_safe %>
 
@@ -194,6 +210,7 @@
     {
       :helpText => "Specify other medical condition <span class='helper'> Medical History</span>",
       :condition => "__$('other_medical_history').value.match(/YES/i)",
+      :tt_onLoad => "$('nextButton').style.display = 'inline';",
       :field_type => 'alpha',
       :allowFreeText => true
     }).html_safe %>
