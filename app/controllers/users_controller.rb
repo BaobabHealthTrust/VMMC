@@ -95,9 +95,9 @@ class UsersController < ApplicationController
       @user.update_attributes(:username => username)
     end
     
-    PersonName.where("voided = 0 AND person_id = #{@user.person_id}").each do | person_name |
+    PersonName.where("voided = 0 AND person_id = #{@user.person_id}").each do | person_name |    
       person_name.voided = 1
-      person_name.voided_by = session[:user]["person_id"]
+      person_name.voided_by = session[:user]["user_id"]
       person_name.date_voided = Time.now()
       person_name.void_reason = 'Edited name'
       person_name.save
