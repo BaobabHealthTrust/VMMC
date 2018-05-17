@@ -108,6 +108,7 @@
       :field_type => "number",
       :allowFreeText => 'true',
       :tt_onLoad => "changeDecimalToColon();",
+      :tt_onUnLoad => "updateAnaesTime();",
       :validationRule => "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
       :validationMessage => "Bad time format (Use this format: 14<b>:30</b>)",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
@@ -200,7 +201,8 @@
       :id => "incision_time",
       :field_type => "number",
       :allowFreeText => 'true',
-      :tt_onLoad => "changeDecimalToColon();",
+      :tt_onLoad => "changeDecimalToColon(); changeDefaultSettings();",
+      :tt_onUnLoad => "checkTime();",
       :validationRule => "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
       :validationMessage => "Bad time format (Use this format: 14<b>:30</b>)",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
@@ -243,6 +245,14 @@
 </form>
 
 <script type="text/javascript">
+  var anaesthesia_time = "";
+  var anaesthesia_time_with_colon;
+
+  function updateAnaesTime(){
+    anaesthesia_time = $("touchscreenInput"+tstCurrentPage).value.replace(":",'');
+    anaesthesia_time_with_colon = $("touchscreenInput"+tstCurrentPage).value
+  }
+
   function changeDecimalToColon(){
     decimal = jQuery("#decimal")[0];
     decimal.innerHTML = '<span>:</span>';
@@ -256,6 +266,31 @@
     }else if (age >= 15 && __$('procedure-type').value == 'Dorsal Slit'){
       showMessage('Note: Dorsal Slit is not recommended for clients under the age of 15',null,10000000000);
     } 
+  }
+
+  function checkTime(){
+    incision_time = $("touchscreenInput"+tstCurrentPage).value.replace(":",'');
+    
+    if(parseInt(anaesthesia_time) > parseInt(incision_time))
+    {
+      alert('Time greater than anaesthesia time'); 
+      return false;
+    }
+    else
+    {
+    }
+  }
+
+  function changeDefaultSettings(){
+    $("nextButton").removeAttribute("onmousedown");
+    $("nextButton").onmousedown = function(){
+      current_input_value = parseInt($("touchscreenInput"+tstCurrentPage).value.replace(":",''));
+      if (current_input_value > parseInt(anaesthesia_time)){
+          gotoNextPage();
+      } else {
+          showMessage("Time greater than anaesthesia time (<b>" + anaesthesia_time_with_colon + "</b>)")
+      }
+    }
   }
 
 </script>
