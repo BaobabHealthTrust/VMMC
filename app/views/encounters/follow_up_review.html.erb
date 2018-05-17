@@ -80,8 +80,6 @@
     color: gray !important;
   }
 
-
-
   #content, .inputPage{
     height: 545px !important;
   }
@@ -106,6 +104,12 @@
 
   #Unknown{
     display: none;
+  }
+
+  .helper {
+    display: block;
+    float:right;
+    background-color: #DEDEDE;
   }
 </style>
 
@@ -520,7 +524,7 @@ var sideEffectsHash = [];
   <%= (touch_text_field_tag "FOLLOW UP DATE", @patient, nil,
     {
       :id => "follow-up-date",
-      :helptext => "Follow up date",
+      :helptext => "Follow up date <span class='helper'> Follow-up review</span>",
       :absoluteMin => (Date.today),
       :field_type => "date"
     }).html_safe %>
