@@ -253,7 +253,7 @@
     var age = "<%= @bean.age %>"
     if (age <= 15 && __$('procedure-type').value == 'Forceps Guided'){
       showMessage('Note: Forceps guided is not recommended for clients under the age of 15',null,10000000000);
-    }else if (age <= 15 && __$('procedure-type').value == 'Dorsal Slit'){
+    }else if (age >= 15 && __$('procedure-type').value == 'Dorsal Slit'){
       showMessage('Note: Dorsal Slit is not recommended for clients under the age of 15',null,10000000000);
     } 
   }
