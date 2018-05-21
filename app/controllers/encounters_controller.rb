@@ -208,11 +208,17 @@ class EncountersController < ApplicationController
 
   def post_op_review
     @patient = Patient.find(params["patient_id"])
+    @time_left =  Observation.get_time_left(params["patient_id"])
     @pain_options = pain_options
     @bandage_options = bandage_options
     @other_ae_options = other_ae_options
     @max_date = max_date
     render layout: "form" 
+  end
+
+  def get_time_left
+    pa_id = params[:id]
+
   end
 
   def follow_up_review
