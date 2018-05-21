@@ -104,6 +104,13 @@ class Report
     return data
   end
 
+  def first_review
+    data = {}
+    data["within_48_hours"] = Patient.first_review_within_48_hours(@start_date, @end_date).collect{|p|p.patient_id}
+    data["after_48_hours"] = Patient.first_review_after_48_hours(@start_date, @end_date).collect{|p|p.patient_id}
+    return data
+  end
+
   def first_review_within_48_hrs
 
   end
