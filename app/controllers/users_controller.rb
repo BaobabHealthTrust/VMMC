@@ -27,8 +27,9 @@ class UsersController < ApplicationController
   end 
 
   def my_account
+    user_id = session[:user]['user_id'].inspect
 		@my_accounts =  [
-      ['/change_password','Change Password'],
+      ["/user/change_password?id=#{user_id}",'Change Password'],
       ['/edit_demographics','Edit Demographics']#,
       #['/my_profile','My profile']
     ]
@@ -94,9 +95,9 @@ class UsersController < ApplicationController
       @user.update_attributes(:username => username)
     end
     
-    PersonName.where("voided = 0 AND person_id = #{@user.person_id}").each do | person_name |
+    PersonName.where("voided = 0 AND person_id = #{@user.person_id}").each do | person_name |    
       person_name.voided = 1
-      person_name.voided_by = session[:user]["person_id"]
+      person_name.voided_by = session[:user]["user_id"]
       person_name.date_voided = Time.now()
       person_name.void_reason = 'Edited name'
       person_name.save
@@ -194,10 +195,12 @@ class UsersController < ApplicationController
         user_role.user_id = user.user_id
         user_role.save
 
-      end
 
       flash[:notice] = 'User was successfully created.'
-      redirect_to("/") and return
+      redirect_to("/show/#{user.user_id}") and return
+
+      end rescue redirect_to "/new_user" and return
+
     end
     render layout: "full_page_form"
   end

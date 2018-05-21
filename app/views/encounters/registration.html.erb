@@ -25,6 +25,12 @@
     height: 400px !important;
   }
 
+  .helper {
+    display: block;
+    float:right;
+    background-color: #DEDEDE;
+  }
+
 
 </style>
 
@@ -37,7 +43,7 @@
   <%= (touch_select_tag "CONSENT CONFIRMATION", @patient, options_for_select(['', 'Yes', 'No']),
     {
       :id => "consent",
-      :helpText  => "Has the client given consent? <span class='helper'> Registration</span>"
+      :helpText  => "Has the client given consent? <span style='float: right;'> Registration</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "KNOWLEDGE SOURCE", @patient, options_for_select(@services_sources),

@@ -62,5 +62,10 @@ class User < ActiveRecord::Base
     self.password = User.encrypt(new_password, self.salt)
     self.save
   end
+
+  def admin?
+    return self.user_role.role == 'Superuser'
+  end
+
   
 end

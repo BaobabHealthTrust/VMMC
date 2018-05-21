@@ -48,6 +48,11 @@ class Observation < ActiveRecord::Base
     self.uuid = ActiveRecord::Base.connection.select_one("SELECT UUID() as uuid")['uuid']
   end
 
+  def self.get_time_left(patient_id)
+      res  = Observation.find_by_sql("SELECT obs.value_text AS time_left FROM obs WHERE (obs.concept_id ='9591' AND obs.person_id='#{patient_id}') AND obs.voided ='0'")
+      return res[0]['time_left']
+  end
+
   def patient_id=(patient_id)
     self.person_id=patient_id
   end

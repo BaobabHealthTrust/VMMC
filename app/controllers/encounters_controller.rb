@@ -26,6 +26,9 @@ class EncountersController < ApplicationController
     @urinary_problem_options = urinary_problem_options
     @yes_no_options = yes_no_options
     @none_mild_mod_sev_options = none_mild_mod_sev_options
+    @side_effects_array = ["Pain", "Bleeding", "Haematoma","Swelling", "Damage to glans", "Infection", "Wound Disruption", "Urinary problems"]
+    @bean = PatientService.get_patient(@patient.person)
+
     render action: params[:encounter_type], patient_id: params[:patient_id], layout: "header"
   end
 
@@ -192,6 +195,7 @@ class EncountersController < ApplicationController
     @anaesthesia_measurement = anaesthesia_measurement
     @circumcision_procedure_types = circumcision_procedure_types
     @max_date = max_date
+    @bean = PatientService.get_patient(@patient.person)
     render layout: "form" 
   end
 
@@ -204,11 +208,17 @@ class EncountersController < ApplicationController
 
   def post_op_review
     @patient = Patient.find(params["patient_id"])
+    @time_left =  Observation.get_time_left(params["patient_id"])
     @pain_options = pain_options
     @bandage_options = bandage_options
     @other_ae_options = other_ae_options
     @max_date = max_date
     render layout: "form" 
+  end
+
+  def get_time_left
+    pa_id = params[:id]
+
   end
 
   def follow_up_review
@@ -224,6 +234,7 @@ class EncountersController < ApplicationController
     @urinary_problem_options = urinary_problem_options
     @yes_no_options = yes_no_options
     @none_mild_mod_sev_options = none_mild_mod_sev_options
+    @side_effects_array = ["Pain", "Bleeding", "Haematoma","Swelling", "Damage to glans", "Infection", "Wound Disruption", "Urinary problems"]
     render layout: "form" 
   end
 
@@ -376,7 +387,7 @@ class EncountersController < ApplicationController
     options = [
       ["", ""],
       ["Forceps Guided (FG)", "Forceps Guided"],
-      ["Dorsal Slit (DS)", "Dorial Slit"],
+      ["Dorsal Slit (DS)", "Dorsal Slit"],
       ["Device", "Device"],
       ["Other", "Other"]
     ]
