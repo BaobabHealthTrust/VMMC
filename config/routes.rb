@@ -98,7 +98,10 @@ Rails.application.routes.draw do
   post 'get_procedures_used_data' => 'report#get_procedures_used_data' #get_adverse_events_data
 
   get 'get_adverse_events_data' => 'report#get_adverse_events_data'
-  post 'get_adverse_events_data' => 'report#get_adverse_events_data'
+  post 'get_adverse_events_data' => 'report#get_adverse_events_data' #get_first_review_data
+
+  get 'get_first_review_data' => 'report#get_first_review_data'
+  post 'get_first_review_data' => 'report#get_first_review_data'
 
   get 'user' => 'clinic#user'
   get 'manage_locations' => 'clinic#manage_locations'
