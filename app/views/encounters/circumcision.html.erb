@@ -126,11 +126,11 @@
       :helpText  => "Anaesthesia <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
-  <%#= (touch_select_tag "ANAESTHESIA MEASUREMENT", @patient, options_for_select(@anaesthesia_measurement),
-    {
-      :id => "anaesthesia_measurement",
-      :helpText  => "Anaesthesia dosage measurement <span class='helper'> Circumcision</span>"
-    }).html_safe %>
+<%#= (touch_select_tag "ANAESTHESIA MEASUREMENT", @patient, options_for_select(@anaesthesia_measurement),
+{
+:id => "anaesthesia_measurement",
+:helpText  => "Anaesthesia dosage measurement <span class='helper'> Circumcision</span>"
+}).html_safe %>
 
   <%= (touch_text_field_tag "ANAESTHESIA QUANTITY (PERCENTAGE)", @patient, nil,
     {
@@ -242,6 +242,22 @@
       :helpText => "Time left table <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
+  <%= text_field_tag :given_name, nil, {
+    :id => "given_name",
+    :field_type => 'alpha',
+    :helpText => "Assistant circumciser's first name",
+    :ajaxURL => '/person_names/given_names?search_string=',
+    :allowFreeText => true } %>
+
+  <%= text_field_tag :family_name, nil, {
+    :id => "family_name",
+    :field_type => 'alpha',
+    :helpText => "Assistant circumciser's last name",
+    :ajaxURL => '/person_names/family_names?search_string=',
+    :tt_onLoad => "updateAssistantCircumciserDetails();",
+    :allowFreeText => true } %>
+
+  <%= touch_hidden_tag("ASSISTANT CIRCUMCISER", @patient, "", {:id=>"assistant_circumciser_details"}).html_safe %>
 </form>
 
 <script type="text/javascript">
@@ -293,9 +309,9 @@
     $("nextButton").onmousedown = function(){
       current_input_value = parseInt($("touchscreenInput"+tstCurrentPage).value.replace(":",''));
       if (current_input_value > parseInt(anaesthesia_time)){
-          gotoNextPage();
+        gotoNextPage();
       } else {
-          showMessage("Time greater than anaesthesia time (<b>" + anaesthesia_time_with_colon + "</b>)")
+        showMessage("Time greater than anaesthesia time (<b>" + anaesthesia_time_with_colon + "</b>)")
       }
     }
   }
@@ -305,11 +321,24 @@
     $("nextButton").onmousedown = function(){
       current_input_value = parseInt($("touchscreenInput"+tstCurrentPage).value.replace(":",''));
       if (current_input_value > parseInt(incision_time)){
-          gotoNextPage();
+        gotoNextPage();
       } else {
-          showMessage("Time greater than incision time (<b>" + incision_time_with_colon + "</b>)")
+        showMessage("Time greater than incision time (<b>" + incision_time_with_colon + "</b>)")
       }
     }
   }
 
+
+  function updateAssistantCircumciserDetails(){
+    $("nextButton").removeAttribute("onmousedown");
+    $("nextButton").onmousedown = function(){
+
+      given_name = $("given_name").value;
+      family_name = $("touchscreenInput"+tstCurrentPage).value;
+
+      names = given_name + " " + family_name;
+      $("assistant_circumciser_details").value = names;
+      gotoNextPage();
+    }
+  }
 </script>

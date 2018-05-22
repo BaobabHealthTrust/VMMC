@@ -33,22 +33,18 @@ class EncountersController < ApplicationController
   end
 
   def create
-    session_datetime = session[:session_date].to_date rescue Date.today
+    session_datetime = session[:session_date].to_date rescue DateTime.now()
     patient_id = params[:encounter][:patient_id]
     person = Person.find(patient_id)
 
     encounter_type = EncounterType.find_by_name(params[:encounter]["encounter_type_name"])
     patient_id = params[:encounter]["patient_id"].to_i
 
-    begin
+    encounter_datetime = session_datetime
+
+    unless session[:session_date].blank?
       encounter_datetime = session_datetime.strftime('%Y-%m-%d 00:00:01')
       params[:encounter]['encounter_datetime'] = encounter_datetime
-    rescue
-      encounter_datetime = params[:encounter]['encounter_datetime'].to_time.strftime('%Y-%m-%d %H:%M:%S') rescue nil
-      if encounter_datetime.blank?
-        encounter_datetime = Time.now().strftime('%Y-%m-%d %H:%M:%S')
-        params[:encounter]['encounter_datetime'] = encounter_datetime
-      end
     end
 
     ActiveRecord::Base.transaction do

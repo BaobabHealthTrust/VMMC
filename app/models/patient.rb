@@ -570,4 +570,13 @@ class Patient < ActiveRecord::Base
     return patients.uniq
   end
 
+  def self.first_review_within_48_hours
+
+  end
+
+
+  def self.first_review_after_48_hours
+
+  end
+
 end

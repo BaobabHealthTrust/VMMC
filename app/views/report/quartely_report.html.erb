@@ -207,6 +207,30 @@
       });
     }
 
+    function firstReviewData(){
+      jQuery.ajax({
+        type: "POST",
+        url: "/get_first_review_data",
+        data: "start_date=" + start_date + "&end_date=" + end_date,
+        beforeSend: function(){
+          //jQuery(".valueCell").html('<img src="/images/loader.gif"/>');
+        },
+
+        success: function(result){
+          result = JSON.parse(result);
+
+          within_48_hrs = result["within_48_hours"];
+          after_48_hrs = result["after_48_hours"];
+          
+          jQuery(".within-48-hours").html(within_48_hrs.length);
+          jQuery(".after-48-hours").html(after_48_hrs.length);
+
+
+        }
+
+      });
+    }
+
     //loadReportData();
   </script>
 
@@ -710,7 +734,7 @@
                             <td style="border-top: 1px solid #999; border-left: 1px solid #999;border-bottom: 0px;">
                               Within 48 hours
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell within-48-hours">
                               &nbsp;
                             </td>
                           </tr>
@@ -721,7 +745,7 @@
                                 border-bottom: 1px solid #999;">
                               After 48 Hours
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell after-48-hours">
                               &nbsp;
                             </td>
                           </tr>
@@ -1044,5 +1068,6 @@
     loadConsentGrantedData();
     loadProceduresUsedData();
     loadIntraOperationAdverseEventsData();
+    firstReviewData();
   </script>
 </body>

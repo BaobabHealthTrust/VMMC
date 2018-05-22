@@ -1,3 +1,4 @@
+<%= javascript_include_tag "barcode" %>
 <style type="text/css">
 
   .tt_controls_workstation_location .keyboard {
@@ -12,6 +13,19 @@
     display: none;
   }
 </style>
+
+<script type="text/javascript">
+  barcodeId = 'touchscreenInput0';
+  barcodeFocusOnce = true;
+  // barcodeScanAction = gotoNextPage;
+
+  setTimeout("setupBarcode()", 300);
+
+  function setupBarcode(){
+    barcodeScanAction = gotoNextPage;
+    loadBarcodePage();
+  }
+</script>
 
 <form action="/work_station" method='post'>
   <%= text_field_tag(:location, nil,
