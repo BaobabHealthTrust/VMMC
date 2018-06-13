@@ -231,6 +231,33 @@
       });
     }
 
+    function loadfirstReviewAdverseEVents(){
+      jQuery.ajax({
+        type: "POST",
+        url: "/get_first_review_adverse_events",
+        data: "start_date=" + start_date + "&end_date=" + end_date,
+        beforeSend: function(){
+          //jQuery(".valueCell").html('<img src="/images/loader.gif"/>');
+        },
+
+        success: function(result){
+          result = JSON.parse(result);
+          
+          none_adverse_events = result["none"];
+          mild_adverse_events = result["mild"];
+          moderate_adverse_events = result["moderate"];
+          severe_adverse_events = result["severe"];
+
+          jQuery(".none-adverse-events").html(none_adverse_events.length);
+          jQuery(".mild-adverse-events").html(mild_adverse_events.length);
+          jQuery(".moderate-adverse-events").html(moderate_adverse_events.length);
+          jQuery(".severe-adverse-events").html(severe_adverse_events.length);
+
+        }
+
+      });
+    }
+
     //loadReportData();
   </script>
 
@@ -763,7 +790,7 @@
                             <td style="border-top: 1px solid #999; border-left: 1px solid #999;border-bottom: 0px;">
                               None
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell none-adverse-events">
                               &nbsp;
                             </td>
                           </tr>
@@ -774,7 +801,7 @@
                                 border-bottom: 1px solid #999;">
                               Mild
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell mild-adverse-events">
                               &nbsp;
                             </td>
                           </tr>
@@ -785,7 +812,7 @@
                                 border-bottom: 1px solid #999;">
                               Moderate
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell moderate-adverse-events">
                               &nbsp;
                             </td>
                           </tr>
@@ -796,7 +823,7 @@
                                 border-left: 1px solid #999; width: 60%;">
                               Severe
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell severe-adverse-events">
                               &nbsp;
                             </td>
                           </tr>
@@ -1069,5 +1096,6 @@
     loadProceduresUsedData();
     loadIntraOperationAdverseEventsData();
     firstReviewData();
+    loadfirstReviewAdverseEVents()
   </script>
 </body>

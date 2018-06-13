@@ -617,4 +617,121 @@ class Patient < ActiveRecord::Base
     return patients.uniq
   end
 
+  def self.first_review_adverse_events_none(start_date, end_date)
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    adverse_concept_id = Concept.find_by_name("OTHER ADVERSE EVENT ACTION").concept_id
+    none_concept_id = Concept.find_by_name("NONE").concept_id
+
+    patients = []
+    query = "
+      SELECT obs.concept_id, obs.value_coded, e2.encounter_id, e1.patient_id,
+				e2.encounter_datetime FROM encounter e1 INNER JOIN (
+              SELECT patient_id, encounter_id, MIN(encounter_datetime) as encounter_datetime FROM encounter
+              WHERE encounter_type = #{post_op_review_encounter_type_id} AND voided = 0
+              AND DATE(encounter_datetime) >= '#{start_date}' AND DATE(encounter_datetime) <= '#{end_date}'
+              GROUP by patient_id
+          ) e2
+      ON e1.patient_id = e2.patient_id AND e1.encounter_type = #{post_op_review_encounter_type_id}
+      AND e1.voided = 0
+      AND DATE(e1.encounter_datetime) >= '#{start_date}' AND DATE(e1.encounter_datetime) <= '#{end_date}'
+      INNER JOIN obs ON obs.encounter_id = e2.encounter_id
+		AND concept_id = #{adverse_concept_id} AND obs.voided = 0 AND value_coded = #{none_concept_id};
+    "
+    first_review_adverse_events_none_encounters = Encounter.find_by_sql(query)
+    first_review_adverse_events_none_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.first_review_adverse_events_mild(start_date, end_date)
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    adverse_concept_id = Concept.find_by_name("OTHER ADVERSE EVENT ACTION").concept_id
+    mild_concept_id = Concept.find_by_name("MILD").concept_id
+
+    patients = []
+    query = "
+      SELECT obs.concept_id, obs.value_coded, e2.encounter_id, e1.patient_id,
+				e2.encounter_datetime FROM encounter e1 INNER JOIN (
+              SELECT patient_id, encounter_id, MIN(encounter_datetime) as encounter_datetime FROM encounter
+              WHERE encounter_type = #{post_op_review_encounter_type_id} AND voided = 0
+              AND DATE(encounter_datetime) >= '#{start_date}' AND DATE(encounter_datetime) <= '#{end_date}'
+              GROUP by patient_id
+          ) e2
+      ON e1.patient_id = e2.patient_id AND e1.encounter_type = #{post_op_review_encounter_type_id}
+      AND e1.voided = 0
+      AND DATE(e1.encounter_datetime) >= '#{start_date}' AND DATE(e1.encounter_datetime) <= '#{end_date}'
+      INNER JOIN obs ON obs.encounter_id = e2.encounter_id
+		AND concept_id = #{adverse_concept_id} AND obs.voided = 0 AND value_coded = #{mild_concept_id};
+    "
+    first_review_adverse_events_mild_encounters = Encounter.find_by_sql(query)
+    first_review_adverse_events_mild_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.first_review_adverse_events_moderate(start_date, end_date)
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    adverse_concept_id = Concept.find_by_name("OTHER ADVERSE EVENT ACTION").concept_id
+    moderate_concept_id = Concept.find_by_name("MODERATE").concept_id
+
+    patients = []
+    query = "
+      SELECT obs.concept_id, obs.value_coded, e2.encounter_id, e1.patient_id,
+				e2.encounter_datetime FROM encounter e1 INNER JOIN (
+              SELECT patient_id, encounter_id, MIN(encounter_datetime) as encounter_datetime FROM encounter
+              WHERE encounter_type = #{post_op_review_encounter_type_id} AND voided = 0
+              AND DATE(encounter_datetime) >= '#{start_date}' AND DATE(encounter_datetime) <= '#{end_date}'
+              GROUP by patient_id
+          ) e2
+      ON e1.patient_id = e2.patient_id AND e1.encounter_type = #{post_op_review_encounter_type_id}
+      AND e1.voided = 0
+      AND DATE(e1.encounter_datetime) >= '#{start_date}' AND DATE(e1.encounter_datetime) <= '#{end_date}'
+      INNER JOIN obs ON obs.encounter_id = e2.encounter_id
+		AND concept_id = #{adverse_concept_id} AND obs.voided = 0 AND value_coded = #{moderate_concept_id};
+    "
+    first_review_adverse_events_moderate_encounters = Encounter.find_by_sql(query)
+    first_review_adverse_events_moderate_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.first_review_adverse_events_severe(start_date, end_date)
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    adverse_concept_id = Concept.find_by_name("OTHER ADVERSE EVENT ACTION").concept_id
+    severe_concept_id = Concept.find_by_name("SEVERE").concept_id
+
+    patients = []
+    query = "
+      SELECT obs.concept_id, obs.value_coded, e2.encounter_id, e1.patient_id,
+				e2.encounter_datetime FROM encounter e1 INNER JOIN (
+              SELECT patient_id, encounter_id, MIN(encounter_datetime) as encounter_datetime FROM encounter
+              WHERE encounter_type = #{post_op_review_encounter_type_id} AND voided = 0
+              AND DATE(encounter_datetime) >= '#{start_date}' AND DATE(encounter_datetime) <= '#{end_date}'
+              GROUP by patient_id
+          ) e2
+      ON e1.patient_id = e2.patient_id AND e1.encounter_type = #{post_op_review_encounter_type_id}
+      AND e1.voided = 0
+      AND DATE(e1.encounter_datetime) >= '#{start_date}' AND DATE(e1.encounter_datetime) <= '#{end_date}'
+      INNER JOIN obs ON obs.encounter_id = e2.encounter_id
+		AND concept_id = #{adverse_concept_id} AND obs.voided = 0 AND value_coded = #{severe_concept_id};
+    "
+    first_review_adverse_events_severe_encounters = Encounter.find_by_sql(query)
+    first_review_adverse_events_severe_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+
 end

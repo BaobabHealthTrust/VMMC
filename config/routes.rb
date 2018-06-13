@@ -104,6 +104,9 @@ Rails.application.routes.draw do
   get 'get_first_review_data' => 'report#get_first_review_data'
   post 'get_first_review_data' => 'report#get_first_review_data'
 
+  get 'get_first_review_adverse_events' => 'report#get_first_review_adverse_events'  #get_first_review_adverse_events
+  post 'get_first_review_adverse_events' => 'report#get_first_review_adverse_events'
+
   get 'user' => 'clinic#user'
   get 'manage_locations' => 'clinic#manage_locations'
   get 'manage_villages' => 'clinic#manage_villages'
