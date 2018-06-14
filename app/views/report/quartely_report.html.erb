@@ -304,6 +304,28 @@
           jQuery(".moderate-adverse-events-second-review").html(moderate_adverse_events.length);
           jQuery(".severe-adverse-events-second-review").html(severe_adverse_events.length);
 
+        }
+
+      });
+    }
+
+    function loadThirdReviewData(){
+      jQuery.ajax({
+        type: "POST",
+        url: "/get_third_review_data",
+        data: "start_date=" + start_date + "&end_date=" + end_date,
+        beforeSend: function(){
+          //jQuery(".valueCell").html('<img src="/images/loader.gif"/>');
+        },
+
+        success: function(result){
+          result = JSON.parse(result);
+
+          within_6_weeks = result["within_6_weeks"];
+          after_6_weeks = result["after_6_weeks"];
+
+          jQuery(".within-6-weeks-third-review").html(within_6_weeks.length);
+          jQuery(".after-6-weeks-third-review").html(after_6_weeks.length);
 
         }
 
@@ -976,7 +998,7 @@
                             <td style="border-top: 1px solid #999; border-left: 1px solid #999;">
                               Within 6 weeks
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell within-6-weeks-third-review">
                               &nbsp;
                             </td>
                           </tr>
@@ -987,7 +1009,7 @@
                                 border-left: 1px solid #999; width: 60%;">
                               After 6 weeks
                             </td>
-                            <td class="valueCell">
+                            <td class="valueCell after-6-weeks-third-review">
                               &nbsp;
                             </td>
                           </tr>
@@ -1151,5 +1173,6 @@
     loadfirstReviewAdverseEVents();
     loadSecondReviewData();
     loadSecondReviewAdverseEvents();
+    loadThirdReviewData()
   </script>
 </body>

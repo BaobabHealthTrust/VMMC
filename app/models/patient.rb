@@ -933,4 +933,72 @@ class Patient < ActiveRecord::Base
     return patients.uniq
   end
 
+  def self.third_review_within_6_weeks(start_date, end_date)
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    circumcision_encounter_type_id = EncounterType.find_by_name("CIRCUMCISION").encounter_type_id
+
+    patients = []
+    query = "
+      SELECT encounter.*,
+        (
+          SELECT encounter_datetime FROM encounter e1 WHERE e1.patient_id = encounter.patient_id
+          AND e1.encounter_type = #{circumcision_encounter_type_id} AND e1.voided = 0 LIMIT 1
+        )  as circumcision_encounter_date,
+
+        (
+          SELECT encounter_datetime FROM encounter e2 WHERE e2.patient_id = encounter.patient_id
+          AND DATE(e2.encounter_datetime) >= '#{start_date}' AND DATE(e2.encounter_datetime) <= '#{end_date}'
+          AND e2.encounter_type = #{post_op_review_encounter_type_id} AND e2.voided = 0 LIMIT 2, 1
+        )  as third_review_encounter_date
+
+      FROM encounter WHERE encounter.encounter_type = #{post_op_review_encounter_type_id}
+      AND encounter.voided = 0
+      AND DATE(encounter.encounter_datetime) >= '#{start_date}' AND DATE(encounter.encounter_datetime) <= '#{end_date}'
+      HAVING third_review_encounter_date IS NOT NULL AND
+      ROUND(DATEDIFF(third_review_encounter_date, circumcision_encounter_date)/7, 0) <= 6;
+    "
+
+    third_review_encounters = Encounter.find_by_sql(query)
+    third_review_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.third_review_after_6_weeks(start_date, end_date)
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    circumcision_encounter_type_id = EncounterType.find_by_name("CIRCUMCISION").encounter_type_id
+
+    patients = []
+    query = "
+      SELECT encounter.*,
+        (
+          SELECT encounter_datetime FROM encounter e1 WHERE e1.patient_id = encounter.patient_id
+          AND e1.encounter_type = #{circumcision_encounter_type_id} AND e1.voided = 0 LIMIT 1
+        )  as circumcision_encounter_date,
+
+        (
+          SELECT encounter_datetime FROM encounter e2 WHERE e2.patient_id = encounter.patient_id
+          AND DATE(e2.encounter_datetime) >= '#{start_date}' AND DATE(e2.encounter_datetime) <= '#{end_date}'
+          AND e2.encounter_type = #{post_op_review_encounter_type_id} AND e2.voided = 0 LIMIT 2, 1
+        )  as third_review_encounter_date
+
+      FROM encounter WHERE encounter.encounter_type = #{post_op_review_encounter_type_id}
+      AND encounter.voided = 0
+      AND DATE(encounter.encounter_datetime) >= '#{start_date}' AND DATE(encounter.encounter_datetime) <= '#{end_date}'
+      HAVING third_review_encounter_date IS NOT NULL AND
+      ROUND(DATEDIFF(third_review_encounter_date, circumcision_encounter_date)/7, 0) > 6;
+    "
+
+    third_review_encounters = Encounter.find_by_sql(query)
+    third_review_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
 end

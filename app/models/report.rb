@@ -137,12 +137,11 @@ class Report
     return data
   end
 
-  def third_review_within_6_weeks
-
-  end
-
-  def third_review_adverse_events
-
+  def third_review
+    data = {}
+    data["within_6_weeks"] = Patient.third_review_within_6_weeks(@start_date, @end_date).collect{|p|p.patient_id}
+    data["after_6_weeks"] = Patient.third_review_after_6_weeks(@start_date, @end_date).collect{|p|p.patient_id}
+    return data
   end
 
 end
