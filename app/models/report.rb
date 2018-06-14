@@ -120,9 +120,13 @@ class Report
     return data
   end
 
-  def second_review_within_7_days
-
+  def second_review
+    data = {}
+    data["within_7_days"] = Patient.second_review_within_7_days(@start_date, @end_date).collect{|p|p.patient_id}
+    data["after_7_days"] = Patient.second_review_after_7_days(@start_date, @end_date).collect{|p|p.patient_id}
+    return data
   end
+
 
   def second_review_adverse_events
 

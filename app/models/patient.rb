@@ -733,5 +733,58 @@ class Patient < ActiveRecord::Base
     return patients.uniq
   end
 
+  def self.second_review_within_7_days(start_date, end_date)
+    circumcision_encounter_type_id = EncounterType.find_by_name("CIRCUMCISION").encounter_type_id
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    patients = []
+
+    query = "
+      SELECT * FROM encounter e1 INNER JOIN (
+        SELECT patient_id, MAX(encounter_datetime) as encounter_datetime FROM encounter WHERE
+        encounter_type = #{post_op_review_encounter_type_id} AND
+        DATE(encounter_datetime) >= '#{start_date}' AND DATE(encounter_datetime) <= '#{end_date}' AND
+        voided = 0 GROUP BY patient_id HAVING COUNT(patient_id) > 1
+      ) e2
+      ON e1.patient_id = e2.patient_id AND e1.encounter_type = #{circumcision_encounter_type_id}
+      AND e1.voided = 0 AND DATE(e1.encounter_datetime) >= '#{start_date}' AND DATE(e1.encounter_datetime) <= '#{end_date}'
+      AND datediff(e2.encounter_datetime, e1.encounter_datetime) <= 7;
+    "
+
+    second_review_within_7_days_encounters = Encounter.find_by_sql(query)
+
+    second_review_within_7_days_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.second_review_after_7_days(start_date, end_date)
+    circumcision_encounter_type_id = EncounterType.find_by_name("CIRCUMCISION").encounter_type_id
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    patients = []
+
+    query = "
+      SELECT * FROM encounter e1 INNER JOIN (
+        SELECT patient_id, MAX(encounter_datetime) as encounter_datetime FROM encounter WHERE
+        encounter_type = #{post_op_review_encounter_type_id} AND
+        DATE(encounter_datetime) >= '#{start_date}' AND DATE(encounter_datetime) <= '#{end_date}' AND
+        voided = 0 GROUP BY patient_id HAVING COUNT(patient_id) > 1
+      ) e2
+      ON e1.patient_id = e2.patient_id AND e1.encounter_type = #{circumcision_encounter_type_id}
+      AND e1.voided = 0 AND DATE(e1.encounter_datetime) >= '#{start_date}' AND DATE(e1.encounter_datetime) <= '#{end_date}'
+      AND datediff(e2.encounter_datetime, e1.encounter_datetime) > 7;
+    "
+
+    second_review_after_7_days_encounters = Encounter.find_by_sql(query)
+
+    second_review_after_7_days_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
 
 end
