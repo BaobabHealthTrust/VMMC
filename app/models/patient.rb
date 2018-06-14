@@ -1001,4 +1001,149 @@ class Patient < ActiveRecord::Base
     return patients.uniq
   end
 
+  def self.third_review_adverse_events_none(start_date, end_date)
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    adverse_concept_id = Concept.find_by_name("OTHER ADVERSE EVENT ACTION").concept_id
+    none_concept_id = ConceptName.find_by_name("NONE").concept_id
+
+    patients = []
+    query = "
+      SELECT encounter.*,
+        (
+          SELECT encounter_datetime FROM encounter e1 WHERE e1.patient_id = encounter.patient_id
+          AND DATE(e1.encounter_datetime) >= '#{start_date}' AND DATE(e1.encounter_datetime) <= '#{end_date}'
+          AND e1.encounter_type = #{post_op_review_encounter_type_id} AND e1.voided = 0 LIMIT 2, 1
+        )  as third_review_encounter_date,
+
+        (
+          SELECT encounter_id FROM encounter e2 WHERE e2.patient_id = encounter.patient_id
+          AND DATE(e2.encounter_datetime) >= '#{start_date}' AND DATE(e2.encounter_datetime) <= '#{end_date}'
+          AND e2.encounter_type = #{post_op_review_encounter_type_id} AND e2.voided = 0 LIMIT 2, 1
+        )  as third_review_encounter_id
+
+      FROM encounter INNER JOIN obs ON obs.encounter_id = encounter.encounter_id  AND
+      encounter.encounter_type = #{post_op_review_encounter_type_id}
+      AND encounter.voided = 0
+      AND DATE(encounter.encounter_datetime) >= '#{start_date}' AND DATE(encounter.encounter_datetime) <= '#{end_date}'
+      AND concept_id = #{adverse_concept_id} AND value_coded = #{none_concept_id}
+      HAVING third_review_encounter_date IS NOT NULL AND encounter.encounter_id = third_review_encounter_id;
+    "
+    third_review_adverse_events_none_encounters = Encounter.find_by_sql(query)
+    third_review_adverse_events_none_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.third_review_adverse_events_mild(start_date, end_date)
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    adverse_concept_id = Concept.find_by_name("OTHER ADVERSE EVENT ACTION").concept_id
+    mild_concept_id = ConceptName.find_by_name("MILD").concept_id
+
+    patients = []
+    query = "
+      SELECT encounter.*,
+        (
+          SELECT encounter_datetime FROM encounter e1 WHERE e1.patient_id = encounter.patient_id
+          AND DATE(e1.encounter_datetime) >= '#{start_date}' AND DATE(e1.encounter_datetime) <= '#{end_date}'
+          AND e1.encounter_type = #{post_op_review_encounter_type_id} AND e1.voided = 0 LIMIT 2, 1
+        )  as third_review_encounter_date,
+
+        (
+          SELECT encounter_id FROM encounter e2 WHERE e2.patient_id = encounter.patient_id
+          AND DATE(e2.encounter_datetime) >= '#{start_date}' AND DATE(e2.encounter_datetime) <= '#{end_date}'
+          AND e2.encounter_type = #{post_op_review_encounter_type_id} AND e2.voided = 0 LIMIT 2, 1
+        )  as third_review_encounter_id
+
+      FROM encounter INNER JOIN obs ON obs.encounter_id = encounter.encounter_id  AND
+      encounter.encounter_type = #{post_op_review_encounter_type_id}
+      AND encounter.voided = 0
+      AND DATE(encounter.encounter_datetime) >= '#{start_date}' AND DATE(encounter.encounter_datetime) <= '#{end_date}'
+      AND concept_id = #{adverse_concept_id} AND value_coded = #{mild_concept_id}
+      HAVING third_review_encounter_date IS NOT NULL AND encounter.encounter_id = third_review_encounter_id;
+    "
+    third_review_adverse_events_mild_encounters = Encounter.find_by_sql(query)
+    third_review_adverse_events_mild_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.third_review_adverse_events_moderate(start_date, end_date)
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    adverse_concept_id = Concept.find_by_name("OTHER ADVERSE EVENT ACTION").concept_id
+    moderate_concept_id = ConceptName.find_by_name("MODERATE").concept_id
+
+    patients = []
+    query = "
+      SELECT encounter.*,
+        (
+          SELECT encounter_datetime FROM encounter e1 WHERE e1.patient_id = encounter.patient_id
+          AND DATE(e1.encounter_datetime) >= '#{start_date}' AND DATE(e1.encounter_datetime) <= '#{end_date}'
+          AND e1.encounter_type = #{post_op_review_encounter_type_id} AND e1.voided = 0 LIMIT 2, 1
+        )  as third_review_encounter_date,
+
+        (
+          SELECT encounter_id FROM encounter e2 WHERE e2.patient_id = encounter.patient_id
+          AND DATE(e2.encounter_datetime) >= '#{start_date}' AND DATE(e2.encounter_datetime) <= '#{end_date}'
+          AND e2.encounter_type = #{post_op_review_encounter_type_id} AND e2.voided = 0 LIMIT 2, 1
+        )  as third_review_encounter_id
+
+      FROM encounter INNER JOIN obs ON obs.encounter_id = encounter.encounter_id  AND
+      encounter.encounter_type = #{post_op_review_encounter_type_id}
+      AND encounter.voided = 0
+      AND DATE(encounter.encounter_datetime) >= '#{start_date}' AND DATE(encounter.encounter_datetime) <= '#{end_date}'
+      AND concept_id = #{adverse_concept_id} AND value_coded = #{moderate_concept_id}
+      HAVING third_review_encounter_date IS NOT NULL AND encounter.encounter_id = third_review_encounter_id;
+    "
+    third_review_adverse_events_moderate_encounters = Encounter.find_by_sql(query)
+    third_review_adverse_events_moderate_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
+  def self.third_review_adverse_events_severe(start_date, end_date)
+    post_op_review_encounter_type_id = EncounterType.find_by_name("POST-OP REVIEW").encounter_type_id
+    adverse_concept_id = Concept.find_by_name("OTHER ADVERSE EVENT ACTION").concept_id
+    severe_concept_id = ConceptName.find_by_name("SEVERE").concept_id
+
+    patients = []
+    query = "
+      SELECT encounter.*,
+        (
+          SELECT encounter_datetime FROM encounter e1 WHERE e1.patient_id = encounter.patient_id
+          AND DATE(e1.encounter_datetime) >= '#{start_date}' AND DATE(e1.encounter_datetime) <= '#{end_date}'
+          AND e1.encounter_type = #{post_op_review_encounter_type_id} AND e1.voided = 0 LIMIT 2, 1
+        )  as third_review_encounter_date,
+
+        (
+          SELECT encounter_id FROM encounter e2 WHERE e2.patient_id = encounter.patient_id
+          AND DATE(e2.encounter_datetime) >= '#{start_date}' AND DATE(e2.encounter_datetime) <= '#{end_date}'
+          AND e2.encounter_type = #{post_op_review_encounter_type_id} AND e2.voided = 0 LIMIT 2, 1
+        )  as third_review_encounter_id
+
+      FROM encounter INNER JOIN obs ON obs.encounter_id = encounter.encounter_id  AND
+      encounter.encounter_type = #{post_op_review_encounter_type_id}
+      AND encounter.voided = 0
+      AND DATE(encounter.encounter_datetime) >= '#{start_date}' AND DATE(encounter.encounter_datetime) <= '#{end_date}'
+      AND concept_id = #{adverse_concept_id} AND value_coded = #{severe_concept_id}
+      HAVING third_review_encounter_date IS NOT NULL AND encounter.encounter_id = third_review_encounter_id;
+    "
+
+    third_review_adverse_events_severe_encounters = Encounter.find_by_sql(query)
+    third_review_adverse_events_severe_encounters.each do |encounter|
+      patient = encounter.patient
+      patients << patient
+    end
+
+    return patients.uniq
+  end
+
 end

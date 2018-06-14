@@ -116,6 +116,9 @@ Rails.application.routes.draw do
   get 'get_third_review_data' => 'report#get_third_review_data' #get_third_review_data
   post 'get_third_review_data' => 'report#get_third_review_data'
 
+  get 'get_third_review_adverse_events' => 'report#get_third_review_adverse_events' #get_third_review_adverse_events
+  post 'get_third_review_adverse_events' => 'report#get_third_review_adverse_events'
+
   get 'user' => 'clinic#user'
   get 'manage_locations' => 'clinic#manage_locations'
   get 'manage_villages' => 'clinic#manage_villages'
