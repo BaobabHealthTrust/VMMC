@@ -108,7 +108,10 @@ Rails.application.routes.draw do
   post 'get_first_review_adverse_events' => 'report#get_first_review_adverse_events' #get_second_review_data
 
   get 'get_second_review_data' => 'report#get_second_review_data'  #get_second_review_data
-  post 'get_second_review_data' => 'report#get_second_review_data'
+  post 'get_second_review_data' => 'report#get_second_review_data'  #get_second_review_adverse_events
+
+  get 'get_second_review_adverse_events' => 'report#get_second_review_adverse_events' #get_second_review_adverse_events
+  post 'get_second_review_adverse_events' => 'report#get_second_review_adverse_events'
 
   get 'user' => 'clinic#user'
   get 'manage_locations' => 'clinic#manage_locations'

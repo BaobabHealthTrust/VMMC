@@ -113,4 +113,12 @@ class ReportController < ApplicationController
     render text: second_review.to_json and return
   end
 
+  def get_second_review_adverse_events
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+    report = Report.new(start_date.to_date, end_date.to_date)
+    second_review_adverse_events = report.second_review_adverse_events
+    render text: second_review_adverse_events.to_json and return
+  end
+
 end

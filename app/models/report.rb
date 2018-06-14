@@ -129,7 +129,12 @@ class Report
 
 
   def second_review_adverse_events
-
+    data = {}
+    data["none"] = Patient.second_review_adverse_events_none(@start_date, @end_date).collect{|p|p.patient_id}
+    data["mild"] = Patient.second_review_adverse_events_mild(@start_date, @end_date).collect{|p|p.patient_id}
+    data["moderate"] = Patient.second_review_adverse_events_moderate(@start_date, @end_date).collect{|p|p.patient_id}
+    data["severe"] = Patient.second_review_adverse_events_severe(@start_date, @end_date).collect{|p|p.patient_id}
+    return data
   end
 
   def third_review_within_6_weeks
