@@ -34,20 +34,14 @@
     background-color: white;
     border: 1px #eee solid;
     border-width: 1px;
+    overflow-x: hidden;
   }
 </style>
 
 <script type="text/javascript">
   function setInnerHtmlData(id,result,path) {
     td = document.getElementById(id);
-    if(result == 'Filing Number (Create)'){
-      var link = document.createElement('a');
-      link.setAttribute('onmousedown',"filingNumberPrint();");
-      link.innerHTML = result;
-      td.appendChild(link);
-    }else{
-      td.innerHTML = "<a href =" + path + ">" +  result + "</a>";
-    }
+    td.innerHTML = "<a href =" + path + ">" +  result + "</a>";
   }
 
   function filingNumberPrint() {
@@ -68,7 +62,6 @@
         <tr>
           <td id = "<%=count_up+= 1%>"></td>
           <td id = "<%=count_up+= 1%>"></td>
-          <td id = "<%=count_up+= 1%>"></td>
         </tr>
       <%end unless @links.blank?%>
     <%end%>
@@ -77,6 +70,7 @@
 
   <%
   count = @links.length  unless @links.blank?
+
   @links.map do | name , path | %>
     <script type="text/javascript">
       setInnerHtmlData("<%=count%>","<%=name%>","<%=path%>");

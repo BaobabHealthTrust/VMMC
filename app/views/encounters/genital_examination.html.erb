@@ -19,7 +19,37 @@
   .NoKeyboard .inputFrameClass {
     height: 460px !important;
   }
+
+  .helper {
+    display: block;
+    float:right;
+    background-color: #DEDEDE;
+  }
 </style>
+
+<script type="text/javascript">
+
+  function displayMessage(options){
+
+    setTimeout(function(){
+
+        if (options == 'ulcer_id' && __$('ulcer_id').value == 'Yes')
+        {
+          showMessage('Note: Client has Ulcer and may not be suitable for circumcision',null,10000000000);
+        }
+        else if (options == 'urethral_id' && __$('urethral_id').value == 'Yes')
+        {
+          showMessage('Note: Client has Urethral Discharge and may not be suitable for circumcision',null,10000000000);
+        }
+        else if (options == 'swelling_id' && __$('swelling_id').value == 'Yes')
+        {
+          showMessage('Note: Client has Scrotum swelling/tenderness and may not be suitable for circumcision',null,10000000000);
+        }
+       
+    },100);  
+}
+
+</script>
 
 <form action="/encounters/create" method="POST" target="_top">
   <%= hidden_field_tag "encounter[encounter_type_name]", "GENITAL EXAMINATION" %>
@@ -29,31 +59,72 @@
 
   <%= (touch_select_tag "CIRCUMCISION STATUS", @patient, options_for_select(@circumcision_options),
     {
-      :helpText  => "Circumcision Status"
+      :helpText  => "Circumcision Status <span class='helper'> Genital exam</span>",
+      :id => "circumcision_idd"
     }).html_safe %>
 
-  <%= (touch_select_tag "PHIMOSIS", @patient, options_for_select(@circumcision_options),
+  <%= (touch_select_tag "PHIMOSIS", @patient, options_for_select(@yes_no_options),
     {
-      :helpText  => "Phimosis"
+      :helpText  => "Phimosis <span class='helper'> Genital exam</span>",
+      :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
+      :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
-  <%= (touch_select_tag "ULCER", @patient, options_for_select(@circumcision_options),
+  <%= (touch_select_tag "ULCER", @patient, options_for_select(@yes_no_options),
     {
-      :helpText  => "Ulcer"
+      :id => "ulcer_id",
+      :helpText  => "Ulcer <span class='helper'> Genital exam</span>",
+      :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
+      :tt_onUnLoad => "displayMessage('ulcer_id');",
+      :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
-  <%= (touch_select_tag "URETHRAL DISCHARGE", @patient, options_for_select(@circumcision_options),
+  <%= (touch_select_tag "URETHRAL DISCHARGE", @patient, options_for_select(@yes_no_options),
     {
-      :helpText  => "Urethral discharge"
+      :id => "urethral_id",
+      :helpText  => "Urethral discharge <span class='helper'> Genital exam</span>",
+      :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
+      :tt_onUnLoad => "displayMessage('urethral_id');",
+      :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
-  <%= (touch_select_tag "SCROTUM SWELLING", @patient, options_for_select(@circumcision_options),
+  <%= (touch_select_tag "SCROTUM SWELLING", @patient, options_for_select(@yes_no_options),
     {
-      :helpText  => "Scrotum swelling/tenderness"
+      :id => "swelling_id",
+      :helpText  => "Scrotum swelling/tenderness <span class='helper'> Genital exam</span>",
+      :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
+      :tt_onUnLoad => "displayMessage('swelling_id');",
+      :condition => "__$('circumcision_idd').value != 'Full'"
     }).html_safe %>
 
-  <%= (touch_select_tag "INGUINAL NODES ENLARGED/TENDER", @patient, options_for_select(@circumcision_options),
+  <%= (touch_select_tag "INGUINAL NODES ENLARGED/TENDER", @patient, options_for_select(@yes_no_options),
     {
-      :helpText  => "Inguinal nodes enlarged/tender"
+      :helpText  => "Inguinal nodes enlarged/tender <span class='helper'> Genital exam</span>",
+      :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
+      :condition => "__$('circumcision_idd').value != 'Full'"
+    }).html_safe %>
+
+  <%= (touch_select_tag "ANY ABNORMALITIES", @patient, options_for_select(@yes_no_options),
+    {
+      :id => "any-abnormality",
+      :helpText  => "Other abnormality <span class='helper'> Genital exam</span>",
+      :tt_requireNextClick => false,
+      :tt_onLoad => "$('nextButton').style.display = 'none';",
+      :condition => "__$('circumcision_idd').value != 'Full'"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
+    {
+      :id => "other-abnormalities",
+      :helpText  => "Specify other abnormalities <span class='helper'> Genital exam</span>",
+      :condition => "__$('any-abnormality').value.match(/YES/i)",
+      :tt_onLoad => "$('nextButton').style.display = 'inline';",
+      :field_type => 'alpha',
+      :allowFreeText => true
     }).html_safe %>
 </form>

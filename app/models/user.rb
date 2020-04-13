@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
 
   before_create :before_create
   
+  has_one :user_role, foreign_key: "user_id"
+
   def before_create
     self.creator = User.current.user_id unless User.current.blank?
     self.date_created = Time.now
@@ -60,5 +62,10 @@ class User < ActiveRecord::Base
     self.password = User.encrypt(new_password, self.salt)
     self.save
   end
+
+  def admin?
+    return self.user_role.role == 'Superuser'
+  end
+
   
 end

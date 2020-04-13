@@ -4,11 +4,16 @@ class EncountersController < ApplicationController
     @min_weight = 15
     @max_weight = 100
     @medical_history_options = medical_history_options
+    @diabetes_types = diabetes_types
     @circumcision_options = circumcision_options
     @anaesthesia_types = anaesthesia_options
+    @anaesthesia = anaesthesia
+    @anaesthesia_measurement = anaesthesia_measurement
     @circumcision_procedure_types = circumcision_procedure_types
     @pain_options = pain_options
     @bandage_options = bandage_options
+    @other_ae_options = other_ae_options
+    @contraindications = contraindications
     @services_sources = service_sources_options
     @hiv_test_not_done_reasons = hiv_test_not_done_reasons_options
     @hiv_results_options = hiv_results_option
@@ -21,26 +26,25 @@ class EncountersController < ApplicationController
     @urinary_problem_options = urinary_problem_options
     @yes_no_options = yes_no_options
     @none_mild_mod_sev_options = none_mild_mod_sev_options
+    @side_effects_array = ["Pain", "Bleeding", "Haematoma","Swelling", "Damage to glans", "Infection", "Wound Disruption", "Urinary problems"]
+    @bean = PatientService.get_patient(@patient.person)
+
     render action: params[:encounter_type], patient_id: params[:patient_id], layout: "header"
   end
 
   def create
-    session = Date.today
+    session_datetime = session[:session_date].to_date rescue DateTime.now()
     patient_id = params[:encounter][:patient_id]
     person = Person.find(patient_id)
 
     encounter_type = EncounterType.find_by_name(params[:encounter]["encounter_type_name"])
     patient_id = params[:encounter]["patient_id"].to_i
 
-    begin
-      encounter_datetime = session[:datetime].to_date.strftime('%Y-%m-%d 00:00:01')
+    encounter_datetime = session_datetime
+
+    unless session[:session_date].blank?
+      encounter_datetime = session_datetime.strftime('%Y-%m-%d 00:00:01')
       params[:encounter]['encounter_datetime'] = encounter_datetime
-    rescue
-      encounter_datetime = params[:encounter]['encounter_datetime'].to_time.strftime('%Y-%m-%d %H:%M:%S') rescue nil
-      if encounter_datetime.blank?
-        encounter_datetime = Time.now().strftime('%Y-%m-%d %H:%M:%S')
-        params[:encounter]['encounter_datetime'] = encounter_datetime
-      end
     end
 
     ActiveRecord::Base.transaction do
@@ -86,6 +90,8 @@ class EncountersController < ApplicationController
   def medical_history
     @patient = Patient.find(params["patient_id"])
     @medical_history_options = medical_history_options
+    @diabetes_types = diabetes_types
+    @yes_no_options = yes_no_options
     render layout: "form"
   end
 
@@ -97,13 +103,25 @@ class EncountersController < ApplicationController
   def medical_history_options
     options = [
       "",
+      "None",
       "Diabetes",
       "Bleeding disorder",
       "Any meds",
       "Allergies",
       "Genital ulcers",
       "Genital itching",
-      "Painful urination"
+      "Painful urination",
+      "Other"
+    ]
+    return options
+  end
+
+  def diabetes_types
+    options = [
+      ["", ""],
+      ["Type 1 diabetes", "Type 1 diabetes"],
+      ["Type 2 diabetes", "Type 2 diabetes"],
+      ["Unknown", "Unknown"]
     ]
     return options
   end
@@ -135,17 +153,45 @@ class EncountersController < ApplicationController
     return options
   end
 
+  def contraindications
+    options = [
+      ["", ""],
+      ["Active or symptomatic STIs", "Active or symptomatic STIs"],
+      ["Hypertension", "Hypertension"],
+      ["Diabetes", "Diabetes"],
+      ["Bleeding disorders", "Bleeding disorders"],
+      ["Erectile dysfunction", "Erectile dysfunction"],
+      ["Anatomical deformities of the penis e.g. hypospodiasis", "Anatomical deformities of the penis e.g. hypospodiasis"],
+      ["Chronic paraphimosis", "Chronic paraphimosis"],
+      ["Penile cancer", "Penile cancer"],
+      ["Other chronic disorders of the penis e.g. filariasis", "Other chronic disorders of the penis e.g. filariasis"]
+    ]
+    return options
+  end
+
   def genital_examination
     @patient = Patient.find(params["patient_id"])
     @circumcision_options = circumcision_options
+    @yes_no_options = yes_no_options
+    render layout: "form"
+  end
+
+  def summary_assessment
+    @patient = Patient.find(params["patient_id"])
+    @yes_no_options = yes_no_options
+    @max_date = max_date
+    @contraindications = contraindications
     render layout: "form"
   end
 
   def circumcision
     @patient = Patient.find(params["patient_id"])
     @anaesthesia_types = anaesthesia_options
+    @anaesthesia = anaesthesia
+    @anaesthesia_measurement = anaesthesia_measurement
     @circumcision_procedure_types = circumcision_procedure_types
     @max_date = max_date
+    @bean = PatientService.get_patient(@patient.person)
     render layout: "form" 
   end
 
@@ -158,16 +204,24 @@ class EncountersController < ApplicationController
 
   def post_op_review
     @patient = Patient.find(params["patient_id"])
+    @time_left =  Observation.get_time_left(params["patient_id"])
     @pain_options = pain_options
     @bandage_options = bandage_options
+    @other_ae_options = other_ae_options
     @max_date = max_date
     render layout: "form" 
+  end
+
+  def get_time_left
+    pa_id = params[:id]
+
   end
 
   def follow_up_review
     @patient = Patient.find(params["patient_id"])
     @pain_options = pain_options
     @bandage_options = bandage_options
+    @other_ae_options = other_ae_options
     @haematoma_options = haematoma_options
     @swelling_options = swelling_options
     @glans_damage_options = glans_damage_options
@@ -176,6 +230,7 @@ class EncountersController < ApplicationController
     @urinary_problem_options = urinary_problem_options
     @yes_no_options = yes_no_options
     @none_mild_mod_sev_options = none_mild_mod_sev_options
+    @side_effects_array = ["Pain", "Bleeding", "Haematoma","Swelling", "Damage to glans", "Infection", "Wound Disruption", "Urinary problems"]
     render layout: "form" 
   end
 
@@ -286,6 +341,17 @@ class EncountersController < ApplicationController
     return options
   end
 
+  def other_ae_options
+    options = [
+      ["", ""],
+      ["None", "None"],
+      ["Mild", "Mild"],
+      ["Moderate", "Moderate"],
+      ["Severe", "Severe"]
+    ]
+    return options
+  end
+
   def anaesthesia_options
     options = [
       ["", ""],
@@ -295,16 +361,34 @@ class EncountersController < ApplicationController
     return options
   end
 
-  def circumcision_procedure_types
+  def anaesthesia
     options = [
       ["", ""],
-      ["Forceps Guided (FG)", "Forceps Guided"],
-      ["Dorial Slit (DS)", "Dorial Slit"],
-      ["Device", "Device"]
+      ["Lidocaine", "Lidocaine"],
+      ["Bupivacaine", "Bupivacaine"]
     ]
     return options
   end
 
+  def anaesthesia_measurement
+    options = [
+      ["", ""],
+      ["Percentage (%)", "Percent"],
+      ["Milliliter (mls)", "mls"]
+    ]
+    return options
+  end
+
+  def circumcision_procedure_types
+    options = [
+      ["", ""],
+      ["Forceps Guided (FG)", "Forceps Guided"],
+      ["Dorsal Slit (DS)", "Dorsal Slit"],
+      ["Device", "Device"],
+      ["Other", "Other"]
+    ]
+    return options
+  end
 
   def void
     encounter = Encounter.find(params[:encounter_id])

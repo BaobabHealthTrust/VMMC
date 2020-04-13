@@ -1,7 +1,7 @@
 class ClinicController < ApplicationController
 
 	def index
-		@session_date = Date.today
+		@session_date =  session[:session_date].to_date rescue Date.today
     @user = User.find(session[:user]["user_id"])
 	end
 
@@ -15,11 +15,30 @@ class ClinicController < ApplicationController
     @days = [""].concat day
 
     if request.post?
+      session_date = params[:set_day] + "-" + params[:set_month] + "-" + params[:set_year]
+      session[:session_date] = session_date.to_date
+
+      unless params[:patient_id].blank?
+        patient = Patient.find(params[:patient_id])
+        next_url = next_task(patient.person).url
+        redirect_to("#{next_url}") and return
+      end
+
       redirect_to("/") and return
     end
 
 		render layout: "form"
 	end
+
+  def reset_date
+    session.delete(:session_date)
+    unless params[:patient_id].blank?
+      patient = Patient.find(params[:patient_id])
+      next_url = next_task(patient.person).url
+      redirect_to("#{next_url}") and return
+    end
+    redirect_to("/") and return
+  end
 
 	def overview
 		render layout:false

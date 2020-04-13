@@ -79,6 +79,12 @@
   #Unknown{
     display: none;
   }
+
+  .helper {
+    display: block;
+    float:right;
+    background-color: #DEDEDE;
+  }
 </style>
 
 <form action="/encounters/create" method="POST" target="_top">
@@ -91,7 +97,8 @@
     {
       :id => "circumcision-date",
       :maxDate => "#{@max_date}",
-      :helptext => "Circumcision Date",
+      :absoluteMin => (Date.today),
+      :helptext => "Circumcision Date <span class='helper'> Circumcision</span>",
       :field_type => "date"
     }).html_safe %>
 
@@ -101,29 +108,92 @@
       :field_type => "number",
       :allowFreeText => 'true',
       :tt_onLoad => "changeDecimalToColon();",
+      :tt_onUnLoad => "updateAnaesTime();",
       :validationRule => "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
       :validationMessage => "Bad time format (Use this format: 14<b>:30</b>)",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-      :helpText => "Time anaesthesia given (24 Hour clock)" }).html_safe%>
+      :helpText => "Time anaesthesia given (24 Hour clock) <span class='helper'> Circumcision</span>" }).html_safe%>
 
 
   <%= (touch_select_tag "TYPE OF ANAESTHESIA", @patient, options_for_select(@anaesthesia_types),
     {
-      :helpText  => "Type of anaesthesia"
+      :helpText  => "Type of anaesthesia <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
-  <%= (touch_text_field_tag "ANAESTHESIA QUANTITY", @patient, nil,
+  <%= (touch_select_tag "ANAESTHESIA", @patient, options_for_select(@anaesthesia),
     {
-      :id => "anaesthesia-quantity",
+      :id => "anaesthesia",
+      :helpText  => "Anaesthesia <span class='helper'> Circumcision</span>"
+    }).html_safe %>
+
+<%#= (touch_select_tag "ANAESTHESIA MEASUREMENT", @patient, options_for_select(@anaesthesia_measurement),
+{
+:id => "anaesthesia_measurement",
+:helpText  => "Anaesthesia dosage measurement <span class='helper'> Circumcision</span>"
+}).html_safe %>
+
+  <%= (touch_text_field_tag "ANAESTHESIA QUANTITY (PERCENTAGE)", @patient, nil,
+    {
+      :id => "lidocaine-quantity",
       :field_type => 'number',
-      :helpText => "Anaesthesia quantity given (ml)",
+      :min => 0,
+      :max => 2,
+      :optional => true,
+      :helpText => "Lidocaine quantity given in percentage <span class='helper'> Circumcision</span>",
+      :condition => "(__$('anaesthesia').value == 'Lidocaine')",
+      :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "ANAESTHESIA QUANTITY (MLS)", @patient, nil,
+    {
+      :id => "lidocaine-mls",
+      :field_type => 'number',
+      :min => 0,
+      :max => 5,
+      :optional => true,
+      :helpText => "Lidocaine quantity given in mls <span class='helper'> Circumcision</span>",
+      :condition => "(__$('anaesthesia').value == 'Lidocaine')",
+      :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "ANAESTHESIA QUANTITY (PERCENTAGE)", @patient, nil,
+    {
+      :id => "bupivacaine-quantity",
+      :field_type => 'number',
+      :min => 0,
+      :max => 0.5,
+      :optional => true,
+      :helpText => "Bupivacaine quantity given in percentage <span class='helper'> Circumcision</span>",
+      :condition => "(__$('anaesthesia').value == 'Bupivacaine')",
+      :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "ANAESTHESIA QUANTITY (PERCENTAGE)", @patient, nil,
+    {
+      :id => "bupivacaine-mls",
+      :field_type => 'number',
+      :min => 0,
+      :max => 5,
+      :optional => true,
+      :helpText => "Bupivacaine quantity given in mls <span class='helper'> Circumcision</span>",
+      :condition => "(__$('anaesthesia').value == 'Bupivacaine')",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"
     }).html_safe %>
 
   <%= (touch_select_tag "PROCEDURE TYPE", @patient, options_for_select(@circumcision_procedure_types),
     {
       :id => "procedure-type",
-      :helpText  => "Procedure Type"
+      :tt_onUnLoad => "checkAge();",
+      :helpText  => "Procedure Type <span class='helper'> Circumcision</span>"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
+    {
+      :id => 'other_procedure_type',
+      :field_type => 'alpha',
+      :helpText => "Specify Other Procedure Type <span class='helper'> Circumcision</span>",
+      :condition => "$('procedure-type').value == 'Other'",
+      :allowFreeText => true
     }).html_safe %>
 
   <%= (touch_text_field_tag "INCISION TIME", @patient, nil,
@@ -131,24 +201,33 @@
       :id => "incision_time",
       :field_type => "number",
       :allowFreeText => 'true',
-      :tt_onLoad => "changeDecimalToColon();",
+      :tt_onLoad => "changeDecimalToColon(); changeDefaultSettings();",
+      :tt_onUnLoad => "checkTime(); updateIncisionTime();",
       :validationRule => "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
       :validationMessage => "Bad time format (Use this format: 14<b>:30</b>)",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-      :helpText => "Incision time"
+      :helpText => "Incision time <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "INTRA-OP ADVERSE EVENTS?", @patient, options_for_select(["", "Yes", "No"]),
     {
       :id => "adverse_events?",
-      :helpText  => "Any Intra-OP Adverse events"
+      :helpText  => "Any Intra-OP Adverse events <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
   <%= (touch_text_field_tag "SPECIFIC ADVERSE EVENT", @patient, nil,
     {
       :id => "specific-adverse-event",
       :condition => "__$('adverse_events?').value.match(/YES/i)",
-      :helpText => "Specify adverse event"
+      :helpText => "Specify adverse event <span class='helper'> Circumcision</span>"
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "SPECIFIC ADVERSE EVENT MANAGEMENT", @patient, nil,
+    {
+      :id => "specific-adverse-event-management",
+      :condition => "__$('adverse_events?').value.match(/YES/i)",
+      :optional => true,
+      :helpText => "Specify adverse event management <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
   <%= (touch_text_field_tag "TIME LEFT TABLE", @patient, nil,
@@ -156,21 +235,110 @@
       :id => "time_left_table",
       :field_type => "number",
       :allowFreeText => 'true',
-      :tt_onLoad => "changeDecimalToColon();",
+      :tt_onLoad => "changeDecimalToColon(); changeSettings();",
       :validationRule => "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
       :validationMessage => "Bad time format (Use this format: 14<b>:30</b>)",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-      :helpText => "Time left table"
+      :helpText => "Time left table <span class='helper'> Circumcision</span>"
     }).html_safe %>
 
+  <%= text_field_tag :given_name, nil, {
+    :id => "given_name",
+    :field_type => 'alpha',
+    :helpText => "Assistant circumciser's first name",
+    :ajaxURL => '/person_names/given_names?search_string=',
+    :allowFreeText => true } %>
 
+  <%= text_field_tag :family_name, nil, {
+    :id => "family_name",
+    :field_type => 'alpha',
+    :helpText => "Assistant circumciser's last name",
+    :ajaxURL => '/person_names/family_names?search_string=',
+    :tt_onLoad => "updateAssistantCircumciserDetails();",
+    :allowFreeText => true } %>
+
+  <%= touch_hidden_tag("ASSISTANT CIRCUMCISER", @patient, "", {:id=>"assistant_circumciser_details"}).html_safe %>
 </form>
 
 <script type="text/javascript">
+  var anaesthesia_time = "";
+  var anaesthesia_time_with_colon;
+  var incision_time = "";
+  var incision_time_with_colon;
+
+  function updateAnaesTime(){
+    anaesthesia_time = $("touchscreenInput"+tstCurrentPage).value.replace(":",'');
+    anaesthesia_time_with_colon = $("touchscreenInput"+tstCurrentPage).value
+  }
+
+  function updateIncisionTime(){
+    incision_time = $("touchscreenInput"+tstCurrentPage).value.replace(":",'');
+    incision_time_with_colon = $("touchscreenInput"+tstCurrentPage).value
+  }
+
   function changeDecimalToColon(){
     decimal = jQuery("#decimal")[0];
     decimal.innerHTML = '<span>:</span>';
     decimal.setAttribute("onmousedown", "press(':')")
   }
 
+  function checkAge(age){
+    var age = "<%= @bean.age %>"
+    if (age <= 15 && __$('procedure-type').value == 'Forceps Guided'){
+      showMessage('Note: Forceps guided is not recommended for clients under the age of 15',null,10000000000);
+    }else if (age >= 15 && __$('procedure-type').value == 'Dorsal Slit'){
+      showMessage('Note: Dorsal Slit is recommended for clients under the age of 15',null,10000000000);
+    } 
+  }
+
+  function checkTime(){
+    incision_time = $("touchscreenInput"+tstCurrentPage).value.replace(":",'');
+    
+    if(parseInt(anaesthesia_time) > parseInt(incision_time))
+    {
+      alert('Time greater than anaesthesia time'); 
+      return false;
+    }
+    else
+    {
+    }
+  }
+
+  function changeDefaultSettings(){
+    $("nextButton").removeAttribute("onmousedown");
+    $("nextButton").onmousedown = function(){
+      current_input_value = parseInt($("touchscreenInput"+tstCurrentPage).value.replace(":",''));
+      if (current_input_value > parseInt(anaesthesia_time)){
+        gotoNextPage();
+      } else {
+        showMessage("Time greater than anaesthesia time (<b>" + anaesthesia_time_with_colon + "</b>)")
+      }
+    }
+  }
+
+  function changeSettings(){
+    $("nextButton").removeAttribute("onmousedown");
+    $("nextButton").onmousedown = function(){
+      current_input_value = parseInt($("touchscreenInput"+tstCurrentPage).value.replace(":",''));
+      if (current_input_value > parseInt(incision_time)){
+        gotoNextPage();
+      } else {
+        showMessage("Time greater than incision time (<b>" + incision_time_with_colon + "</b>)")
+      }
+    }
+  }
+
+
+  function updateAssistantCircumciserDetails(){
+    $("nextButton").removeAttribute("onmousedown");
+    $("nextButton").onmousedown = function(){
+
+      given_name = $("given_name").value;
+      family_name = $("touchscreenInput"+tstCurrentPage).value;
+
+      names = given_name + " " + family_name;
+      $("assistant_circumciser_details").value = names;
+      gotoNextPage();
+    }
+  }
 </script>

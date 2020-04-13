@@ -17,6 +17,12 @@
     margin-bottom: 2%;
     z-index: 1000;
   }
+
+  .helper {
+    display: block;
+    float:right;
+    background-color: #DEDEDE;
+  }
 </style>
 
 
@@ -88,7 +94,7 @@
     {
       :id => "respiratory_rate",
       :field_type => 'number',
-      :helptext => 'Respiratory Rate (Breaths per Minute)',
+      :helptext => "Respiratory Rate (Breaths per Minute) <span class='helper'> Vitals</span>",
       :min => 8,
       :max => 65,
       :tt_onLoad => "$('decimal').style.display='none'",
@@ -102,7 +108,7 @@
   <%= (touch_text_field_tag "PULSE", @patient, nil,
     {
       :id => "pulse",
-      :helptext => 'Pulse Rate (Beats per Minute)',
+      :helptext => "Pulse Rate (Beats per Minute) <span class='helper'> Vitals</span>",
       :field_type => 'number',
       :min => 50,
       :max => 120,
@@ -114,22 +120,22 @@
   <%= (touch_text_field_tag "SYSTOLIC BLOOD PRESSURE", @patient, nil,
     {
       :id => "systolic_blood_pressure",
-      :helptext => "Systolic Blood Pressure (?/Y)",
+      :helptext => "Systolic Blood Pressure (?/Y) <span class='helper'> Vitals</span>",
       :field_type => "number",
-      :absoluteMin => 50,
-      :absoluteMax => 240,
       :tt_pageStyleClass => "NumbersWithUnknown",
-      :absoluteMin => 0,
-      :max => 250 }).html_safe %>
+      :tt_onUnLoad => "displayMessage('systolic_blood_pressure');",
+      :min => 80,
+      :max => 150 }).html_safe %>
 
   <%= (touch_text_field_tag "DIASTOLIC BLOOD PRESSURE", @patient, nil,
     {
       :id => "diastolic_blood_pressure",
-      :helptext => "Diastolic Blood Pressure",
+      :helptext => "Diastolic Blood Pressure <span class='helper'> Vitals</span>",
       :field_type => "number",
       :tt_pageStyleClass => "NumbersWithUnknown",
-      :absoluteMin => 35,
-      :absoluteMax  => 140 }).html_safe %>
+      :tt_onUnLoad => "displayMessage('diastolic_blood_pressure');",
+      :min => 50,
+      :max  => 100 }).html_safe %>
 
   <%= (touch_text_field_tag "TEMPERATURE (C)", @patient, nil,
     {
@@ -139,10 +145,10 @@
       :min => 20,
       :max => 45,
       :units => 'Celcuis',
-      :validationRule => "([0-9]+\\.[0-9])|Unknown$",
+      :validationRule => "(^[+-]?([0-9]*[.])?[0-9]+$)|Unknown$",
       :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-      :helpText => "Temperature (C)" }).html_safe%>
+      :helpText => "Temperature (C) <span class='helper'> Vitals</span>" }).html_safe%>
 
   <%= (touch_numeric_tag "WEIGHT (KG)", @patient, nil,
     {	:id => "weight",
@@ -153,10 +159,10 @@
       :absoluteMin => 0,
       :absoluteMax => 250,
       :units => 'kg',
-      :validationRule => "([0-9]+\\.[0-9])|Unknown$",
+      :validationRule => "(^[+-]?([0-9]*[.])?[0-9]+$)|Unknown$",
       :validationMessage => "You must enter a decimal between 0 and 9 (for example: 54<b>.6</b>)",
       :tt_pageStyleClass => "unknownButton",
-      :helpText => "Weight (Kg)" }).html_safe %>
+      :helpText => "Weight (Kg) <span class='helper'> Vitals</span>" }).html_safe %>
 
 
 <%#= (touch_numeric_tag "HEIGHT (CM)", @patient, nil,
@@ -176,6 +182,22 @@
 </form>
 
 <script type="text/javascript">
+
+  function displayMessage(options){
+
+    setTimeout(function(){
+
+        if (options == 'systolic_blood_pressure' && __$('systolic_blood_pressure').value >= 140 && __$('systolic_blood_pressure').value <= 150)
+        {
+          showMessage('Note: Client Systolic Blood Pressure is high and may not be suitable for circumcision',null,10000000000);
+        }
+        else if (options == 'diastolic_blood_pressure' && __$('diastolic_blood_pressure').value >= 50 && __$('diastolic_blood_pressure').value <= 90 )
+        {
+          showMessage('Note: Client Diastolic Blood Pressure is high and may not be suitable for circumcision',null,10000000000);
+        }
+       
+    },100);  
+}
 
 </script>
 

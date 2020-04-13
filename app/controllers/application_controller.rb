@@ -24,62 +24,71 @@ class ApplicationController < ActionController::Base
     task = OpenStruct.new
     
     patient = person.patient
-    today = Date.today
+    today = session[:session_date].to_date rescue Date.today
+    user = User.find(session[:user]["user_id"]) rescue ""
+    use_role = user.user_role.role rescue ""
 
-    if patient.is_patient_follow_up(today)
-      if !patient.encounter_exists_on_date("FOLLOW UP", today)
-        task.url = "/encounters/new?encounter_type=follow_up_review&patient_id=#{patient.patient_id}"
-        task.name = "Follow Up"
-        return task
+    if (patient.consent_given? == true)
+      if patient.is_patient_follow_up(today)
+        if !patient.encounter_exists_on_date("FOLLOW UP", today)
+          task.url = "/encounters/new?encounter_type=follow_up_review&patient_id=#{patient.patient_id}"
+          task.name = "Follow Up"
+          return task if !use_role.match(/clerk/i)
+        else
+          task.url = "/patients/show/#{person.person_id}"
+          task.name = "None"
+          return task
+        end
       else
-        task.url = "/patients/show/#{person.person_id}"
-        task.name = "None"
-        return task
-      end
-    else
-      if !patient.has_registration_encounter
-        task.url = "/encounters/new?encounter_type=registration&patient_id=#{patient.patient_id}"
-        task.name = "Registration"
-        return task
-      else
-        if !patient.encounter_exists_on_date("MEDICAL HISTORY", today)
-          task.url = "/encounters/new?encounter_type=medical_history&patient_id=#{patient.patient_id}"
-          task.name = "Medical History"
+        if !patient.has_registration_encounter
+          task.url = "/encounters/new?encounter_type=registration&patient_id=#{patient.patient_id}"
+          task.name = "Registration"
           return task
-        end
+        else
+          if !patient.encounter_exists_on_date("MEDICAL HISTORY", today)
+            task.url = "/encounters/new?encounter_type=medical_history&patient_id=#{patient.patient_id}"
+            task.name = "Medical History"
+            return task if !use_role.match(/clerk/i)
+          end
 
-        if !patient.encounter_exists_on_date("VITALS", today)
-          task.url = "/encounters/new?encounter_type=vitals&patient_id=#{patient.patient_id}"
-          task.name = "Vital Signs"
-          return task
-        end
+          if !patient.encounter_exists_on_date("VITALS", today)
+            task.url = "/encounters/new?encounter_type=vitals&patient_id=#{patient.patient_id}"
+            task.name = "Vital Signs"
+            return task if !use_role.match(/clerk/i)
+          end
 
-        if !patient.encounter_exists_on_date("HIV Testing", today)
-          task.url = "/encounters/new?encounter_type=hiv_art_status&patient_id=#{patient.patient_id}"
-          task.name = "HIV Testing"
-          return task
-        end
+          if !patient.encounter_exists_on_date("HIV Testing", today)
+            task.url = "/encounters/new?encounter_type=hiv_art_status&patient_id=#{patient.patient_id}"
+            task.name = "HIV Testing"
+            return task if !use_role.match(/clerk/i)
+          end
 
-        if !patient.encounter_exists_on_date("GENITAL EXAMINATION", today)
-          task.url = "/encounters/new?encounter_type=genital_examination&patient_id=#{patient.patient_id}"
-          task.name = "Genital Examination"
-          return task
-        end
+          if !patient.encounter_exists_on_date("GENITAL EXAMINATION", today)
+            task.url = "/encounters/new?encounter_type=genital_examination&patient_id=#{patient.patient_id}"
+            task.name = "Genital Examination"
+            return task if !use_role.match(/clerk/i)
+          end
 
-        if !patient.encounter_exists_on_date("CIRCUMCISION", today)
-          task.url = "/encounters/new?encounter_type=circumcision&patient_id=#{patient.patient_id}"
-          task.name = "Circumcision"
-          return task
-        end
+          if !patient.encounter_exists_on_date("SUMMARY ASSESSMENT", today)
+            task.url = "/encounters/new?encounter_type=summary_assessment&patient_id=#{patient.patient_id}"
+            task.name = "Summary Assessment"
+            return task if !use_role.match(/clerk/i)
+          end
 
-        if !patient.encounter_exists_on_date("POST-OP REVIEW", today)
-          task.url = "/encounters/new?encounter_type=post_op_review&patient_id=#{patient.patient_id}"
-          task.name = "Post-OP Review"
-          return task
+          if !patient.encounter_exists_on_date("CIRCUMCISION", today)
+            task.url = "/encounters/new?encounter_type=circumcision&patient_id=#{patient.patient_id}"
+            task.name = "Circumcision"
+            return task if !use_role.match(/clerk/i)
+          end
+
+          if !patient.encounter_exists_on_date("POST-OP REVIEW", today)
+            task.url = "/encounters/new?encounter_type=post_op_review&patient_id=#{patient.patient_id}"
+            task.name = "Post-OP Review"
+            return task if !use_role.match(/clerk/i)
+          end
         end
       end
     end
-
     task.url = "/patients/show/#{person.person_id}"
     task.name = "None"
     return task

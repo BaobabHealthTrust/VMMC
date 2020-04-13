@@ -8,11 +8,13 @@ Rails.application.routes.draw do
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
+  get '/get_time_left' => 'encounters#get_time_left'
   get '/login' => 'users#login'
   post '/user_authetication' => 'users#user_authetication'
   get '/logout' => 'users#logout'
   get '/set_date' => 'clinic#set_date'
   post '/set_date' => 'clinic#set_date'
+  get '/reset_date' => 'clinic#reset_date'
   get '/people/search' => 'people#search'
   get '/people/region' => 'people#region'
   get '/people/district' => 'people#district'
@@ -31,6 +33,11 @@ Rails.application.routes.draw do
   get '/patients/activities'
   get '/patients/patient_demographics_label'
   get '/patients/national_id_label'
+  get '/patients/visit_summary_label'
+
+  get '/patients/get_user_role'
+  post '/patients/get_user_role'
+
   get '/patients/get_demographics'
   post '/patients/get_demographics'
   get '/my_account' => 'users#my_account'
@@ -70,6 +77,48 @@ Rails.application.routes.draw do
   get 'report' => 'report#report'
   get 'registration_report_menu' => 'report#registration_report_menu'
   post 'registration_report' => 'report#registration_report'
+
+  get 'quartely_report_menu' => 'report#quartely_report_menu'
+  get 'quartely_report' => 'report#quartely_report'
+  post 'quartely_report' => 'report#quartely_report'
+  post 'get_quartely_report_data' => 'report#get_quartely_report_data' #get_hiv_data
+
+  get 'get_hiv_data' => 'report#get_hiv_data'
+  post 'get_hiv_data' => 'report#get_hiv_data'
+
+  get 'get_circumcision_status_data' => 'report#get_circumcision_status_data'
+  post 'get_circumcision_status_data' => 'report#get_circumcision_status_data'
+
+  get 'get_contraindications_data' => 'report#get_contraindications_data'
+  post 'get_contraindications_data' => 'report#get_contraindications_data' #get_consent_granted_data
+
+  get 'get_consent_granted_data' => 'report#get_consent_granted_data'
+  post 'get_consent_granted_data' => 'report#get_consent_granted_data' #get_procedures_used_data
+
+  get 'get_procedures_used_data' => 'report#get_procedures_used_data'
+  post 'get_procedures_used_data' => 'report#get_procedures_used_data' #get_adverse_events_data
+
+  get 'get_adverse_events_data' => 'report#get_adverse_events_data'
+  post 'get_adverse_events_data' => 'report#get_adverse_events_data' #get_first_review_data
+
+  get 'get_first_review_data' => 'report#get_first_review_data'
+  post 'get_first_review_data' => 'report#get_first_review_data'
+
+  get 'get_first_review_adverse_events' => 'report#get_first_review_adverse_events'  #get_first_review_adverse_events
+  post 'get_first_review_adverse_events' => 'report#get_first_review_adverse_events' #get_second_review_data
+
+  get 'get_second_review_data' => 'report#get_second_review_data'  #get_second_review_data
+  post 'get_second_review_data' => 'report#get_second_review_data'  #get_second_review_adverse_events
+
+  get 'get_second_review_adverse_events' => 'report#get_second_review_adverse_events' #get_second_review_adverse_events
+  post 'get_second_review_adverse_events' => 'report#get_second_review_adverse_events'
+
+  get 'get_third_review_data' => 'report#get_third_review_data' #get_third_review_data
+  post 'get_third_review_data' => 'report#get_third_review_data'
+
+  get 'get_third_review_adverse_events' => 'report#get_third_review_adverse_events' #get_third_review_adverse_events
+  post 'get_third_review_adverse_events' => 'report#get_third_review_adverse_events'
+
   get 'user' => 'clinic#user'
   get 'manage_locations' => 'clinic#manage_locations'
   get 'manage_villages' => 'clinic#manage_villages'
@@ -81,6 +130,7 @@ Rails.application.routes.draw do
   get '/medical_history' => 'encounters#medical_history'
   get '/hiv_art_status' => 'encounters#hiv_art_status'
   get '/genital_examination' => 'encounters#genital_examination'
+  get '/summary_assessment' => 'encounters#summary_assessment'
   get '/circumcision' => 'encounters#circumcision'
   get '/post_op_review' => 'encounters#post_op_review'
   get '/registration' => 'encounters#registration'
@@ -102,6 +152,12 @@ Rails.application.routes.draw do
 
   get '/patients/patient_is_circumcised_today'
   post '/patients/patient_is_circumcised_today'
+
+  get '/patients/patient_consent_given'
+  post '/patients/patient_consent_given'
+
+  get '/patients/patient_circumcision_consent'
+  post '/patients/patient_circumcision_consent'
 
   get '/patients/get_follow_up_status'
   post '/patients/get_follow_up_status'
@@ -125,6 +181,8 @@ Rails.application.routes.draw do
   get "user/change_password" => "users#change_password"
   post "/change_password" => "users#change_password"
   get '/administration' => 'users#administration' #edit_user
+  post '/update_role' => "users#update_role"
+  get 'user/change_role' => 'users#change_role'
   get 'user/edit/:id' => 'users#edit_user'
   post '/edit_user' => 'users#update'
   get "/new_user" => "users#new_user"

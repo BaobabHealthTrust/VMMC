@@ -27,8 +27,9 @@ class UsersController < ApplicationController
   end 
 
   def my_account
+    user_id = session[:user]['user_id'].inspect
 		@my_accounts =  [
-      ['/change_password','Change Password'],
+      ["/user/change_password?id=#{user_id}",'Change Password'],
       ['/edit_demographics','Edit Demographics']#,
       #['/my_profile','My profile']
     ]
@@ -94,9 +95,9 @@ class UsersController < ApplicationController
       @user.update_attributes(:username => username)
     end
     
-    PersonName.where("voided = 0 AND person_id = #{@user.person_id}").each do | person_name |
+    PersonName.where("voided = 0 AND person_id = #{@user.person_id}").each do | person_name |    
       person_name.voided = 1
-      person_name.voided_by = session[:user]["person_id"]
+      person_name.voided_by = session[:user]["user_id"]
       person_name.date_voided = Time.now()
       person_name.void_reason = 'Edited name'
       person_name.save
@@ -122,7 +123,7 @@ class UsersController < ApplicationController
     unless request.get? 
       if (params[:user][:new_password] != params[:user][:confirm_password])
         flash[:notice] = 'Password Mismatch'
-        redirect_to :action => 'new'
+        redirect_to "/user/change_password?id=#{params[:id]}"
         return
       else
         salt = User.random_string(10)
@@ -168,12 +169,13 @@ class UsersController < ApplicationController
 
       if existing_user
         flash[:notice] = 'Username already in use'
-        redirect_to :action => '/new_user' and return
+        redirect_to :action => 'new_user' and return
       end
 
       if (params[:user][:plain_password] != params[:user_confirm][:password])
         flash[:error] = 'Password Mismatch'
-        redirect_to :action => '/new_user' and return
+        redirect_to :action => 'new_user' and return
+
       end
       
       ActiveRecord::Base.transaction do
@@ -193,10 +195,12 @@ class UsersController < ApplicationController
         user_role.user_id = user.user_id
         user_role.save
 
-      end
 
       flash[:notice] = 'User was successfully created.'
-      redirect_to("/") and return
+      redirect_to("/show/#{user.user_id}") and return
+
+      end rescue redirect_to "/new_user" and return
+
     end
     render layout: "full_page_form"
   end
@@ -227,9 +231,28 @@ class UsersController < ApplicationController
     role_conditions = ["role LIKE (?)", "%#{params[:value]}%"]
     roles = Role.where(role_conditions)
     roles = roles.map do |r|
+      next unless r.role.match(/clinician|nurse|clerk|doctor|provider/i)
+      next if r.role.match(/spine|feeding|general|vitals/i)
       "<li value='#{r.role}'>#{r.role.gsub('_',' ').capitalize}</li>"
     end
     render :text => roles.join('') and return
+  end
+
+  def change_role
+    @user = User.find(params[:id])
+    render layout: "full_page_form"
+  end
+
+  def update_role
+    @user = User.find(params[:id])
+    user_role = @user.user_role
+    user_role.role = params[:user_role][:role]
+    if user_role.save
+      redirect_to "/show/#{params[:id]}"
+    else 
+       flash[:notice] = "Error on updating the User Role"
+       redirect_to "/user/change_role?id=#{params[:id]}"
+    end   
   end
 
 	def manage_location

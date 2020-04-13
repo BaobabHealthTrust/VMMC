@@ -6,6 +6,7 @@ class PatientsController < ApplicationController
 
   def show
     person = Person.find (params[:patient_id])
+    @session_date =  (session[:session_date].to_date rescue Date.today).strftime("%d %b, %Y")
     @patient_bean = PatientService.get_patient(person)
   end
 
@@ -18,7 +19,7 @@ class PatientsController < ApplicationController
     @links = []
     @links << ["Demographics (Edit)","/edit_demographics/#{patient_id}"]
     @links << ["Demographics (Print)","/patients/patient_demographics_label?patient_id=#{patient_id}"]
-    @links << ["Visit Summary (Print)","/"]
+    @links << ["Visit Summary (Print)","/patients/visit_summary_label?patient_id=#{patient_id}"]
     @links << ["National ID (Print)","/patients/national_id_label?patient_id=#{patient_id}"]
     
     render layout: false
@@ -65,6 +66,20 @@ class PatientsController < ApplicationController
         end
 		
       end
+
+      if (params[:field] == 'guardian_cell_phone_number')
+        person_attribute_type_id = PersonAttributeType.find_by_name("Next of kin phone number").person_attribute_type_id
+        person_attribute = person.person_attributes.find_by_person_attribute_type_id(person_attribute_type_id)
+
+        if person_attribute.blank?
+          person.person_attributes.create(
+            :person_attribute_type_id => person_attribute_type_id,
+            :value => params["person"]["guardian_cell_phone_number"])
+        else
+          person_attribute.update_attributes(value: params["person"]["guardian_cell_phone_number"])
+        end
+    
+      end
       
       redirect_to("/edit_demographics/#{params[:patient_id]}") and return
     end
@@ -93,6 +108,36 @@ class PatientsController < ApplicationController
     send_data(print_string,:type=>"application/label; charset=utf-8", :stream => false, :filename => "#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
   end
 
+  def visit_summary_label
+    patient = Patient.find(params[:patient_id])
+    print_string = generate_visit_summary_label(patient)
+    send_data(print_string,:type=>"application/label; charset=utf-8", :stream => false, :filename => "#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
+  end
+
+  def generate_visit_summary_label(patient)
+    label = ZebraPrinter::StandardLabel.new
+    label.font_size = 3
+    label.font_horizontal_multiplier = 1
+    label.font_vertical_multiplier = 1
+    label.left_margin = 50
+    session_date = session[:session_date].to_date rescue Date.today
+    todays_encounters = patient.encounters.where(["DATE(encounter_datetime) = ?", session_date])
+    return nil if todays_encounters.blank?
+
+    label.draw_multi_text("Visit: #{session_date.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)
+
+    todays_encounters.each do |encounter|
+      next if encounter.type.name.upcase == "REGISTRATION"
+      encounter.observations.each do |obs|
+        answer_string = obs.answer_string.squish
+        concept_name = obs.concept.shortname
+        label.draw_multi_text("#{concept_name}: #{answer_string}", :font_reverse => false)
+      end
+    end
+
+    label.print(1)
+  end
+  
   def patient_demographics_label
     print_string = demographics_label(params[:patient_id])
     send_data(print_string, :type=>"application/label; charset=utf-8", :stream => false, :filename => "#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
@@ -129,20 +174,23 @@ class PatientsController < ApplicationController
 
   def patient_is_circumcised_today
     patient = Patient.find(params[:patient_id])
-    circumcised_today_status = patient.patient_is_circumcised_today
+    session_date =  session[:session_date].to_date rescue Date.today
+    circumcised_today_status = patient.patient_is_circumcised_today(session_date)
     render text: circumcised_today_status.to_s and return
   end
 
   def get_follow_up_status
     patient = Patient.find(params[:patient_id])
-    follow_up_status = patient.is_patient_follow_up
+    session_date =  session[:session_date].to_date rescue Date.today
+    follow_up_status = patient.is_patient_follow_up(session_date)
     render text: follow_up_status.to_s and return
   end
 
   def check_if_encounter_exists_on_date
     encounter_type = params[:encounter_type]
     patient = Patient.find(params[:patient_id])
-    encounter_status = patient.encounter_exists_on_date(encounter_type)
+    session_date =  session[:session_date].to_date rescue Date.today
+    encounter_status = patient.encounter_exists_on_date(encounter_type, session_date)
     render text: encounter_status.to_s and return
   end
 
@@ -150,6 +198,24 @@ class PatientsController < ApplicationController
     patient = Patient.find(params[:patient_id])
     task_name = next_task(patient.person).name
     render text: task_name.to_s and return
+  end
+
+  def patient_consent_given
+    patient = Patient.find(params[:patient_id])
+    consent_given = patient.consent_given?
+    render text: consent_given.to_s and return
+  end
+
+  def patient_circumcision_consent
+    patient = Patient.find(params[:patient_id])
+    continue_to_circumcision = patient.circumcision_consent?
+    render text: continue_to_circumcision.to_s and return
+  end
+
+  def get_user_role
+    user = User.find(session[:user]["user_id"])
+    use_role = user.user_role.role rescue ""
+    render text: use_role.to_s and return
   end
 
 end

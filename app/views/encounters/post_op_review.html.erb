@@ -76,6 +76,12 @@
   #Unknown{
     display: none;
   }
+
+  .helper {
+    display: block;
+    float:right;
+    background-color: #DEDEDE;
+  }
 </style>
 
 <form action="/encounters/create" method="POST" target="_top">
@@ -86,19 +92,21 @@
 
   <%= (touch_text_field_tag "REVIEW TIME", @patient, nil,
     {
+      :id => "post_review_time",
       :field_type => "number",
       :allowFreeText => 'true',
-      :tt_onLoad => "changeDecimalToColon();",
+      :tt_onLoad => "changeDecimalToColon(); postOp();",
+      :tt_onUnLoad => "updateTimeLeft();",
       :validationRule => "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$",
       :validationMessage => "Bad time format (Use this format: 14<b>:30</b>)",
       :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-      :helpText => "Review Time"
+      :helpText => "Review Time <span class='helper'> Post-op review</span>"
     }).html_safe %>
 
   <%= (touch_text_field_tag "PULSE", @patient, nil,
     {
       :id => "pulse",
-      :helptext => 'Pulse Rate (Beats per Minute)',
+      :helptext => "Pulse Rate (Beats per Minute) <span class='helper'> Post-op review</span>",
       :field_type => 'number',
       :min => 50,
       :max => 120,
@@ -110,62 +118,76 @@
   <%= (touch_text_field_tag "SYSTOLIC BLOOD PRESSURE", @patient, nil,
     {
       :id => "systolic_blood_pressure",
-      :helptext => "Systolic Blood Pressure",
+      :helptext => "Systolic Blood Pressure <span class='helper'> Post-op review</span>",
       :field_type => "number",
-      :absoluteMin => 50,
-      :absoluteMax => 240,
+      :tt_onUnLoad => "displayMessage('systolic_blood_pressure');",
       :tt_pageStyleClass => "NumbersWithUnknown",
-      :absoluteMin => 0,
-      :max => 250 }).html_safe %>
+      :min => 80,
+      :max => 150 }).html_safe %>
 
   <%= (touch_text_field_tag "DIASTOLIC BLOOD PRESSURE", @patient, nil,
     {
       :id => "diastolic_blood_pressure",
-      :helptext => "Diastolic Blood Pressure",
+      :helptext => "Diastolic Blood Pressure <span class='helper'> Post-op review</span>",
       :field_type => "number",
+      :tt_onUnLoad => "displayMessage('diastolic_blood_pressure');",
       :tt_pageStyleClass => "NumbersWithUnknown",
-      :absoluteMin => 35,
-      :absoluteMax  => 140 }).html_safe %>
+      :min => 50,
+      :max  => 100 }).html_safe %>
 
   <%= (touch_select_tag "PAIN", @patient, options_for_select(@pain_options),
     {
       :id => "type_of_pain",
-      :helpText  => "Type of pain"
+      :helpText  => "Type of pain <span class='helper'> Post-op review</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "BANDAGE", @patient, options_for_select(@bandage_options),
     {
       :id => "bandage",
-      :helpText  => "Bandage (Bleeding)"
+      :helpText  => "Bandage (Bleeding) <span class='helper'> Post-op review</span>"
     }).html_safe %>
 
+  <%= (touch_select_tag "OTHER ADVERSE EVENT ACTION", @patient, options_for_select(@other_ae_options),
+    {
+      :id => "other_ae",
+      :helpText  => "Other Adverse Event? <span class='helper'> Post-op review</span>"
+    }).html_safe %>
 
+  <%= (touch_text_field_tag "SPECIFIC ADVERSE EVENT", @patient, nil,
+    {
+      :helpText => "Specify other Adverse Event <span class='helper'> Post-op review</span>",
+      :field_type => 'alpha',
+      :condition => "__$('other_ae').value != 'None'",
+      :allowFreeText => true
+    }).html_safe %> 
 
   <%= (touch_select_tag "MEDS GIVEN?", @patient, options_for_select(["", "Yes", "No"]),
     {
       :id => "meds-given?",
-      :helpText  => "Medication given?"
+      :helpText  => "Medication given? <span class='helper'> Post-op review</span>"
     }).html_safe %>
 
   <%= (touch_text_field_tag "MEDICATION", @patient, nil,
     {
       :id => "medication",
       :condition => "__$('meds-given?').value.match(/YES/i)",
-      :helpText => "Specify medication"
+      :helpText => "Specify medication <span class='helper'> Post-op review</span>"
     }).html_safe %>
 
 
   <%= (touch_select_tag "READY FOR DISCHARGE?", @patient, options_for_select(["", "Yes", "No"]),
     {
       :id => "ready-for-discharge",
-      :helpText  => "Ready for discharge"
+      :helpText  => "Ready for discharge <span class='helper'> Post-op review</span>"
     }).html_safe %>
 
   <%= (touch_text_field_tag "APPOINTMENT DATE", @patient, nil,
     {
       :id => "appointment-date",
+      :absoluteMin => (Date.today + 1.day),
       :maxDate => "#{@max_date}",
-      :helptext => "Appointment date",
+      :helptext => "Appointment date <span class='helper'> Post-op review</span>",
+      :condition => "__$('ready-for-discharge').value.match(/YES/i)",
       :field_type => "date"
     }).html_safe %>
 
@@ -175,10 +197,49 @@
 
 
 <script type="text/javascript">
+  var time = "";
+  var time_with_colon;
+
   function changeDecimalToColon(){
     decimal = jQuery("#decimal")[0];
     decimal.innerHTML = '<span>:</span>';
     decimal.setAttribute("onmousedown", "press(':')")
+  }
+
+  function displayMessage(options){
+
+    setTimeout(function(){
+
+        if (options == 'systolic_blood_pressure' && __$('systolic_blood_pressure').value >= 140 && __$('systolic_blood_pressure').value <= 150)
+        {
+          showMessage('Note: Client Systolic Blood Pressure is high',null,10000000000);
+        }
+        else if (options == 'diastolic_blood_pressure' && __$('diastolic_blood_pressure').value >= 50 && __$('diastolic_blood_pressure').value <= 90 )
+        {
+          showMessage('Note: Client Diastolic Blood Pressure is high',null,10000000000);
+        }
+       
+    },100);  
+}
+
+  function updateTimeLeft(){
+    time = $("touchscreenInput"+tstCurrentPage).value.replace(":",'');
+    time_with_colon = $("touchscreenInput"+tstCurrentPage).value
+  }
+
+  function postOp(){
+    var time = '<%= @time_left %>';
+    time_with_colon = time.replace(":",'');
+
+    $("nextButton").removeAttribute("onmousedown");
+    $("nextButton").onmousedown = function(){
+      current_input_value = parseInt($("touchscreenInput"+tstCurrentPage).value.replace(":",''));
+      if (current_input_value > parseInt(time_with_colon)){
+          gotoNextPage();
+      } else {
+          showMessage("Time greater than time left on the table (<b>" + time + "</b>)")
+      }
+    }
   }
 
 </script>

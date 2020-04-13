@@ -262,5 +262,19 @@
   <%= hidden_field_tag("field", "cell_phone_number") %>
 <% end %>
 
+<% if params[:field] == 'guardian_cell_phone_number' %>
+<%= text_field_tag "person[guardian_cell_phone_number]",  @bean.guardian_cell_phone_number,
+  {
+  :field_type => 'number',
+  :helpText => 'Next of Kin Cell Phone Number',
+  :validationRule => "^0\\d{7}$|Unknown|Not Available|N\/A|^0\\d{9}$",
+  :validationMessage => "Not a valid phone number",
+  :tt_pageStyleClass => "nota",
+  :id => 'guardian_cellphone'
+}
+%>
+<%= hidden_field_tag("field", "guardian_cell_phone_number") %>
+<% end %>
+
 <%= hidden_field_tag("patient_id", params[:patient_id]) %>
 </form>

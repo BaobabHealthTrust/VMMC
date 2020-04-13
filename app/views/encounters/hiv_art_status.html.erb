@@ -20,6 +20,12 @@
   .NoKeyboard .inputFrameClass {
     height: 460px !important;
   }
+
+  .helper {
+    display: block;
+    float:right;
+    background-color: #DEDEDE;
+  }
 </style>
 
 <form action="/encounters/create" method="POST" target="_top">
@@ -31,33 +37,33 @@
   <%= (touch_select_tag "KNOWN HIV+", @patient, options_for_select(["", "Yes", "No"]),
     {
       :id => "known_hiv_positive",
-      :helpText  => "Known HIV+ (Documented test results)"
+      :helpText  => "Known HIV+ (Documented test results) <span class='helper'> HIV/ART status</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "CURRENTLY TAKING ARVs", @patient, options_for_select(["", "Yes", "No"]),
     {
       :id => "currently_taking_arvs",
-      :helpText  => "Currently taking ARVs?"
+      :helpText  => "Currently taking ARVs? <span class='helper'> HIV/ART status</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "HIV TEST DONE TODAY?", @patient, options_for_select(["", "Yes", "No"]),
     {
       :id => "hiv_test_done_today?",
-      :helpText  => "HIV Test done today?"
+      :helpText  => "HIV Test done today? <span class='helper'> HIV/ART status</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "RESULT OF HIV TEST", @patient, options_for_select(@hiv_results_options),
     {
       :id => "hiv_test_result",
       :condition => "__$('hiv_test_done_today?').value.match(/YES/i)",
-      :helpText  => "HIV Test result"
+      :helpText  => "HIV Test result <span class='helper'> HIV/ART status</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "REASON HIV TEST NOT DONE", @patient, options_for_select(@hiv_test_not_done_reasons),
     {
       :id => "hiv_test_not_done_reason",
       :condition => "__$('hiv_test_done_today?').value.match(/NO/i)",
-      :helpText  => "Reason HIV Test not done"
+      :helpText  => "Reason HIV Test not done <span class='helper'> HIV/ART status</span>"
     }).html_safe %>
 
 </form>

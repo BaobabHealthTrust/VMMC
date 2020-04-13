@@ -1,8 +1,10 @@
 class PeopleController < ApplicationController
 
   def new
+    @session_date =  (session[:session_date].to_date rescue Date.today).strftime("%Y-%m-%d")
+    @date_diff = (session[:session_date].to_date rescue Date.today) - 10.year
 		@occupations = occupations
-    render layout: "form"
+    render layout: "full_page_form"
 	end
 
 	def search

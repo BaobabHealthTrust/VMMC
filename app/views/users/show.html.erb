@@ -54,7 +54,7 @@
     </tr>
     <tr>
       <th>Role:&nbsp;</th>
-      <td>&nbsp;<%=@user.user_roles.map{|r|r.role}.join(',') rescue ''%></td>
+      <td>&nbsp;<%=@user.user_role.role%></td>
     </tr>
     <tr>
       <th class='blue'>First name:&nbsp;</th>
@@ -74,27 +74,33 @@
     <table id = 'button_container' style = "float:right;">
       <tr>
         <td>
+        <%if User.current.admin?%>
           <button id="edit" class="silver" style="margin-top:10px;"
                   onmousedown="document.location = '/user/edit/<%= @user.id -%>'"><span>Edit User names</span>
           </button>
+          <%end%>
         </td>
       </tr>
       <tr>
         <td>
+        <%if User.current.admin?%>
           <button id="change_password" class="silver" style="margin-top:10px;"
                   onmousedown="document.location = '/user/change_password?id=<%= @user.id -%>'"><span>Change Password</span>
           </button>
+          <%end%>
         </td>
       </tr>
    
-<!--         <tr>
+         <tr>
           <td>
+          <%if User.current.admin?%>
             <button id="edit" class="silver" style="margin-top:10px;"
-                    onmousedown="document.location = '/user/add_role?id=<%= @user.id -%>'"><span>Add Role</span>
+                    onmousedown="document.location = '/user/change_role?id=<%= @user.id -%>'"><span>Update Role</span>
             </button>
+            <%end%>
           </td>
         </tr>
-        <tr>
+       <!-- <tr>
           <td>
             <button id="change_password" class="silver" style="margin-top:10px;"
                     onmousedown="document.location = '/user/delete_role?id=<%= @user.id -%>'"><span>Delete Role</span>

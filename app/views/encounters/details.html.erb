@@ -29,16 +29,26 @@
     font-size: 16px;
     padding: 10px 28px;
     text-align: center;
-}
+  }
 </style>
-<% @patient_encounters_on_date.in_groups_of(2).each do |group| %>
+<% count = 0 %>
+<% @patient_encounters_on_date.in_groups_of(1).each do |group| %>
   <% group.compact.each do |encounter| %>
-    <div class="min-view" style="width: 46%; display: inline-block; height: 200px; overflow: hidden; margin: 5px; border: 1px solid rgba(0, 69, 134, 0.05); background-color: rgba(0, 69, 134, 0.05);" id="enc.HTS CLIENT REGISTRATION">
+    <div class="min-view" style="width: 98%; display: inline-block; height: 200px; overflow: hidden; margin: 5px; border: 1px solid rgba(0, 69, 134, 0.05); background-color: rgba(0, 69, 134, 0.05);" id="enc.HTS CLIENT REGISTRATION">
       <table style="width: 100%; border-collapse: collapse;" cellpadding="5">
         <tr style="background-color: rgb(0, 69, 134);">
           <td style="width: 20px; padding: 2px; cursor: pointer;">
             <img onclick="zoomTable(<%= encounter.encounter_id %>);" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEOklEQVRYhe2V3U8cVRiH31JFNFHTxJiYiBKjMRpNqH+HJC0XRqnVSkIIxYqkQG2LWq3RSFJTkBQlYiHZkAaCKRLZpcsutE3AJtjUK2HLfrMs+zWzO987szM/L9zZ7EJXZ4VL3uS5md978j5nzkkO0X7tV5madky/OL8wNzl/80bQ6barTrddqwDVveDwO912m9M581zFw+cX7O8v3nYJDJsyNE2FYRgVo6oqEsm44b7pFFwu+1HLw2dnr796e8klGoYOAP9ruAkA6LqOhVtOYWp26llLAguLc79yXMbQdR2apu0aXdeRYpL6/KJjxJKAa9ERz+k5qKqKbDa7a1RVhaqqcN9yrloSuOGahWEYkCQJkiRBlmUMDPbjvQ/eLUGW5UK+PRsY7C/JdV2H02UXLQvoug6e58HzPCRJQktrM3T9nzsBAC2tzZAkqSQ3S9f1klwQBORyOTjdDrkigUwmg0wmA0mS0H6qDQDQfqqtgCRJJbmJ2WfmHMchl9OsC/zmmEYulwPLMmBZBrIsobOrAwDQ2dUBWZYKmLnJ9j6WZZBOs9A0Ffa5GWsCv0xPQtM0pFIJpFIJKIqMT851F1AUuZAVU66PYZJQ1Syuz0xaE7g2YYOqqojFoojFolAUZQdmVky5vnh8C4oi49qEzZrAmO1nKFkFkc2NPWEzGoEkSRizXbUmMDwyBFmWEAwF9oRQOAhB4PHT1R+tCQxeuQxRFOD1rcPrW4c/4EP/998V8Ad8hayYcn0+vw8cl8GVHwasCVy63AeO57DmWcWaZxXBUABDw4MAgKHhwZLdmbnJ9r41zyrur3vApllcGuizJvD1txfB8xzWvR6sez3YikUxMjoMABgZHS6wFYuW5CZmn5l7fffBpll80/eVNYELX34KnufgD3jhD3jBsgxs46OF1w0AbOOjYFmmJDfLMIySPBD0gU2z+OLi59YEzp7vAS/wCIWDCIWD4LgMVu7ewcTUeAmiKCAUDkIUhR3Zyt074LgMQuEgwhshsGkGvZ+ds/YWnDnbnUwmE9iKRbEZjSCRjEMUBSiKvIPNaOSB30VRQCIZx2Y0glh8C5HIBs73nvFYEjjd0zF77897RjrNIh6P7Zp0Oo3l35f0j7s6xv5t7oE8VSdaTtR393SKKSYFjuPAsAxSTKpiGJYBx3OIJ+LoPN3BNTU3vUBEVUWzSoZXEdHDRPQYER1qbDzS++FH7dmVP1aQTCYhy3LFJBIJLC8vGW3trUpjY8NJInqCiGqI6GCRSEHgYD48RES1RFRfV1d34Uhjg/fY8Xfkt5veQqUcO94kNhx986/a2tqTRPQKET1DRI8TUfWDBKqI6CEiepSIniSip4noeSJ6mYheJ6J6IjpMRG/8B4fz1BPRa0T0Un5DT+WHP5Lf7I5jKLkHeZnq/IKavFgl1OTXVuePtvi37xhcrg7sIftVtv4GgW76OVkufv0AAAAASUVORK5CYII="/></td>
-          <th style="text-align: center; color: rgb(255, 255, 255); cursor: pointer; width: calc(100% - 20px);"><%= encounter.type.name %></th>
+          <th style="text-align: center; color: rgb(255, 255, 255); cursor: pointer; width: calc(100% - 20px);">
+
+            <% if encounter.type.name.to_s.match(/POST/i) %> <!-- post op review-->
+              <% count = count + 1 %>
+              <%= encounter.type.name.to_s + " (#{count})" %>
+            <% else %>
+              <%= encounter.type.name %>
+            <% end %>
+
+          </th>
         </tr>
         <tr>
           <td colspan="2">

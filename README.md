@@ -13,11 +13,7 @@ Setting up this application shouldn't be complicated. By following the instructi
 3. **cp config/database.yml.example config/database.yml**
 4. Open and edit config/database.yml to suit your MySQL settings.
 5. Type **bin/initial_database_setup.sh development mpc**
-6. Load default user and location by running the following commands;
-	**mysql -u root -p -D database name < /application path/db/users.sql**
-	**mysql -u root -p -D database name < /application path/db/location_tag.sql**
-
-	- Default username: admini
+	- Default username: admin
 	- password: test
 	- location: 721 or Room 1
 7. Navigate to public folder of the application

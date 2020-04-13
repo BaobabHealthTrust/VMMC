@@ -1,4 +1,85 @@
+<script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/jquery.flot.js"></script>
+
+<%= javascript_include_tag "Highcharts/js/jquery.min.js" %>
+<%= javascript_include_tag "Highcharts/js/highcharts" %>
+<%= javascript_include_tag "vitals_trail" %>
+<%= javascript_include_tag "notification_tracker" %>
+<%= stylesheet_link_tag "yes_no_btn" %>
+
 <style type="text/css">
+  .summary {
+    margin:20px;
+    font-size:1.6em;
+  }
+  .title, .recommendation {
+    margin-right:10px;
+    font-weight:bold;
+  }
+  .recommendation {
+    font-style:italic;
+  }
+  .warning {
+    color:red;
+  }
+
+  .pills_remaing{
+    left:25px;
+    position:inherit;
+  }
+
+  #char { display:none; }
+
+  #notes{background-color:red;}
+
+  .tt_controls_clinical_notes_optional #space { display:inline; }
+
+  .custom-helptext{
+    position: absolute;
+    left:36%;
+    top: 30%;
+  }
+
+  .FastTrackBtn{
+    text-decoration: none;
+    border:1px solid #25729a;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    font-family:arial, helvetica, sans-serif;
+    padding: 10px 10px 10px 10px;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+    text-align: center;
+  }
+
+  .labelText {
+    font-size: 23px;
+    vertical-align: middle;
+    padding-left: 20px;
+  }
+
+  #divcontent {
+    background-color: #fff;
+    border: 2px solid #ccf;
+    border-radius: 10px;
+    height: 84%;
+    margin: 10px;
+    overflow: hidden;
+    width: 98%;
+  }
+
+  #divScroller {
+    height: 97%;
+    margin: 10px;
+    overflow: auto;
+    width: 98%;
+  }
+
+  .disabled-li{
+    text-decoration: line-through;
+    color: gray !important;
+  }
+
   #content, .inputPage{
     height: 545px !important;
   }
@@ -24,7 +105,415 @@
   #Unknown{
     display: none;
   }
+
+  .helper {
+    display: block;
+    float:right;
+    background-color: #DEDEDE;
+  }
 </style>
+
+<% side_effects_array = ['Pain','Bleeding','Haematoma','Swelling','Glans damage','Infection','Wound disruption','Urinary problems'] %>
+
+
+
+
+<script type="text/javascript">
+var sideEffectsHash = [];
+  <% side_effects_array.each do |side_effect| %>
+      sideEffectsHash['<%= side_effect %>'] = {none: '', mild: '', mod: '', sev: ''}
+  <% end %>
+
+  function advancedSideEffects(){
+
+    var sideEffectsArray = ['Pain','Bleeding','Haematoma','Swelling','Glans damage','Infection','Wound disruption','Urinary problems'];
+  
+    jQuery("#inputFrame" + tstCurrentPage).remove();
+    jQuery("#helpText" + tstCurrentPage).css({
+      marginLeft: "0%",
+      fontWeight: "bold",
+      fontSize: "1.9em"
+    })
+
+     html = "<div id='divcontent'>";
+    html += "<div id='divScroller'>";
+    // var sideEffectsOptions = "JSON.parse('<%=  side_effects_array.to_json %>');";
+    html += "<table cellspacing='1' cellpadding='2' width='95%' id='yes_no_table'>";
+    html += "<tbody>";
+
+
+    for (var i=0; i<=sideEffectsArray.length - 1; i++){
+
+      html += "<tr>";
+      html += "<td class='labelText'>" + sideEffectsArray[i] + "</td>";
+
+      
+      html += "<td style='width: 30%;'>";
+      html += "<table style='float: right; width: 100%; padding-right: 10px;' class='btn-table'>";
+      html += "<tr>";
+      
+      html += "<td>";
+      html += "<div class='switch switch-none' id='none_btn_container_" + i + "' category='side_effects' ";
+      html += "key='" + sideEffectsArray[i] + "' onmousedown='clicked(this);'>";
+      html += "<input class='hidden-checkbox' id='none_checkbox_" + i + "' type='checkbox'>";
+      html +="<label id='none_lable_" + i + "'><i></i></label>";
+      html += "</td>";
+     
+      html += "<td>";
+      html += "<div class='switch switch-mild' id='mild_btn_container_" + i + "' category='side_effects' ";
+      html += "key='" + sideEffectsArray[i] + "' onmousedown='clicked(this);'>";
+      html += "<input class='hidden-checkbox' id='mild_checkbox_" + i + "' type='checkbox'>";
+      html +="<label id='mild_lable_" + i + "'><i></i></label>";
+      html += "</td>";
+
+      html += "<td>";
+      html += "<div class='switch switch-mod' id='mod_btn_container_" + i + "' category='side_effects' ";
+      html += "key='" + sideEffectsArray[i] + "' onmousedown='clicked(this);'>";
+      html += "<input class='hidden-checkbox' id='mod_checkbox_" + i + "' type='checkbox'>";
+      html +="<label id='mod_lable_" + i + "'><i></i></label>";
+      html += "</td>";
+
+      html += "<td>";
+      html += "<div class='switch switch-sev' id='sev_btn_container_" + i + "' category='side_effects' ";
+      html += "key='" + sideEffectsArray[i] + "' onmousedown='clicked(this);'>";
+      html += "<input class='hidden-checkbox' id='sev_checkbox_" + i + "' type='checkbox'>";
+      html +="<label id='sev_lable_" + i + "'><i></i></label>";
+      html += "</td>";
+     
+      html += "</tr>";
+      html += "</table>";
+      html += "</td>";
+     
+     
+      html += "</tr>"
+    }
+
+    html += "<tbody>"
+    html += "</table>";
+    html += "</div>";
+    html += "</div>";
+
+    thisPage = document.getElementById('page' + tstCurrentPage);
+    thisPage.innerHTML += html;
+
+    preselectSelectedSideEffects();
+    setBackButton();
+    __$('nextButton').onmousedown = function(){
+      validateSideEffectsInput();
+    }
+    
+  }
+
+  function validateSideEffectsInput(){
+    unselectedSideEffects = [];
+    for (var key in sideEffectsHash){
+      sevValue = sideEffectsHash[key]["sev"];
+      noneValue = sideEffectsHash[key]["none"];
+      mildValue = sideEffectsHash[key]["mild"];
+      modValue = sideEffectsHash[key]["mod"];
+      console.log()
+      if (sevValue.length == 0 && noneValue.length == 0 && mildValue.length == 0 && modValue.length == 0){
+        //The row was not selected
+        unselectedSideEffects.push(key);
+      }
+    }
+
+    if (unselectedSideEffects.length > 0){
+      showMessage("The following are not selected <br />" +  unselectedSideEffects.join('<br /> '));
+    }else{
+      gotoNextPage();
+    }
+  }
+
+  function setBackButton(){
+    backButton = jQuery('#backButton')[0];
+    if (backButton){
+      mouseEvent = backButton.getAttribute('onmousedown');
+      if (mouseEvent){
+        if (!mouseEvent.match(/resetNextButton/i)){
+          onmousedownevent = backButton.getAttribute('onmousedown') + '; resetNextButton()';
+          backButton.setAttribute('onmousedown', onmousedownevent);
+        }
+      }
+    }
+  }
+
+
+  function preselectSelectedSideEffects(){
+
+
+    for (var key in sideEffectsHash){
+     
+      noneValue = sideEffectsHash[key]["none"];
+      mildValue = sideEffectsHash[key]["mild"];
+      modValue = sideEffectsHash[key]["mod"];
+      sevValue = sideEffectsHash[key]["sev"];
+
+      buttons = jQuery("[key='" + key + "']");
+      none_button = buttons[0];
+      mild_button = buttons[1];
+      mod_button = buttons[2];
+      sev_button = buttons[3];
+
+
+      divs = document.getElementsByClassName('switch');
+      for(var i = 0; i < divs.length; i++){
+        divKey = divs[i].getAttribute('key');
+
+        if(key == divKey){
+          if(noneValue.length > 0) {
+            index = none_button.id.replace("none_btn_container_",'');
+            hidden_checkbox_none = document.getElementById('none_checkbox_' + index);
+            on_label_checkbox = document.getElementById('none_lable_' + index);
+            on_label_checkbox.setAttribute('style','color: white; background-color: lightgreen;');
+            hidden_checkbox_none.checked = true;
+            break;
+          }else if(mildValue.length > 0){
+            index = mild_button.id.replace("mild_btn_container_",'');
+            hidden_checkbox_mild = document.getElementById('mild_checkbox_' + index);
+            on_label_checkbox = document.getElementById('mild_lable_' + index);
+            on_label_checkbox.setAttribute('style','color: white; background-color: lightgreen;');
+            hidden_checkbox_mild.checked = true;
+            break;
+          }else if(modValue.length > 0){
+            index = mod_button.id.replace("mod_btn_container_",'');
+            hidden_checkbox_mod = document.getElementById('mod_checkbox_' + index);
+            on_label_checkbox = document.getElementById('mod_lable_' + index);
+            on_label_checkbox.setAttribute('style','color: white; background-color: lightgreen;');
+            hidden_checkbox_mod.checked = true;
+            break;
+          }else if(sevValue.length > 0){
+            index = sev_button.id.replace("sev_btn_container_",'');
+            hidden_checkbox_sev = document.getElementById('sev_checkbox_' + index);
+            on_label_checkbox = document.getElementById('sev_lable_' + index);
+            on_label_checkbox.setAttribute('style','color: white; background-color: lightgreen;');
+            hidden_checkbox_sev.checked = true;
+            break;
+          }
+        }
+      }
+ 
+    }
+  }
+
+  function clicked(e) {
+    category = e.getAttribute('category');
+    key = e.getAttribute('key');
+    
+    if(e.id.match(/none_btn_container_/i)) {
+      updateSideEffectNoneValue(e);
+      index = e.id.replace("none_btn_container_",'');
+      hidden_checkbox_mild = document.getElementById('mild_checkbox_' + index);
+      hidden_checkbox_mod = document.getElementById('mod_checkbox_' + index);
+      hidden_checkbox_sev = document.getElementById('sev_checkbox_' + index);
+      hidden_checkbox_none = document.getElementById('none_checkbox_' + index);
+ 
+      off_hidden_checkbox = document.getElementById('none_checkbox_' + index);
+      on_label_checkbox = document.getElementById('none_lable_' + index);
+
+      off_label_checkbox_mild = document.getElementById('mild_lable_' + index);
+      off_label_checkbox_mod = document.getElementById('mod_lable_' + index);
+      off_label_checkbox_sev = document.getElementById('sev_lable_' + index);
+
+        off_hidden_checkbox.checked = false;
+        off_label_checkbox_mild.setAttribute('style','color: black; background-color: ""');
+        off_label_checkbox_mod.setAttribute('style','color: black; background-color: ""');
+        off_label_checkbox_sev.setAttribute('style','color: black; background-color: ""');
+        on_label_checkbox.setAttribute('style','color: white; background-color: lightgreen;');
+
+        if(hidden_checkbox_mild.checked) 
+        {
+          hidden_checkbox_mild.checked = false;
+        }else if (hidden_checkbox_mod.checked){
+          hidden_checkbox_mod.checked = false;
+        }else if (hidden_checkbox_sev.checked)
+        {
+           hidden_checkbox_sev.checked = false;
+        }
+        else
+        {
+           hidden_checkbox_none.checked = true;
+        }
+
+
+    }
+    else if (e.id.match(/mild_btn_container_/i)) {
+      updateSideEffectMildValue(e);
+      index = e.id.replace("mild_btn_container_",'');
+      hidden_checkbox_none = document.getElementById('none_checkbox_' + index);
+      hidden_checkbox_mod = document.getElementById('mod_checkbox_' + index);
+      hidden_checkbox_sev = document.getElementById('sev_checkbox_' + index);
+      hidden_checkbox_mild = document.getElementById('sev_checkbox_' + index);
+
+      off_hidden_checkbox = document.getElementById('mild_checkbox_' + index);
+      on_label_checkbox = document.getElementById('mild_lable_' + index);
+
+      off_label_checkbox_none = document.getElementById('none_lable_' + index);
+      off_label_checkbox_mod = document.getElementById('mod_lable_' + index);
+      off_label_checkbox_sev = document.getElementById('sev_lable_' + index);
+
+        off_hidden_checkbox.checked = false;
+        off_label_checkbox_none.setAttribute('style','color: black; background-color: ""');
+        off_label_checkbox_mod.setAttribute('style','color: black; background-color: ""');
+        off_label_checkbox_sev.setAttribute('style','color: black; background-color: ""');
+        on_label_checkbox.setAttribute('style','color: white; background-color: lightgreen;');
+        
+
+        if(hidden_checkbox_none.checked) 
+        { 
+          hidden_checkbox_none.checked = false;
+        }else if (hidden_checkbox_mod.checked){
+          hidden_checkbox_mod.checked = false;
+        }else if (hidden_checkbox_sev.checked)
+        {
+           hidden_checkbox_sev.checked = false;
+        }
+        else
+        {
+           hidden_checkbox_mild.checked = true;
+        }
+
+
+
+    }
+    else if (e.id.match(/mod_btn_container_/i)){
+      updateSideEffectModValue(e);
+      index = e.id.replace("mod_btn_container_",'');
+      hidden_checkbox_none = document.getElementById('none_checkbox_' + index);
+      hidden_checkbox_mod = document.getElementById('mod_checkbox_' + index);
+      hidden_checkbox_sev = document.getElementById('sev_checkbox_' + index);
+      hidden_checkbox_mild = document.getElementById('sev_checkbox_' + index);
+
+      off_hidden_checkbox = document.getElementById('mod' + index);
+      on_label_checkbox = document.getElementById('mod_lable_' + index);
+
+      off_label_checkbox_none = document.getElementById('none_lable_' + index);
+      off_label_checkbox_mild = document.getElementById('mild_lable_' + index);
+      off_label_checkbox_sev = document.getElementById('sev_lable_' + index);
+
+      
+      off_label_checkbox_none.setAttribute('style','color: black; background-color: ""');
+      off_label_checkbox_mild.setAttribute('style','color: black; background-color: ""');
+      off_label_checkbox_sev.setAttribute('style','color: black; background-color: ""');
+
+      on_label_checkbox.setAttribute('style','color: white; background-color: lightgreen;');
+        
+
+        if(hidden_checkbox_none.checked) 
+        { 
+          hidden_checkbox_none.checked = false;
+        }else if (hidden_checkbox_mild.checked){
+          hidden_checkbox_mild.checked = false;
+        }else if (hidden_checkbox_sev.checked)
+        {
+           hidden_checkbox_sev.checked = false;
+        }
+        else
+        {
+           hidden_checkbox_mod.checked = true;
+        }
+
+
+    }else if (e.id.match(/sev_btn_container_/i)){
+      updateSideEffectSevValue(e);
+      index = e.id.replace("sev_btn_container_",'');
+      
+      hidden_checkbox_none = document.getElementById('none_checkbox_' + index);
+      hidden_checkbox_mod = document.getElementById('mod_checkbox_' + index);
+      hidden_checkbox_sev = document.getElementById('sev_checkbox_' + index);
+      hidden_checkbox_mild = document.getElementById('sev_checkbox_' + index);
+
+      off_hidden_checkbox = document.getElementById('sev_checkbox_' + index);
+      on_label_checkbox = document.getElementById('sev_lable_' + index);
+
+      off_label_checkbox_none = document.getElementById('none_lable_' + index);
+      off_label_checkbox_mild = document.getElementById('mild_lable_' + index);
+      off_label_checkbox_mod = document.getElementById('mod_lable_' + index);
+      
+      off_label_checkbox_none.setAttribute('style','color: black; background-color: ""');
+      off_label_checkbox_mild.setAttribute('style','color: black; background-color: ""');
+      off_label_checkbox_mod.setAttribute('style','color: black; background-color: ""');
+
+      on_label_checkbox.setAttribute('style','color: white; background-color: lightgreen;');
+        
+
+        if(hidden_checkbox_none.checked) 
+        { 
+          hidden_checkbox_none.checked = false;
+        }else if (hidden_checkbox_mild.checked){
+          hidden_checkbox_mild.checked = false;
+        }else if (hidden_checkbox_sev.checked)
+        {
+           hidden_checkbox_mod.checked = false;
+        }
+        else
+        {
+           hidden_checkbox_sev.checked = true;
+        }
+
+
+    }
+
+    inputID = key + '_child_concept';
+    console.log(inputID)
+        if(e.id.match(/none_/i)) {
+          //__$(key).value = '';
+          console.log(inputID)
+          __$(inputID).value = 'None';
+          updateSideEffectNoneValue(e);
+        }else if(e.id.match(/sev_/i)) {
+          //__$(key).value = '';
+          console.log(inputID);
+          __$(inputID).value = 'Severe';
+
+          updateSideEffectSevValue(e);
+        }else if(e.id.match(/mod_/i)) {
+          //__$(key).value = '';
+          __$(inputID).value = 'Moderate';
+          updateSideEffectModValue(e);
+        }else if(e.id.match(/mild_/i)) {
+          //__$(key).value = '';
+          __$(inputID).value = 'Mild';
+          updateSideEffectMildValue(e);
+        }
+
+  }
+
+  function updateSideEffectNoneValue(obj){
+      key = obj.getAttribute('key');
+      sideEffectsHash[key]["none"] = 'true';
+      sideEffectsHash[key]["mild"] = '';
+      sideEffectsHash[key]["mod"] = '';
+      sideEffectsHash[key]["sev"] = '';
+    }
+
+    function updateSideEffectMildValue(obj){
+      key = obj.getAttribute('key');
+      sideEffectsHash[key]["none"] = '';
+      sideEffectsHash[key]["mild"] = 'True';
+      sideEffectsHash[key]["mod"] = '';
+      sideEffectsHash[key]["sev"] = '';
+    }
+
+   function updateSideEffectModValue(obj){
+      key = obj.getAttribute('key');
+      sideEffectsHash[key]["none"] = '';
+      sideEffectsHash[key]["mild"] = '';
+      sideEffectsHash[key]["mod"] = 'True';
+      sideEffectsHash[key]["sev"] = '';
+    }
+
+    function updateSideEffectSevValue(obj){
+      key = obj.getAttribute('key');
+      sideEffectsHash[key]["none"] = '';
+      sideEffectsHash[key]["mild"] = '';
+      sideEffectsHash[key]["mod"] = '';
+      sideEffectsHash[key]["sev"] = 'True';
+    }
+
+
+
+</script>
 
 <form action="/encounters/create" method="POST" target="_top">
   <%= hidden_field_tag "encounter[encounter_type_name]", "FOLLOW UP" %>
@@ -35,93 +524,87 @@
   <%= (touch_text_field_tag "FOLLOW UP DATE", @patient, nil,
     {
       :id => "follow-up-date",
-      :helptext => "Follow up date",
+      :helptext => "Follow up date <span class='helper'> Follow-up review</span>",
+      :absoluteMin => (Date.today),
       :field_type => "date"
     }).html_safe %>
 
-  <%= (touch_select_tag "PAIN", @patient, options_for_select(@none_mild_mod_sev_options),
+  <%= (text_field_tag "advance_follow_up", nil,
     {
-      :id => "type_of_pain",
-      :helpText  => "Type of pain"
+      :id => "counselling",
+      :field_type => 'number',
+      :tt_pageStyleClass => "Numeric NumbersOnly",
+      :tt_onLoad => "__$('keyboard').style.display = 'none'; advancedSideEffects();",
+      :helpText  => "Client follow up information <span class='helper'> Follow-up review</span>"
     }).html_safe %>
-
-
-  <%= (touch_select_tag "BANDAGE", @patient, options_for_select(@none_mild_mod_sev_options),
-    {
-      :id => "bandage",
-      :helpText  => "Bandage (Bleeding)"
-    }).html_safe %>
-
-  <%= (touch_select_tag "HAEMATOMA", @patient, options_for_select(@none_mild_mod_sev_options),
-    {
-      :id => "haematoma",
-      :helpText  => "Haematoma"
-    }).html_safe %>
-
-  <%= (touch_select_tag "SWELLING", @patient, options_for_select(@none_mild_mod_sev_options),
-    {
-      :id => "swelling",
-      :helpText  => "Swelling"
-    }).html_safe %>
-
-  <%= (touch_select_tag "GLANS DAMAGE", @patient, options_for_select(@none_mild_mod_sev_options),
-    {
-      :id => "glans-damage",
-      :helpText  => "Damage to glans"
-    }).html_safe %>
-
-  <%= (touch_select_tag "INFECTION", @patient, options_for_select(@none_mild_mod_sev_options),
-    {
-      :id => "infection",
-      :helpText  => "Infection"
-    }).html_safe %>
-
-  <%= (touch_select_tag "WOUND DISRUPTION", @patient, options_for_select(@none_mild_mod_sev_options),
-    {
-      :id => "wound-disruption",
-      :helpText  => "Wound disruption"
-    }).html_safe %>
-
-  <%= (touch_select_tag "URINARY PROBLEMS", @patient, options_for_select(@none_mild_mod_sev_options),
-    {
-      :id => "urinary-problems",
-      :helpText  => "Urinary problems"
-    }).html_safe %>
+    <% side_effects_array.each do |element| %>
+    <!--%= (touch_hidden_tag "FOLLOW-UP", @patient, "#{element}", :id => "#{element}", :class => 'test').html_safe % -->
+    <%= (touch_hidden_tag "#{element}", @patient, "", :id => "#{element}_child_concept", :class => 'test', :parent_concept_name => "FOLLOW-UP").html_safe%>
+  <% end %>
 
   <%= (touch_select_tag "EXCESSIVE SKIN REMOVED", @patient, options_for_select(@yes_no_options),
     {
       :id => "excessive-skin",
-      :helpText  => "Excessive skin removed?"
+      :tt_requireNextClick => false,
+      :helpText  => "Excessive skin removed? <span class='helper'> Follow-up review</span>"
     }).html_safe %>
 
   <%= (touch_select_tag "INSUFFICIENT SKIN REMOVED", @patient, options_for_select(@yes_no_options),
     {
       :id => "insufficient-skin",
-      :helpText  => "Insufficient skin removed?"
+      :helpText  => "Insufficient skin removed? <span class='helper'> Follow-up review</span>",
+      :tt_requireNextClick => false,
+      :condition => "__$('excessive-skin').value.match(/NO/i)",
     }).html_safe %>
 
   <%= (touch_select_tag "DELAYED WOUND HEALING", @patient, options_for_select(@yes_no_options),
     {
       :id => "delayed-wound-healing",
-      :helpText  => "Delayed wound healing?"
+      :tt_requireNextClick => false,
+      :helpText  => "Delayed wound healing? <span class='helper'> Follow-up review</span>"
     }).html_safe %>
+
+  <%= (touch_text_field_tag "OTHER (SPECIFY)", @patient, nil,
+    {
+      :id => "other_ae",
+      :helpText => "Other AE (Specify) <span class='helper'> Follow-up review</span>",
+      :field_type => 'alpha',
+      :optional => true,
+      :allowFreeText => true
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "SUMMARY OF FINDINGS", @patient, nil,
+    {
+      :id => "findings_summary",
+      :helpText => "Summary of findings <span class='helper'> Follow-up review</span>",
+      :field_type => 'alpha',
+      :allowFreeText => true
+    }).html_safe %>
+
+  <%= (touch_text_field_tag "SPECIFIC ADVERSE EVENT MANAGEMENT", @patient, nil,
+    {
+      :id => "management_findings",
+      :helpText => "Management of findings <span class='helper'> Follow-up review</span>",
+      :field_type => 'alpha',
+      :optional => true,
+      :allowFreeText => true
+    }).html_safe %> 
 
   <%= (touch_select_tag "COUNSELLING", @patient, options_for_select(@yes_no_options),
     {
       :id => "counselling",
-      :helpText  => "Was counselling done?"
+      :tt_requireNextClick => false,
+      :helpText  => "Was counselling done? <span class='helper'> Follow-up review</span>"
     }).html_safe %>
 
   <%= (touch_text_field_tag "NUMBER OF CONDOMS DISPENSED", @patient, nil,
     {
       :id => "counselling",
       :field_type => 'number',
+      :min => 0,
+      :max => 500,
       :tt_pageStyleClass => "Numeric NumbersOnly",
-      :helpText  => "Number of condoms given"
+      :helpText  => "Number of condoms given <span class='helper'> Follow-up review</span>"
     }).html_safe %>
-
 </form>
 
-<script type="text/javascript">
-
-</script>
